@@ -1,0 +1,12 @@
+{
+  "cdp_url": "http://127.0.0.1:58554",
+  "port": 58554,
+  "pid": 18484,
+  "browser": "chromium",
+  "label": "Playwright Chromium",
+  "executable": "C:\\Users\\wangxue-jk\\AppData\\Local\\ms-playwright\\chromium-1169\\chrome-win\\chrome.exe",
+  "profile_dir": "D:\\TestScheduler\\.testmind-browser\\profile",
+  "profile_name": "",
+  "profile_source_dir": "",
+  "headless": false
+}

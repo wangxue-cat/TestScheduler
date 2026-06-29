@@ -1,0 +1,8246 @@
+[
+  {
+    "env": "STG1",
+    "system": "absm",
+    "subsystem_name": "ABS",
+    "db_name": "abs1"
+  },
+  {
+    "env": "STG1",
+    "system": "abtest",
+    "subsystem_name": "ABTEST",
+    "db_name": "abtest_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "acs",
+    "subsystem_name": "ACS",
+    "db_name": "acs"
+  },
+  {
+    "env": "STG1",
+    "system": "aegis",
+    "subsystem_name": "AEGIS",
+    "db_name": "aegis"
+  },
+  {
+    "env": "STG1",
+    "system": "aegis-core",
+    "subsystem_name": "AEGIS",
+    "db_name": "aegis"
+  },
+  {
+    "env": "STG1",
+    "system": "AGS",
+    "subsystem_name": "AGS",
+    "db_name": "ags_a"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-b",
+    "subsystem_name": "AGS",
+    "db_name": "ags_b"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa0",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa0_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa1",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa1_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa2",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa2_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa3",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa3_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa4",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa4_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa5",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa5_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa6",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa6_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa7",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa7_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sharding",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "amls",
+    "subsystem_name": "SRP",
+    "db_name": "amls_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "AMS",
+    "subsystem_name": "AMS",
+    "db_name": "ams"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-b",
+    "subsystem_name": "AMS",
+    "db_name": "ams_b_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa0",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa0_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa1",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa1_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa2",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa2_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa3",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa3_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa4",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa4_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa5",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa5_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa6",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa6_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa7",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa7_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sharding",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ana-cyxj",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "ana_cyxj"
+  },
+  {
+    "env": "STG1",
+    "system": "apollo-conf",
+    "subsystem_name": "APOLLO",
+    "db_name": "ApolloConfig_FAT"
+  },
+  {
+    "env": "STG1",
+    "system": "apollo-uat",
+    "subsystem_name": "APOLLO",
+    "db_name": "ApolloConfig_UAT"
+  },
+  {
+    "env": "STG1",
+    "system": "apolloconfig-fat",
+    "subsystem_name": "APOLLO",
+    "db_name": "apolloconfig_fat"
+  },
+  {
+    "env": "STG1",
+    "system": "aps",
+    "subsystem_name": "APS",
+    "db_name": "aps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "APV",
+    "subsystem_name": "APV",
+    "db_name": "apv"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-0",
+    "subsystem_name": "APV",
+    "db_name": "apv_0"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-1",
+    "subsystem_name": "APV",
+    "db_name": "apv_1"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-2",
+    "subsystem_name": "APV",
+    "db_name": "apv_2"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-3",
+    "subsystem_name": "APV",
+    "db_name": "apv_3"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-4",
+    "subsystem_name": "APV",
+    "db_name": "apv_4"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-5",
+    "subsystem_name": "APV",
+    "db_name": "apv_5"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-6",
+    "subsystem_name": "APV",
+    "db_name": "apv_6"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-7",
+    "subsystem_name": "APV",
+    "db_name": "apv_7"
+  },
+  {
+    "env": "STG1",
+    "system": "APV-CP",
+    "subsystem_name": "APV",
+    "db_name": "apv_cp"
+  },
+  {
+    "env": "STG1",
+    "system": "APV-CT",
+    "subsystem_name": "APV",
+    "db_name": "apv_ct_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-sharding",
+    "subsystem_name": "APV",
+    "db_name": "apv_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-tidb",
+    "subsystem_name": "APV",
+    "db_name": "tidb_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-wf",
+    "subsystem_name": "APV",
+    "db_name": "apv_wf"
+  },
+  {
+    "env": "STG1",
+    "system": "ares",
+    "subsystem_name": "ARES",
+    "db_name": "ares"
+  },
+  {
+    "env": "STG1",
+    "system": "ARRCOLL",
+    "subsystem_name": "ARRCOLL",
+    "db_name": "arrcoll"
+  },
+  {
+    "env": "STG1",
+    "system": "AutoML",
+    "subsystem_name": "AUTOML",
+    "db_name": "automl"
+  },
+  {
+    "env": "STG1",
+    "system": "bap",
+    "subsystem_name": "BAP",
+    "db_name": "bap_app_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "bas",
+    "subsystem_name": "BAS",
+    "db_name": "bas_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "bell",
+    "subsystem_name": "BELL",
+    "db_name": "bell_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "BMS",
+    "subsystem_name": "BMS",
+    "db_name": "bms"
+  },
+  {
+    "env": "STG1",
+    "system": "bolt",
+    "subsystem_name": "BOLT",
+    "db_name": "bolt"
+  },
+  {
+    "env": "STG1",
+    "system": "bps",
+    "subsystem_name": "BPS",
+    "db_name": "bps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "btl",
+    "subsystem_name": "BTL",
+    "db_name": "btl_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "btl-agentx",
+    "subsystem_name": "BTL",
+    "db_name": "btl_agentx"
+  },
+  {
+    "env": "STG1",
+    "system": "btl-statistics",
+    "subsystem_name": "BTL",
+    "db_name": "btl_statistics"
+  },
+  {
+    "env": "STG1",
+    "system": "btl-sustain",
+    "subsystem_name": "BTL",
+    "db_name": "btl_sustain"
+  },
+  {
+    "env": "STG1",
+    "system": "bts",
+    "subsystem_name": "BTS",
+    "db_name": "bts_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cadc",
+    "subsystem_name": "CADC",
+    "db_name": "cadc"
+  },
+  {
+    "env": "STG1",
+    "system": "cafe",
+    "subsystem_name": "CAFE-BENEFIT",
+    "db_name": "cafe_cms_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cafe-benefit-b",
+    "subsystem_name": "CAFE-BENEFIT",
+    "db_name": "cafe_cms_b"
+  },
+  {
+    "env": "STG1",
+    "system": "cafe-cms",
+    "subsystem_name": "CAFE-CMS",
+    "db_name": "cafe_cms_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cafe-cms-b",
+    "subsystem_name": "CAFE-CMS",
+    "db_name": "cafe_cms_b"
+  },
+  {
+    "env": "STG1",
+    "system": "cap-mon",
+    "subsystem_name": "CAPACITY-MONITOR",
+    "db_name": "cap_mon"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS",
+    "subsystem_name": "CAS",
+    "db_name": "cas"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-0",
+    "subsystem_name": "CAS",
+    "db_name": "cas_0"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-1",
+    "subsystem_name": "CAS",
+    "db_name": "cas_1"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-2",
+    "subsystem_name": "CAS",
+    "db_name": "cas_2"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-3",
+    "subsystem_name": "CAS",
+    "db_name": "cas_3"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-4",
+    "subsystem_name": "CAS",
+    "db_name": "cas_4"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-5",
+    "subsystem_name": "CAS",
+    "db_name": "cas_5"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-6",
+    "subsystem_name": "CAS",
+    "db_name": "cas_6"
+  },
+  {
+    "env": "STG1",
+    "system": "CAS-7",
+    "subsystem_name": "CAS",
+    "db_name": "cas_7"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-batch",
+    "subsystem_name": "CAS",
+    "db_name": "cas_batch_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-cold",
+    "subsystem_name": "CAS",
+    "db_name": "cas_cold_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-credit",
+    "subsystem_name": "CAS",
+    "db_name": "cas_credit_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-sharding",
+    "subsystem_name": "CAS",
+    "db_name": "cas_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-wf",
+    "subsystem_name": "CAS",
+    "db_name": "cas_wf_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "CAT",
+    "subsystem_name": "CAT",
+    "db_name": "cat"
+  },
+  {
+    "env": "STG1",
+    "system": "CCS",
+    "subsystem_name": "CCS",
+    "db_name": "ccs"
+  },
+  {
+    "env": "STG1",
+    "system": "ccs-geway",
+    "subsystem_name": "CCS",
+    "db_name": "ccs_geway"
+  },
+  {
+    "env": "STG1",
+    "system": "ccs-router",
+    "subsystem_name": "CCS",
+    "db_name": "ccs_router"
+  },
+  {
+    "env": "STG1",
+    "system": "CES",
+    "subsystem_name": "CES",
+    "db_name": "rds"
+  },
+  {
+    "env": "STG1",
+    "system": "cgs",
+    "subsystem_name": "CGS",
+    "db_name": "cgs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "channel",
+    "subsystem_name": "CHANNEL",
+    "db_name": "channel_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "chihiro",
+    "subsystem_name": "CHIHIRO",
+    "db_name": "ubas_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "CIS",
+    "subsystem_name": "CIS",
+    "db_name": "cis"
+  },
+  {
+    "env": "STG1",
+    "system": "cis-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_b"
+  },
+  {
+    "env": "STG1",
+    "system": "CIS-CP",
+    "subsystem_name": "CIS",
+    "db_name": "cis_cp"
+  },
+  {
+    "env": "STG1",
+    "system": "CIS-DV",
+    "subsystem_name": "CIS",
+    "db_name": "cis_dv"
+  },
+  {
+    "env": "STG1",
+    "system": "cis-dv-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_dv_b"
+  },
+  {
+    "env": "STG1",
+    "system": "cis-ext",
+    "subsystem_name": "CIS",
+    "db_name": "cis_ext"
+  },
+  {
+    "env": "STG1",
+    "system": "cis-ext-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_ext_b"
+  },
+  {
+    "env": "STG1",
+    "system": "CIS-FACE",
+    "subsystem_name": "CIS",
+    "db_name": "cis_face_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cis-face-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_face_b"
+  },
+  {
+    "env": "STG1",
+    "system": "CIS-MD5",
+    "subsystem_name": "CIS",
+    "db_name": "cis_md5_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cis-sharding",
+    "subsystem_name": "CIS",
+    "db_name": "cis_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cis0",
+    "subsystem_name": "CIS",
+    "db_name": "cis_0"
+  },
+  {
+    "env": "STG1",
+    "system": "cis1",
+    "subsystem_name": "CIS",
+    "db_name": "cis_1"
+  },
+  {
+    "env": "STG1",
+    "system": "cis2",
+    "subsystem_name": "CIS",
+    "db_name": "cis_2"
+  },
+  {
+    "env": "STG1",
+    "system": "cis3",
+    "subsystem_name": "CIS",
+    "db_name": "cis_3"
+  },
+  {
+    "env": "STG1",
+    "system": "cis4",
+    "subsystem_name": "CIS",
+    "db_name": "cis_4"
+  },
+  {
+    "env": "STG1",
+    "system": "cis5",
+    "subsystem_name": "CIS",
+    "db_name": "cis_5"
+  },
+  {
+    "env": "STG1",
+    "system": "cis6",
+    "subsystem_name": "CIS",
+    "db_name": "cis_6"
+  },
+  {
+    "env": "STG1",
+    "system": "cis7",
+    "subsystem_name": "CIS",
+    "db_name": "cis_7"
+  },
+  {
+    "env": "STG1",
+    "system": "CLIO",
+    "subsystem_name": "CLIO",
+    "db_name": "clio_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "clio-external",
+    "subsystem_name": "CLIO",
+    "db_name": "clio_external"
+  },
+  {
+    "env": "STG1",
+    "system": "clio-insight",
+    "subsystem_name": "CLIO",
+    "db_name": "clio_insight_1"
+  },
+  {
+    "env": "STG1",
+    "system": "CLIO-PORTAL",
+    "subsystem_name": "CLIO",
+    "db_name": "clio_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cliok",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliok_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cliok-external",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliokexter_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cmf",
+    "subsystem_name": "CMF",
+    "db_name": "cmf_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "CMGR",
+    "subsystem_name": "CMGR",
+    "db_name": "cmgr"
+  },
+  {
+    "env": "STG1",
+    "system": "CMS",
+    "subsystem_name": "CMS",
+    "db_name": "cms_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "code-coverage",
+    "subsystem_name": "QOA",
+    "db_name": "code_coverage"
+  },
+  {
+    "env": "STG1",
+    "system": "COM",
+    "subsystem_name": "COM",
+    "db_name": "msf"
+  },
+  {
+    "env": "STG1",
+    "system": "confluence",
+    "subsystem_name": "CONFLUENCE",
+    "db_name": "confluence"
+  },
+  {
+    "env": "STG1",
+    "system": "confluence-app",
+    "subsystem_name": "QOA",
+    "db_name": "jira"
+  },
+  {
+    "env": "STG1",
+    "system": "confluence-poc",
+    "subsystem_name": "CONFLUENCE",
+    "db_name": "confluencepoc"
+  },
+  {
+    "env": "STG1",
+    "system": "counter",
+    "subsystem_name": "COUNTER",
+    "db_name": "counter"
+  },
+  {
+    "env": "STG1",
+    "system": "cps",
+    "subsystem_name": "CPS",
+    "db_name": "cps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cps2023",
+    "subsystem_name": "CPS",
+    "db_name": "cps_2023"
+  },
+  {
+    "env": "STG1",
+    "system": "cqps",
+    "subsystem_name": "CQPS",
+    "db_name": "cqps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "credit-api",
+    "subsystem_name": "CREDIT-PLATFORM",
+    "db_name": "credit_platform"
+  },
+  {
+    "env": "STG1",
+    "system": "CRM",
+    "subsystem_name": "CRM",
+    "db_name": "crm"
+  },
+  {
+    "env": "STG1",
+    "system": "CRMP",
+    "subsystem_name": "CRMP",
+    "db_name": "crmp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "crp",
+    "subsystem_name": "CRP",
+    "db_name": "crp"
+  },
+  {
+    "env": "STG1",
+    "system": "crps",
+    "subsystem_name": "CRPS",
+    "db_name": "crps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "CRS",
+    "subsystem_name": "CRS",
+    "db_name": "crs"
+  },
+  {
+    "env": "STG1",
+    "system": "crs-bcr-i",
+    "subsystem_name": "CRS",
+    "db_name": "crs_bcr_i_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "crs-bcredit",
+    "subsystem_name": "CRS",
+    "db_name": "crs_bcredit_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "CRS-CRAWLING",
+    "subsystem_name": "CRS",
+    "db_name": "crs_crawling_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "crs-i-s1",
+    "subsystem_name": "CRS",
+    "db_name": "crs_i_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "crs-query",
+    "subsystem_name": "CRS",
+    "db_name": "crs_query_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "csps",
+    "subsystem_name": "CSPS",
+    "db_name": "csps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cts",
+    "subsystem_name": "CTS",
+    "db_name": "cts_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "CUBE",
+    "subsystem_name": "CUBE",
+    "db_name": "cube_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cube-rcap",
+    "subsystem_name": "CUBE",
+    "db_name": "cube_rcap_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "CVF",
+    "subsystem_name": "CVF",
+    "db_name": "cvf"
+  },
+  {
+    "env": "STG1",
+    "system": "DAC",
+    "subsystem_name": "DAC",
+    "db_name": "dac"
+  },
+  {
+    "env": "STG1",
+    "system": "dam",
+    "subsystem_name": "DAM",
+    "db_name": "dam"
+  },
+  {
+    "env": "STG1",
+    "system": "dam-b",
+    "subsystem_name": "DAM",
+    "db_name": "dam_b"
+  },
+  {
+    "env": "STG1",
+    "system": "datax-web",
+    "subsystem_name": "DATAX-WEB",
+    "db_name": "dc_support_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "DCD",
+    "subsystem_name": "DCD",
+    "db_name": "dcd"
+  },
+  {
+    "env": "STG1",
+    "system": "DCF",
+    "subsystem_name": "DCF",
+    "db_name": "dcf"
+  },
+  {
+    "env": "STG1",
+    "system": "DCS",
+    "subsystem_name": "DCS",
+    "db_name": "dcs"
+  },
+  {
+    "env": "STG1",
+    "system": "dds",
+    "subsystem_name": "DDS",
+    "db_name": "dds"
+  },
+  {
+    "env": "STG1",
+    "system": "dfoundry",
+    "subsystem_name": "DFOUNDRY",
+    "db_name": "dfoundry_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "dgs-app",
+    "subsystem_name": "DGS",
+    "db_name": "dgs"
+  },
+  {
+    "env": "STG1",
+    "system": "dia-be",
+    "subsystem_name": "DIA",
+    "db_name": "dia"
+  },
+  {
+    "env": "STG1",
+    "system": "dim",
+    "subsystem_name": "DDS",
+    "db_name": "dim"
+  },
+  {
+    "env": "STG1",
+    "system": "dmg",
+    "subsystem_name": "DMG",
+    "db_name": "dmg"
+  },
+  {
+    "env": "STG1",
+    "system": "dmgnew",
+    "subsystem_name": "DMGNEW",
+    "db_name": "dmgnew_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "DMP",
+    "subsystem_name": "DMP",
+    "db_name": "dmp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-1",
+    "subsystem_name": "DMP",
+    "db_name": "dmpp"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-2",
+    "subsystem_name": "DMP",
+    "db_name": "dmpp_b"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu0",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_0"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu1",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_1"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu2",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_2"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu3",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_3"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu4",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_4"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu5",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_5"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu6",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_6"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu7",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_7"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa0",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa0"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa1",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa1"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa2",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa2"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa3",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa3"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa4",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa4"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa5",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa5"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa6",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa6"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa7",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa7"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-te",
+    "subsystem_name": "DMP",
+    "db_name": "dmp_te"
+  },
+  {
+    "env": "STG1",
+    "system": "doris",
+    "subsystem_name": "DDS",
+    "db_name": "fin_dw"
+  },
+  {
+    "env": "STG1",
+    "system": "doris1",
+    "subsystem_name": "DDS",
+    "db_name": "fin_dim"
+  },
+  {
+    "env": "STG1",
+    "system": "dpm",
+    "subsystem_name": "DPM",
+    "db_name": "dpm_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "DPS",
+    "subsystem_name": "DPS",
+    "db_name": "ubas"
+  },
+  {
+    "env": "STG1",
+    "system": "dps-admin",
+    "subsystem_name": "DPS",
+    "db_name": "ubas"
+  },
+  {
+    "env": "STG1",
+    "system": "DRS",
+    "subsystem_name": "DRS",
+    "db_name": "drs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "dsp",
+    "subsystem_name": "DSP",
+    "db_name": "dsp_stg"
+  },
+  {
+    "env": "STG1",
+    "system": "dsphere",
+    "subsystem_name": "DSPHERE",
+    "db_name": "dsphere_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ECS",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-lps",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_lps"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-mce",
+    "subsystem_name": "ECS",
+    "db_name": "mce"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-ob",
+    "subsystem_name": "ECS",
+    "db_name": "lps_obas"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-obas",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_obas"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-oss",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_oss"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-sem",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_sem"
+  },
+  {
+    "env": "STG1",
+    "system": "EEP",
+    "subsystem_name": "EEP",
+    "db_name": "eep_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "EICS",
+    "subsystem_name": "EICS",
+    "db_name": "eics_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ELE",
+    "subsystem_name": "ELE",
+    "db_name": "ele_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "evps",
+    "subsystem_name": "PPS",
+    "db_name": "evps"
+  },
+  {
+    "env": "STG1",
+    "system": "f-config",
+    "subsystem_name": "F-CONFIG",
+    "db_name": "f_config_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "FAS",
+    "subsystem_name": "FAS",
+    "db_name": "fas"
+  },
+  {
+    "env": "STG1",
+    "system": "FEP",
+    "subsystem_name": "FEP",
+    "db_name": "fep_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "fep-online",
+    "subsystem_name": "FEP-ENGINE",
+    "db_name": "fep_online_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "fep-online-20240301",
+    "subsystem_name": "FEP",
+    "db_name": "fep_online_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "fes",
+    "subsystem_name": "FES",
+    "db_name": "fes"
+  },
+  {
+    "env": "STG1",
+    "system": "fintell-credit-api",
+    "subsystem_name": "PBOC-PLATFORM",
+    "db_name": "pboc_platform"
+  },
+  {
+    "env": "STG1",
+    "system": "fms",
+    "subsystem_name": "FMS",
+    "db_name": "fms_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "fp",
+    "subsystem_name": "FP",
+    "db_name": "fp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "fpas",
+    "subsystem_name": "LPS",
+    "db_name": "fpas"
+  },
+  {
+    "env": "STG1",
+    "system": "FRS",
+    "subsystem_name": "FRS",
+    "db_name": "frs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "frs-aw",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "frs-aw-2023",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_2023_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "frs-aw-2024",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_2024"
+  },
+  {
+    "env": "STG1",
+    "system": "frs-grafana",
+    "subsystem_name": "FRS",
+    "db_name": "frs_grafana_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "frs-hub",
+    "subsystem_name": "FRS",
+    "db_name": "frs_hub"
+  },
+  {
+    "env": "STG1",
+    "system": "frs-pay",
+    "subsystem_name": "FRS",
+    "db_name": "frs_pay_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "GNS",
+    "subsystem_name": "GNS",
+    "db_name": "gns"
+  },
+  {
+    "env": "STG1",
+    "system": "GNS-MANAGE",
+    "subsystem_name": "GNS",
+    "db_name": "gns"
+  },
+  {
+    "env": "STG1",
+    "system": "GNS-OTHER",
+    "subsystem_name": "GNS",
+    "db_name": "gns"
+  },
+  {
+    "env": "STG1",
+    "system": "GNS-PUSH",
+    "subsystem_name": "GNS",
+    "db_name": "gns_push"
+  },
+  {
+    "env": "STG1",
+    "system": "graphx",
+    "subsystem_name": "GRAPHX",
+    "db_name": "graphx"
+  },
+  {
+    "env": "STG1",
+    "system": "GRS",
+    "subsystem_name": "GRS",
+    "db_name": "grs"
+  },
+  {
+    "env": "STG1",
+    "system": "grspfs",
+    "subsystem_name": "GRS",
+    "db_name": "grs_pfs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "GWS",
+    "subsystem_name": "GWS",
+    "db_name": "gws"
+  },
+  {
+    "env": "STG1",
+    "system": "gws-cebf",
+    "subsystem_name": "GWS-CEBF",
+    "db_name": "gws_cebf"
+  },
+  {
+    "env": "STG1",
+    "system": "GWS-CRS",
+    "subsystem_name": "GWS-CRS",
+    "db_name": "gws_crs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "GWS-LCS",
+    "subsystem_name": "GWS-LCS",
+    "db_name": "gws"
+  },
+  {
+    "env": "STG1",
+    "system": "GWS-MALL",
+    "subsystem_name": "GWS-MALL",
+    "db_name": "gws"
+  },
+  {
+    "env": "STG1",
+    "system": "GWS-SMS",
+    "subsystem_name": "GWS-SMS",
+    "db_name": "gws"
+  },
+  {
+    "env": "STG1",
+    "system": "hawk",
+    "subsystem_name": "HAWK",
+    "db_name": "hawk_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "hawk-gws",
+    "subsystem_name": "HAWK-GWS",
+    "db_name": "gws_crs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "hermesnew",
+    "subsystem_name": "HERMESNEW",
+    "db_name": "hermesnew"
+  },
+  {
+    "env": "STG1",
+    "system": "icc",
+    "subsystem_name": "ICC",
+    "db_name": "icc"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-busi",
+    "subsystem_name": "ICE-BUSINESS",
+    "db_name": "ice_busi_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-cis",
+    "subsystem_name": "ICE-CIS",
+    "db_name": "ice_cis"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-cis-b",
+    "subsystem_name": "ICE-CIS",
+    "db_name": "ice_cis_b"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa0",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa0_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa1",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa1_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa2",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa2_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa3",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa3_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa4",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa4_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa5",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa5_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa6",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa6_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa7",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa7_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sharding",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-crp",
+    "subsystem_name": "ICE-CRP",
+    "db_name": "ice_crp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-gws",
+    "subsystem_name": "ICE-GWS",
+    "db_name": "ice_gws"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-partner",
+    "subsystem_name": "ICE-PARTNER",
+    "db_name": "ice_partner"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-pfs",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-pfs-flow",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_flow"
+  },
+  {
+    "env": "STG1",
+    "system": "ice_pfs_b",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_b"
+  },
+  {
+    "env": "STG1",
+    "system": "ICS",
+    "subsystem_name": "ICS",
+    "db_name": "ics"
+  },
+  {
+    "env": "STG1",
+    "system": "ics-b",
+    "subsystem_name": "ICS",
+    "db_name": "ics_b_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ics-b-r",
+    "subsystem_name": "ICS",
+    "db_name": "ics_b_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ics-batch",
+    "subsystem_name": "ICS",
+    "db_name": "ics_batch_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ics-batch-b",
+    "subsystem_name": "ICS",
+    "db_name": "ics_batch_b_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "iffs",
+    "subsystem_name": "IFFS",
+    "db_name": "iffs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "imgp",
+    "subsystem_name": "IMGP",
+    "db_name": "imgp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "imgp-sharding",
+    "subsystem_name": "IMGP",
+    "db_name": "imgp_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "IMS",
+    "subsystem_name": "IMS",
+    "db_name": "ims_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "indic-test",
+    "subsystem_name": "MORPHLING",
+    "db_name": "indic_test"
+  },
+  {
+    "env": "STG1",
+    "system": "investor-als",
+    "subsystem_name": "INVESTORALS",
+    "db_name": "investor_als"
+  },
+  {
+    "env": "STG1",
+    "system": "iops",
+    "subsystem_name": "IOPS",
+    "db_name": "iops_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ipay",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ipay-p",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ipay-p-abandoned",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p"
+  },
+  {
+    "env": "STG1",
+    "system": "ipay-p-sharding",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ipss",
+    "subsystem_name": "IPSS",
+    "db_name": "ipss_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ipss-report",
+    "subsystem_name": "IPSS",
+    "db_name": "ipss_report"
+  },
+  {
+    "env": "STG1",
+    "system": "JDS",
+    "subsystem_name": "JDS",
+    "db_name": "jds_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "JDS-NEW",
+    "subsystem_name": "JDS",
+    "db_name": "jds_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "jdsnew",
+    "subsystem_name": "JDSNEW",
+    "db_name": "jdsnew"
+  },
+  {
+    "env": "STG1",
+    "system": "jira-dc",
+    "subsystem_name": "QOA",
+    "db_name": "jira_dc"
+  },
+  {
+    "env": "STG1",
+    "system": "JKYUN",
+    "subsystem_name": "JKYUN",
+    "db_name": "jkyun"
+  },
+  {
+    "env": "STG1",
+    "system": "jkyun-gns",
+    "subsystem_name": "JKYUN",
+    "db_name": "jkyun_gns"
+  },
+  {
+    "env": "STG1",
+    "system": "jrkj2",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao"
+  },
+  {
+    "env": "STG1",
+    "system": "jrops",
+    "subsystem_name": "JROPS",
+    "db_name": "jrops"
+  },
+  {
+    "env": "STG1",
+    "system": "JSS",
+    "subsystem_name": "JSS",
+    "db_name": "jss"
+  },
+  {
+    "env": "STG1",
+    "system": "kael",
+    "subsystem_name": "KAEL",
+    "db_name": "kael"
+  },
+  {
+    "env": "STG1",
+    "system": "KOALA",
+    "subsystem_name": "KOALA",
+    "db_name": "koala_sql"
+  },
+  {
+    "env": "STG1",
+    "system": "kps",
+    "subsystem_name": "KPS",
+    "db_name": "kps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "LBS",
+    "subsystem_name": "LBS",
+    "db_name": "lbs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "LCS",
+    "subsystem_name": "LCS",
+    "db_name": "lcs"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_b_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa0"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa2"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa3"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa4"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa5"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa6"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa7"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-bill",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_bill"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_b"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa0"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa2"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa3"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa4"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa5"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa6"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa7"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa0_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa1_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa2_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa3_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa4_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa5_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa6_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa7_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-stg1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-third",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_third"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-third-b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_third_b_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs_rp_b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_b"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-be",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_be_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-core",
+    "subsystem_name": "LEADS-CORE",
+    "db_name": "leads_core_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-crm",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_crm_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-pfs",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_pfs"
+  },
+  {
+    "env": "STG1",
+    "system": "lego",
+    "subsystem_name": "LEGO",
+    "db_name": "lego_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "LFS",
+    "subsystem_name": "LFS",
+    "db_name": "lfs"
+  },
+  {
+    "env": "STG1",
+    "system": "lfs-c",
+    "subsystem_name": "LFS",
+    "db_name": "lfs_c_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "LINGXI-FLOWABLE",
+    "subsystem_name": "LINGXI",
+    "db_name": "lingxi_flowable"
+  },
+  {
+    "env": "STG1",
+    "system": "LINGXI-SERVER",
+    "subsystem_name": "LINGXI",
+    "db_name": "lingxi_server"
+  },
+  {
+    "env": "STG1",
+    "system": "lingxi-sharding-simulate-new0",
+    "subsystem_name": "LINGXI",
+    "db_name": "sharding_new0"
+  },
+  {
+    "env": "STG1",
+    "system": "lingxi-sharding-simulate-new1",
+    "subsystem_name": "LINGXI",
+    "db_name": "sharding_new1"
+  },
+  {
+    "env": "STG1",
+    "system": "lingxi-sharding-simulate-old",
+    "subsystem_name": "LINGXI",
+    "db_name": "sharding_old"
+  },
+  {
+    "env": "STG1",
+    "system": "LOLTH",
+    "subsystem_name": "LOLTH",
+    "db_name": "lolth_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "LPS",
+    "subsystem_name": "LPS",
+    "db_name": "lps"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-0",
+    "subsystem_name": "LPS",
+    "db_name": "lps_0"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-1",
+    "subsystem_name": "LPS",
+    "db_name": "lps_1"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-2",
+    "subsystem_name": "LPS",
+    "db_name": "lps_2"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-3",
+    "subsystem_name": "LPS",
+    "db_name": "lps_3"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-4",
+    "subsystem_name": "LPS",
+    "db_name": "lps_4"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-5",
+    "subsystem_name": "LPS",
+    "db_name": "lps_5"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-6",
+    "subsystem_name": "LPS",
+    "db_name": "lps_6"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-7",
+    "subsystem_name": "LPS",
+    "db_name": "lps_7"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-app-list",
+    "subsystem_name": "LPS",
+    "db_name": "lps_app_list"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-auth-code",
+    "subsystem_name": "LPS",
+    "db_name": "lps_auth_code_1"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-b",
+    "subsystem_name": "LPS",
+    "db_name": "lps_b"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-iou",
+    "subsystem_name": "LPS",
+    "db_name": "lps_iou_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-iou-b",
+    "subsystem_name": "LPS",
+    "db_name": "lps_iou_b"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-log",
+    "subsystem_name": "LPS",
+    "db_name": "lps_log_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-msf-log",
+    "subsystem_name": "LPS",
+    "db_name": "lps_msf_log"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-obas",
+    "subsystem_name": "LPS",
+    "db_name": "lps_obas"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-sharding",
+    "subsystem_name": "LPS",
+    "db_name": "lps_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lqs",
+    "subsystem_name": "LQS",
+    "db_name": "data_service"
+  },
+  {
+    "env": "STG1",
+    "system": "lqs-app",
+    "subsystem_name": "LQS",
+    "db_name": "jt_label"
+  },
+  {
+    "env": "STG1",
+    "system": "MALL-EXTRA",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_extra"
+  },
+  {
+    "env": "STG1",
+    "system": "MALL-GOODS",
+    "subsystem_name": "MALL-GOODS",
+    "db_name": "mall_goods"
+  },
+  {
+    "env": "STG1",
+    "system": "mall-merchant",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_merchant"
+  },
+  {
+    "env": "STG1",
+    "system": "mall-order",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_order_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "MALL-ORDER-HX",
+    "subsystem_name": "MALL-ORDER-HX",
+    "db_name": "mall_order_hx"
+  },
+  {
+    "env": "STG1",
+    "system": "MALL-USER",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_user"
+  },
+  {
+    "env": "STG1",
+    "system": "MAS",
+    "subsystem_name": "MAS",
+    "db_name": "mas_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "MCP",
+    "subsystem_name": "MCP",
+    "db_name": "mcp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "MDM",
+    "subsystem_name": "MDM",
+    "db_name": "mdm_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "mdmnew",
+    "subsystem_name": "MDMNEW",
+    "db_name": "mdmnew_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "mes",
+    "subsystem_name": "MES",
+    "db_name": "mes_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "mip",
+    "subsystem_name": "MIP",
+    "db_name": "mip_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "MKT-CMS",
+    "subsystem_name": "MKT-CMS",
+    "db_name": "mkt"
+  },
+  {
+    "env": "STG1",
+    "system": "MMS",
+    "subsystem_name": "MMS",
+    "db_name": "mms"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-0",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_0"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-1",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_1"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-2",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_2"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-3",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_3"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-4",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_4"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-5",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_5"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-6",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_6"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-7",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_7"
+  },
+  {
+    "env": "STG1",
+    "system": "MMS-BAK",
+    "subsystem_name": "MMS",
+    "db_name": "mms_bak"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-sharding",
+    "subsystem_name": "MMS",
+    "db_name": "mms_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "mos",
+    "subsystem_name": "MOS",
+    "db_name": "mos_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "MPS",
+    "subsystem_name": "MPS",
+    "db_name": "mps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "MPT",
+    "subsystem_name": "MPT",
+    "db_name": "mpt"
+  },
+  {
+    "env": "STG1",
+    "system": "MSF",
+    "subsystem_name": "MSF",
+    "db_name": "msf"
+  },
+  {
+    "env": "STG1",
+    "system": "mtd",
+    "subsystem_name": "MTD",
+    "db_name": "mtd_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "mtd-front",
+    "subsystem_name": "MTD-OPEN",
+    "db_name": "dsp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "mtd-jc",
+    "subsystem_name": "MTD-JC",
+    "db_name": "mtd_jc_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "NHOVE",
+    "subsystem_name": "NHOVE",
+    "db_name": "msf"
+  },
+  {
+    "env": "STG1",
+    "system": "NSP",
+    "subsystem_name": "NSP",
+    "db_name": "nsp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "nsp_ext",
+    "subsystem_name": "NSP",
+    "db_name": "nsp_ext_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ntis",
+    "subsystem_name": "NTIS",
+    "db_name": "ntis"
+  },
+  {
+    "env": "STG1",
+    "system": "OCAS",
+    "subsystem_name": "OCAS",
+    "db_name": "ocas_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "OCEANUS",
+    "subsystem_name": "OCEANUS",
+    "db_name": "oceanus"
+  },
+  {
+    "env": "STG1",
+    "system": "OPS",
+    "subsystem_name": "OPS",
+    "db_name": "ops"
+  },
+  {
+    "env": "STG1",
+    "system": "osa",
+    "subsystem_name": "OSA",
+    "db_name": "osa_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "osd-admin",
+    "subsystem_name": "OSD",
+    "db_name": "osd"
+  },
+  {
+    "env": "STG1",
+    "system": "osf",
+    "subsystem_name": "OSF",
+    "db_name": "osf_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ots",
+    "subsystem_name": "OTS",
+    "db_name": "ots_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "PAI",
+    "subsystem_name": "PAI",
+    "db_name": "pai_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "painew",
+    "subsystem_name": "PAINEW",
+    "db_name": "painew_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "PAS",
+    "subsystem_name": "PAS",
+    "db_name": "pas"
+  },
+  {
+    "env": "STG1",
+    "system": "PBC",
+    "subsystem_name": "PBC",
+    "db_name": "pbc_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "pboc-query",
+    "subsystem_name": "PBOC-QUERY",
+    "db_name": "pboc_query_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "PCS",
+    "subsystem_name": "PCS",
+    "db_name": "pcs"
+  },
+  {
+    "env": "STG1",
+    "system": "pcs-bak",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_bak_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "pcs-c",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_c"
+  },
+  {
+    "env": "STG1",
+    "system": "pcs-check",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_check_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "pcs-recon",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_recon"
+  },
+  {
+    "env": "STG1",
+    "system": "pcs-w",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_w"
+  },
+  {
+    "env": "STG1",
+    "system": "PDS",
+    "subsystem_name": "PDS",
+    "db_name": "pds_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "pds_b",
+    "subsystem_name": "PDS",
+    "db_name": "pds_b"
+  },
+  {
+    "env": "STG1",
+    "system": "pe",
+    "subsystem_name": "PE",
+    "db_name": "pe_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "pfs",
+    "subsystem_name": "PFS",
+    "db_name": "pfs"
+  },
+  {
+    "env": "STG1",
+    "system": "pfs-abtest",
+    "subsystem_name": "PFS",
+    "db_name": "pfs_abtest"
+  },
+  {
+    "env": "STG1",
+    "system": "pis",
+    "subsystem_name": "PIS",
+    "db_name": "pis_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "plms",
+    "subsystem_name": "PLMS",
+    "db_name": "plms_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "pmds",
+    "subsystem_name": "PMDS",
+    "db_name": "pmds"
+  },
+  {
+    "env": "STG1",
+    "system": "pms-jk",
+    "subsystem_name": "PMS-JK",
+    "db_name": "pms"
+  },
+  {
+    "env": "STG1",
+    "system": "PPS",
+    "subsystem_name": "PPS",
+    "db_name": "pps"
+  },
+  {
+    "env": "STG1",
+    "system": "pps-fg",
+    "subsystem_name": "PPS",
+    "db_name": "pps_fg"
+  },
+  {
+    "env": "STG1",
+    "system": "pps_b",
+    "subsystem_name": "PPS",
+    "db_name": "pps_b"
+  },
+  {
+    "env": "STG1",
+    "system": "prboe-1",
+    "subsystem_name": "PROBE",
+    "db_name": "probe_1"
+  },
+  {
+    "env": "STG1",
+    "system": "probe",
+    "subsystem_name": "PROBE",
+    "db_name": "probe"
+  },
+  {
+    "env": "STG1",
+    "system": "probe-2",
+    "subsystem_name": "PROBE",
+    "db_name": "probe_2"
+  },
+  {
+    "env": "STG1",
+    "system": "product-platform",
+    "subsystem_name": "PBOC-PLATFORM",
+    "db_name": "flink_test"
+  },
+  {
+    "env": "STG1",
+    "system": "qa-monitor",
+    "subsystem_name": "QA-MONITOR",
+    "db_name": "qa_monitor"
+  },
+  {
+    "env": "STG1",
+    "system": "qbi",
+    "subsystem_name": "QBI",
+    "db_name": "qbi_test"
+  },
+  {
+    "env": "STG1",
+    "system": "qoa-app",
+    "subsystem_name": "QOA",
+    "db_name": "qoa_test"
+  },
+  {
+    "env": "STG1",
+    "system": "qoa-jira",
+    "subsystem_name": "QOA-JIRA",
+    "db_name": "jira_test"
+  },
+  {
+    "env": "STG1",
+    "system": "qoa-testcase",
+    "subsystem_name": "QOAWEB",
+    "db_name": "qoa_testcase"
+  },
+  {
+    "env": "STG1",
+    "system": "qoatools-app",
+    "subsystem_name": "QOATOOLS",
+    "db_name": "qoa_tools"
+  },
+  {
+    "env": "STG1",
+    "system": "qoaweb",
+    "subsystem_name": "QOAWEB",
+    "db_name": "xh_test_new"
+  },
+  {
+    "env": "STG1",
+    "system": "RDS",
+    "subsystem_name": "RDS",
+    "db_name": "rds"
+  },
+  {
+    "env": "STG1",
+    "system": "reports",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "reports"
+  },
+  {
+    "env": "STG1",
+    "system": "RES",
+    "subsystem_name": "RES",
+    "db_name": "res"
+  },
+  {
+    "env": "STG1",
+    "system": "RFS",
+    "subsystem_name": "RFS",
+    "db_name": "rfs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "richmedia",
+    "subsystem_name": "RICHMEDIA",
+    "db_name": "richmedia_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ricp",
+    "subsystem_name": "RICP",
+    "db_name": "ricp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "RIDER",
+    "subsystem_name": "RIDER",
+    "db_name": "rider_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "rip",
+    "subsystem_name": "RIP",
+    "db_name": "rip_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "RIS",
+    "subsystem_name": "RIS",
+    "db_name": "ris"
+  },
+  {
+    "env": "STG1",
+    "system": "RRS",
+    "subsystem_name": "RRS",
+    "db_name": "rrs"
+  },
+  {
+    "env": "STG1",
+    "system": "rtds",
+    "subsystem_name": "RTDS",
+    "db_name": "rtds"
+  },
+  {
+    "env": "STG1",
+    "system": "rtes",
+    "subsystem_name": "RTES",
+    "db_name": "rtes_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "RTS",
+    "subsystem_name": "RTS",
+    "db_name": "rts_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "rts-flow",
+    "subsystem_name": "RTOS",
+    "db_name": "rts_flow_db"
+  },
+  {
+    "env": "STG1",
+    "system": "rule",
+    "subsystem_name": "RULE-ENGINE",
+    "db_name": "rule_engine_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "rule-engine",
+    "subsystem_name": "RULE-ENGINE",
+    "db_name": "rule_engine_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "samel",
+    "subsystem_name": "SAMEL",
+    "db_name": "samel_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "SCAN",
+    "subsystem_name": "SCAN",
+    "db_name": "scan"
+  },
+  {
+    "env": "STG1",
+    "system": "SENTRY",
+    "subsystem_name": "SENTRY",
+    "db_name": "sentry_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "SFS",
+    "subsystem_name": "SFS",
+    "db_name": "sfs"
+  },
+  {
+    "env": "STG1",
+    "system": "sfs-admin",
+    "subsystem_name": "SFS",
+    "db_name": "sfs"
+  },
+  {
+    "env": "STG1",
+    "system": "shadow-eep",
+    "subsystem_name": "SHADOW-EEP",
+    "db_name": "shadow_eep_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "shadow-eep-re",
+    "subsystem_name": "SHADOW-EEP-RE",
+    "db_name": "shadow_eep_re_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "shadow-fep",
+    "subsystem_name": "SHADOW-FEP",
+    "db_name": "shadow_fep_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "shadow-fep-re",
+    "subsystem_name": "SHADOW-FEP-RE",
+    "db_name": "shadow_fep_re_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "shadow-rfs",
+    "subsystem_name": "SHADOW-RFS",
+    "db_name": "shadow_rfs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "shadow-rfs-re",
+    "subsystem_name": "SHADOW-RFS-RE",
+    "db_name": "shadow_rfs_re_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "sls",
+    "subsystem_name": "SLS",
+    "db_name": "sls_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "sonar",
+    "subsystem_name": "SONAR",
+    "db_name": "sonar"
+  },
+  {
+    "env": "STG1",
+    "system": "srp",
+    "subsystem_name": "SRP",
+    "db_name": "srp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "TAP",
+    "subsystem_name": "TAP",
+    "db_name": "clio_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "TAP1",
+    "subsystem_name": "TAP1",
+    "db_name": "tap"
+  },
+  {
+    "env": "STG1",
+    "system": "tbs",
+    "subsystem_name": "TBS",
+    "db_name": "tbs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "TEMPLATE",
+    "subsystem_name": "TEMPLATE",
+    "db_name": "template"
+  },
+  {
+    "env": "STG1",
+    "system": "testcase",
+    "subsystem_name": "QOA",
+    "db_name": "testcase_test"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-0",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_0"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-1",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_1"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-2",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_2"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-3",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_3"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-4",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_4"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-5",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_5"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-6",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_6"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-7",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_7"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-sharding",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "thoth",
+    "subsystem_name": "THOTH",
+    "db_name": "thoth_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "tip",
+    "subsystem_name": "TIP",
+    "db_name": "tip"
+  },
+  {
+    "env": "STG1",
+    "system": "TOTORO",
+    "subsystem_name": "TOTORO",
+    "db_name": "totoro"
+  },
+  {
+    "env": "STG1",
+    "system": "tpay",
+    "subsystem_name": "TPAY",
+    "db_name": "tpay_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "traffic-jk",
+    "subsystem_name": "TRAFFIC-JK",
+    "db_name": "traffic_jk"
+  },
+  {
+    "env": "STG1",
+    "system": "tsign",
+    "subsystem_name": "TSIGN",
+    "db_name": "tsign_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "TYPHOON",
+    "subsystem_name": "QOA",
+    "db_name": "typhoon"
+  },
+  {
+    "env": "STG1",
+    "system": "UBAS",
+    "subsystem_name": "UBAS",
+    "db_name": "ubas_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ucs",
+    "subsystem_name": "UCS",
+    "db_name": "ucs"
+  },
+  {
+    "env": "STG1",
+    "system": "uds",
+    "subsystem_name": "UDS",
+    "db_name": "uds_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ulp",
+    "subsystem_name": "ULP",
+    "db_name": "ulp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "UMS",
+    "subsystem_name": "UMS",
+    "db_name": "ums"
+  },
+  {
+    "env": "STG1",
+    "system": "UOR",
+    "subsystem_name": "UOR",
+    "db_name": "UOR"
+  },
+  {
+    "env": "STG1",
+    "system": "UTAS",
+    "subsystem_name": "UTAS",
+    "db_name": "utas_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "VIP",
+    "subsystem_name": "VIP",
+    "db_name": "vip"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-0",
+    "subsystem_name": "VIP",
+    "db_name": "vip_0"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-1",
+    "subsystem_name": "VIP",
+    "db_name": "vip_1"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-2",
+    "subsystem_name": "VIP",
+    "db_name": "vip_2"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-3",
+    "subsystem_name": "VIP",
+    "db_name": "vip_3"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-sharding",
+    "subsystem_name": "VIP",
+    "db_name": "vip_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "WAREHOUSE",
+    "subsystem_name": "WAREHOUSE",
+    "db_name": "warehouse"
+  },
+  {
+    "env": "STG1",
+    "system": "wcs",
+    "subsystem_name": "WCS",
+    "db_name": "wcs"
+  },
+  {
+    "env": "STG1",
+    "system": "web-cyxj",
+    "subsystem_name": "JRKJ-BANK",
+    "db_name": "web_cyxj"
+  },
+  {
+    "env": "STG1",
+    "system": "web-jietiao-1",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao_1"
+  },
+  {
+    "env": "STG1",
+    "system": "WEIXIN",
+    "subsystem_name": "WEIXIN",
+    "db_name": "weixin"
+  },
+  {
+    "env": "STG1",
+    "system": "WELOAN",
+    "subsystem_name": "WELOAN",
+    "db_name": "weloan"
+  },
+  {
+    "env": "STG1",
+    "system": "weloan-pboc",
+    "subsystem_name": "WELOAN-PBOC",
+    "db_name": "weloan_pboc_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "weloan-pboc2",
+    "subsystem_name": "WELOAN-PBOC",
+    "db_name": "weloan_pboc2_1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-apv",
+    "subsystem_name": "WL-APV-CREDIT",
+    "db_name": "wl_apv_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-apv-credit",
+    "subsystem_name": "WL-APV-CREDIT",
+    "db_name": "wl_apv_credit_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-com",
+    "subsystem_name": "COM",
+    "db_name": "wl_com_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-cps",
+    "subsystem_name": "WL-CPS",
+    "db_name": "wl_cps_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-crs-query",
+    "subsystem_name": "WL-APV-CREDIT",
+    "db_name": "wl_crs_query_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-eep",
+    "subsystem_name": "WL-EEP",
+    "db_name": "wl_eep_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-fep-online",
+    "subsystem_name": "WL-EEP",
+    "db_name": "wl_fep_online_s1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-mip",
+    "subsystem_name": "WL-MIP",
+    "db_name": "wl_mip_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-msf",
+    "subsystem_name": "MSF",
+    "db_name": "wl_msf_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "wl-res",
+    "subsystem_name": "WL-RES",
+    "db_name": "wl_res_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "WX-FZ",
+    "subsystem_name": "WX-FZ",
+    "db_name": "wx_fz"
+  },
+  {
+    "env": "STG1",
+    "system": "WXS",
+    "subsystem_name": "WXS",
+    "db_name": "wxs"
+  },
+  {
+    "env": "STG1",
+    "system": "xh-test",
+    "subsystem_name": "XH-TEST",
+    "db_name": "xh_test"
+  },
+  {
+    "env": "STG1",
+    "system": "yushu-data-db",
+    "subsystem_name": "DDS",
+    "db_name": "yushu_data_db"
+  },
+  {
+    "env": "STG1",
+    "system": "yushudatadb",
+    "subsystem_name": "DDS",
+    "db_name": "yushu_data_db"
+  },
+  {
+    "env": "STG2",
+    "system": "absm",
+    "subsystem_name": "ABS",
+    "db_name": "abs2"
+  },
+  {
+    "env": "STG2",
+    "system": "abtest",
+    "subsystem_name": "ABTEST",
+    "db_name": "abtest_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "acs",
+    "subsystem_name": "ACS",
+    "db_name": "acs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "aegis",
+    "subsystem_name": "AEGIS",
+    "db_name": "aegis_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "aegis-core",
+    "subsystem_name": "AEGIS",
+    "db_name": "aegis_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "AGS",
+    "subsystem_name": "AGS",
+    "db_name": "ags_a_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-b",
+    "subsystem_name": "AGS",
+    "db_name": "ags_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa0",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa0_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa1",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa1_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa2",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa2_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa3",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa3_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa4",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa4_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa5",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa5_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa6",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa6_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sa7",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa7_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sharding",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "amls",
+    "subsystem_name": "SRP",
+    "db_name": "amls_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "AMS",
+    "subsystem_name": "AMS",
+    "db_name": "ams_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-b",
+    "subsystem_name": "AMS",
+    "db_name": "ams_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa0",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa0_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa1",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa1_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa2",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa2_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa3",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa3_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa4",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa4_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa5",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa5_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa6",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa6_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sa7",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa7_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sharding",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ana-cyxj",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "ana_cyxj"
+  },
+  {
+    "env": "STG2",
+    "system": "aps",
+    "subsystem_name": "APS",
+    "db_name": "aps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "APV",
+    "subsystem_name": "APV",
+    "db_name": "apv_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-0",
+    "subsystem_name": "APV",
+    "db_name": "apv_0"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-1",
+    "subsystem_name": "APV",
+    "db_name": "apv_1"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-2",
+    "subsystem_name": "APV",
+    "db_name": "apv_2"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-3",
+    "subsystem_name": "APV",
+    "db_name": "apv_3"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-4",
+    "subsystem_name": "APV",
+    "db_name": "apv_4"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-5",
+    "subsystem_name": "APV",
+    "db_name": "apv_5"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-6",
+    "subsystem_name": "APV",
+    "db_name": "apv_6"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-7",
+    "subsystem_name": "APV",
+    "db_name": "apv_7"
+  },
+  {
+    "env": "STG2",
+    "system": "APV-CP",
+    "subsystem_name": "APV",
+    "db_name": "apv_cp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "APV-CT",
+    "subsystem_name": "APV",
+    "db_name": "apv_ct_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-sharding",
+    "subsystem_name": "APV",
+    "db_name": "apv_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-tidb",
+    "subsystem_name": "APV",
+    "db_name": "tidb_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-wf",
+    "subsystem_name": "APV",
+    "db_name": "apv_wf_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ares",
+    "subsystem_name": "ARES",
+    "db_name": "ares_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "argus",
+    "subsystem_name": "argus",
+    "db_name": "argus"
+  },
+  {
+    "env": "STG2",
+    "system": "ARRCOLL",
+    "subsystem_name": "ARRCOLL",
+    "db_name": "arrcoll_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "bap-app",
+    "subsystem_name": "BAP",
+    "db_name": "bap_app_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "bas",
+    "subsystem_name": "BAS",
+    "db_name": "bas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "bell",
+    "subsystem_name": "BELL",
+    "db_name": "bell_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "BMS",
+    "subsystem_name": "BMS",
+    "db_name": "bms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "bps",
+    "subsystem_name": "BPS",
+    "db_name": "bps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "btl",
+    "subsystem_name": "BTL",
+    "db_name": "btl_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "btl-agentx",
+    "subsystem_name": "BTL",
+    "db_name": "btl_agentx"
+  },
+  {
+    "env": "STG2",
+    "system": "btl-statistics",
+    "subsystem_name": "BTL",
+    "db_name": "btl_statistics"
+  },
+  {
+    "env": "STG2",
+    "system": "btl-sustain",
+    "subsystem_name": "BTL",
+    "db_name": "btl_sustain"
+  },
+  {
+    "env": "STG2",
+    "system": "bts",
+    "subsystem_name": "BTS",
+    "db_name": "bts_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cadc",
+    "subsystem_name": "CADC",
+    "db_name": "cadc"
+  },
+  {
+    "env": "STG2",
+    "system": "cafe",
+    "subsystem_name": "CAFE-CMS",
+    "db_name": "cafe_cms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cafe-benefit",
+    "subsystem_name": "CAFE-BENEFIT",
+    "db_name": "cafe_cms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cafe-benefit-b",
+    "subsystem_name": "CAFE-BENEFIT",
+    "db_name": "cafe_cms_b"
+  },
+  {
+    "env": "STG2",
+    "system": "cafe-cms",
+    "subsystem_name": "CAFE-CMS",
+    "db_name": "cafe_cms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cafe-cms-b",
+    "subsystem_name": "CAFE-CMS",
+    "db_name": "cafe_cms_b"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS",
+    "subsystem_name": "CAS",
+    "db_name": "cas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-0",
+    "subsystem_name": "CAS",
+    "db_name": "cas_0"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-1",
+    "subsystem_name": "CAS",
+    "db_name": "cas_1"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-2",
+    "subsystem_name": "CAS",
+    "db_name": "cas_2"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-3",
+    "subsystem_name": "CAS",
+    "db_name": "cas_3"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-4",
+    "subsystem_name": "CAS",
+    "db_name": "cas_4"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-5",
+    "subsystem_name": "CAS",
+    "db_name": "cas_5"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-6",
+    "subsystem_name": "CAS",
+    "db_name": "cas_6"
+  },
+  {
+    "env": "STG2",
+    "system": "CAS-7",
+    "subsystem_name": "CAS",
+    "db_name": "cas_7"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-batch",
+    "subsystem_name": "CAS",
+    "db_name": "cas_batch_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-cold",
+    "subsystem_name": "CAS",
+    "db_name": "cas_cold_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-credit",
+    "subsystem_name": "CAS",
+    "db_name": "cas_credit_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-sharding",
+    "subsystem_name": "CAS",
+    "db_name": "cas_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-wf",
+    "subsystem_name": "CAS",
+    "db_name": "cas_wf_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CCS",
+    "subsystem_name": "CCS",
+    "db_name": "ccs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ccs-geway",
+    "subsystem_name": "CCS",
+    "db_name": "ccs_geway"
+  },
+  {
+    "env": "STG2",
+    "system": "ccs-router",
+    "subsystem_name": "CCS",
+    "db_name": "ccs_router"
+  },
+  {
+    "env": "STG2",
+    "system": "CES",
+    "subsystem_name": "CES",
+    "db_name": "rds_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cgs",
+    "subsystem_name": "CGS",
+    "db_name": "cgs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "channel",
+    "subsystem_name": "CHANNEL",
+    "db_name": "channel_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CIS",
+    "subsystem_name": "CIS",
+    "db_name": "cis_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cis-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_b"
+  },
+  {
+    "env": "STG2",
+    "system": "CIS-CP",
+    "subsystem_name": "CIS",
+    "db_name": "cis_cp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CIS-DV",
+    "subsystem_name": "CIS",
+    "db_name": "cis_dv_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cis-dv-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_dv_b"
+  },
+  {
+    "env": "STG2",
+    "system": "cis-ext",
+    "subsystem_name": "CIS",
+    "db_name": "cis_ext_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cis-ext-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_ext_b"
+  },
+  {
+    "env": "STG2",
+    "system": "CIS-FACE",
+    "subsystem_name": "CIS",
+    "db_name": "cis_face_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cis-face-b",
+    "subsystem_name": "CIS",
+    "db_name": "cis_face_b"
+  },
+  {
+    "env": "STG2",
+    "system": "CIS-MD5",
+    "subsystem_name": "CIS",
+    "db_name": "cis_md5_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cis-sharding",
+    "subsystem_name": "CIS",
+    "db_name": "cis_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cis0",
+    "subsystem_name": "CIS",
+    "db_name": "cis_0"
+  },
+  {
+    "env": "STG2",
+    "system": "cis1",
+    "subsystem_name": "CIS",
+    "db_name": "cis_1"
+  },
+  {
+    "env": "STG2",
+    "system": "cis2",
+    "subsystem_name": "CIS",
+    "db_name": "cis_2"
+  },
+  {
+    "env": "STG2",
+    "system": "cis3",
+    "subsystem_name": "CIS",
+    "db_name": "cis_3"
+  },
+  {
+    "env": "STG2",
+    "system": "cis4",
+    "subsystem_name": "CIS",
+    "db_name": "cis_4"
+  },
+  {
+    "env": "STG2",
+    "system": "cis5",
+    "subsystem_name": "CIS",
+    "db_name": "cis_5"
+  },
+  {
+    "env": "STG2",
+    "system": "cis6",
+    "subsystem_name": "CIS",
+    "db_name": "cis_6"
+  },
+  {
+    "env": "STG2",
+    "system": "cis7",
+    "subsystem_name": "CIS",
+    "db_name": "cis_7"
+  },
+  {
+    "env": "STG2",
+    "system": "CLIO",
+    "subsystem_name": "CLIO",
+    "db_name": "clio_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "clio-external-app",
+    "subsystem_name": "CLIO-EXTERNAL",
+    "db_name": "clio_external"
+  },
+  {
+    "env": "STG2",
+    "system": "clio-insight",
+    "subsystem_name": "CLIO",
+    "db_name": "clio_insight_2"
+  },
+  {
+    "env": "STG2",
+    "system": "CLIO-PORTAL",
+    "subsystem_name": "CLIO",
+    "db_name": "clio_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cliok",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliok_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cliok-external",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliokexter_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cmf",
+    "subsystem_name": "CMF",
+    "db_name": "cmf_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CMS",
+    "subsystem_name": "CMS",
+    "db_name": "cms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "code-coverage",
+    "subsystem_name": "QOA",
+    "db_name": "code_coverage"
+  },
+  {
+    "env": "STG2",
+    "system": "COM",
+    "subsystem_name": "COM",
+    "db_name": "msf"
+  },
+  {
+    "env": "STG2",
+    "system": "counter",
+    "subsystem_name": "COUNTER",
+    "db_name": "counter"
+  },
+  {
+    "env": "STG2",
+    "system": "cps",
+    "subsystem_name": "CPS",
+    "db_name": "cps_stg_2"
+  },
+  {
+    "env": "STG2",
+    "system": "cps2023",
+    "subsystem_name": "CPS",
+    "db_name": "cps_2023"
+  },
+  {
+    "env": "STG2",
+    "system": "cqps",
+    "subsystem_name": "CQPS",
+    "db_name": "cqps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CRMP",
+    "subsystem_name": "CRMP",
+    "db_name": "crmp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "crp",
+    "subsystem_name": "CRP",
+    "db_name": "crp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "crps",
+    "subsystem_name": "CRPS",
+    "db_name": "crps"
+  },
+  {
+    "env": "STG2",
+    "system": "CRS",
+    "subsystem_name": "CRS",
+    "db_name": "crs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "crs-bcr-i",
+    "subsystem_name": "CRS",
+    "db_name": "crs_bcr_i_s2"
+  },
+  {
+    "env": "STG2",
+    "system": "crs-bcredit",
+    "subsystem_name": "CRS",
+    "db_name": "crs_bcredit_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CRS-CRAWLING",
+    "subsystem_name": "CRS",
+    "db_name": "crs_crawling_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "crs-i-s2",
+    "subsystem_name": "CRS",
+    "db_name": "crs_i_s2"
+  },
+  {
+    "env": "STG2",
+    "system": "CRS-QUERY",
+    "subsystem_name": "CRS",
+    "db_name": "crs_query_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "csps",
+    "subsystem_name": "CSPS",
+    "db_name": "csps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cts",
+    "subsystem_name": "CTS",
+    "db_name": "cts_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cube",
+    "subsystem_name": "CUBE",
+    "db_name": "cube_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "cube-rcap",
+    "subsystem_name": "CUBE",
+    "db_name": "cube_rcap_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CVF",
+    "subsystem_name": "CVF",
+    "db_name": "cvf"
+  },
+  {
+    "env": "STG2",
+    "system": "DAC",
+    "subsystem_name": "DAC",
+    "db_name": "dac"
+  },
+  {
+    "env": "STG2",
+    "system": "DCD",
+    "subsystem_name": "DCD",
+    "db_name": "dcd_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "DCF",
+    "subsystem_name": "DCF",
+    "db_name": "dcf"
+  },
+  {
+    "env": "STG2",
+    "system": "DCS",
+    "subsystem_name": "DCS",
+    "db_name": "dcs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "dgs-app",
+    "subsystem_name": "DGS",
+    "db_name": "dgs"
+  },
+  {
+    "env": "STG2",
+    "system": "dmg",
+    "subsystem_name": "DMG",
+    "db_name": "dmg_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "dmgnew",
+    "subsystem_name": "DMGNEW",
+    "db_name": "dmgnew_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "DMP",
+    "subsystem_name": "DMP",
+    "db_name": "dmp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "dpm",
+    "subsystem_name": "DPM",
+    "db_name": "dpm_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "DRS",
+    "subsystem_name": "DRS",
+    "db_name": "drs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "dsp",
+    "subsystem_name": "DSP",
+    "db_name": "dsp_stg"
+  },
+  {
+    "env": "STG2",
+    "system": "ECS",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-mce",
+    "subsystem_name": "ECS",
+    "db_name": "mce"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-obas",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_obas"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-oss",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_oss"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-sem",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_sem"
+  },
+  {
+    "env": "STG2",
+    "system": "EEP",
+    "subsystem_name": "EEP",
+    "db_name": "eep_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "EICS",
+    "subsystem_name": "EICS",
+    "db_name": "eics_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ELE",
+    "subsystem_name": "ELE",
+    "db_name": "ele_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "evps",
+    "subsystem_name": "PPS",
+    "db_name": "evps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "f-config",
+    "subsystem_name": "F-CONFIG",
+    "db_name": "f_config_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "FAS",
+    "subsystem_name": "FAS",
+    "db_name": "fas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "FEP",
+    "subsystem_name": "FEP",
+    "db_name": "fep_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "fep-online",
+    "subsystem_name": "FEP-ENGINE",
+    "db_name": "fep_online_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "fep-online-20240301",
+    "subsystem_name": "FEP",
+    "db_name": "fep_online_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "FES",
+    "subsystem_name": "FES",
+    "db_name": "fes_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "fms",
+    "subsystem_name": "FMS",
+    "db_name": "fms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "fp",
+    "subsystem_name": "FP",
+    "db_name": "fp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "fpas",
+    "subsystem_name": "LPS",
+    "db_name": "fpas"
+  },
+  {
+    "env": "STG2",
+    "system": "frs",
+    "subsystem_name": "FRS",
+    "db_name": "frs_stg_2"
+  },
+  {
+    "env": "STG2",
+    "system": "frs-aw",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "frs-aw-2023",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_2023_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "frs-aw-2024",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_2024"
+  },
+  {
+    "env": "STG2",
+    "system": "frs-grafana",
+    "subsystem_name": "FRS",
+    "db_name": "frs_grafana_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "frs-pay",
+    "subsystem_name": "FRS",
+    "db_name": "frs_pay_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GNS",
+    "subsystem_name": "GNS",
+    "db_name": "gns_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GNS-MANAGE",
+    "subsystem_name": "GNS",
+    "db_name": "gns_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GNS-OTHER",
+    "subsystem_name": "GNS",
+    "db_name": "gns_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GNS-PUSH",
+    "subsystem_name": "GNS",
+    "db_name": "gns_push_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "graphx",
+    "subsystem_name": "GRAPHX",
+    "db_name": "graphx"
+  },
+  {
+    "env": "STG2",
+    "system": "GRS",
+    "subsystem_name": "GRS",
+    "db_name": "grs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "grspfs",
+    "subsystem_name": "GRS",
+    "db_name": "grs_pfs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GWS",
+    "subsystem_name": "GWS",
+    "db_name": "gws_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "gws-cebf",
+    "subsystem_name": "GWS-CEBF",
+    "db_name": "gws_cebf"
+  },
+  {
+    "env": "STG2",
+    "system": "GWS-CRS",
+    "subsystem_name": "GWS-CRS",
+    "db_name": "gws_crs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GWS-LCS",
+    "subsystem_name": "GWS-LCS",
+    "db_name": "gws_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GWS-MALL",
+    "subsystem_name": "GWS-MALL",
+    "db_name": "gws"
+  },
+  {
+    "env": "STG2",
+    "system": "gws-os",
+    "subsystem_name": "GWS-OS",
+    "db_name": "gws_os_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "GWS-SMS",
+    "subsystem_name": "GWS-SMS",
+    "db_name": "gws_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "hawk",
+    "subsystem_name": "HAWK",
+    "db_name": "hawk_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "hawk-gws",
+    "subsystem_name": "HAWK-GWS",
+    "db_name": "gws_crs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "hive-meta",
+    "subsystem_name": "JDS",
+    "db_name": "hive_meta"
+  },
+  {
+    "env": "STG2",
+    "system": "icc",
+    "subsystem_name": "ICC",
+    "db_name": "icc"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-busi",
+    "subsystem_name": "ICE-BUSINESS",
+    "db_name": "ice_busi_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-cis",
+    "subsystem_name": "ICE-CIS",
+    "db_name": "ice_cis_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-cis-b",
+    "subsystem_name": "ICE-CIS",
+    "db_name": "ice_cis_b"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa0",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa0_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa1",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa1_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa2",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa2_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa3",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa3_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa4",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa4_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa5",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa5_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa6",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa6_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa7",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa7_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sharding",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-crp",
+    "subsystem_name": "ICE-CRP",
+    "db_name": "ice_crp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-partner",
+    "subsystem_name": "ICE-PARTNER",
+    "db_name": "ice_partner_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-pfs",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-pfs-b",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_b"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-pfs-flow",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_flow"
+  },
+  {
+    "env": "STG2",
+    "system": "ICS",
+    "subsystem_name": "ICS",
+    "db_name": "ics_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ics-b",
+    "subsystem_name": "ICS",
+    "db_name": "ics_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ics-batch",
+    "subsystem_name": "ICS",
+    "db_name": "ics_batch_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ics-batch-b",
+    "subsystem_name": "ICS",
+    "db_name": "ics_batch_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "iffs",
+    "subsystem_name": "IFFS",
+    "db_name": "iffs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "imgp",
+    "subsystem_name": "IMGP",
+    "db_name": "imgp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "imgp-sharding",
+    "subsystem_name": "IMGP",
+    "db_name": "imgp_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "IMS",
+    "subsystem_name": "IMS",
+    "db_name": "ims_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "investor-als",
+    "subsystem_name": "INVESTORALS",
+    "db_name": "investorals_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "investorals",
+    "subsystem_name": "INVESTORALS",
+    "db_name": "investorals_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "iops",
+    "subsystem_name": "IOPS",
+    "db_name": "iops_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ipay",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ipay-p",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ipay-p-abandoned",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p"
+  },
+  {
+    "env": "STG2",
+    "system": "ipay-p-sharding",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ipss",
+    "subsystem_name": "IPSS",
+    "db_name": "ipss_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ipss-report",
+    "subsystem_name": "IPSS",
+    "db_name": "ipss_report"
+  },
+  {
+    "env": "STG2",
+    "system": "JKYUN",
+    "subsystem_name": "JKYUN",
+    "db_name": "jkyun"
+  },
+  {
+    "env": "STG2",
+    "system": "jkyun-gns",
+    "subsystem_name": "JKYUN",
+    "db_name": "jkyun_gns"
+  },
+  {
+    "env": "STG2",
+    "system": "jrkj2",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao"
+  },
+  {
+    "env": "STG2",
+    "system": "JSS",
+    "subsystem_name": "JSS",
+    "db_name": "jss_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "KOALA",
+    "subsystem_name": "KOALA",
+    "db_name": "koala_sql"
+  },
+  {
+    "env": "STG2",
+    "system": "kps",
+    "subsystem_name": "KPS",
+    "db_name": "kps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "LBS",
+    "subsystem_name": "LBS",
+    "db_name": "lbs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "LCS",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "LCS-BATCH",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa0"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa1"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa3"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa4"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa5"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa6"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa7"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-bill",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_bill_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa0_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa1_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa2_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa3_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa4_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa5_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa6_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa7_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa0_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa1_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa2_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa3_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa4_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa5_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa6_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa7_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-third",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_third_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-third-b",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_third_b_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-be",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_be_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-core",
+    "subsystem_name": "LEADS-CORE",
+    "db_name": "leads_core_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-crm",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_crm_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-pfs",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_pfs"
+  },
+  {
+    "env": "STG2",
+    "system": "lego",
+    "subsystem_name": "LEGO",
+    "db_name": "lego_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "LFS",
+    "subsystem_name": "LFS",
+    "db_name": "lfs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lfs-c",
+    "subsystem_name": "LFS",
+    "db_name": "lfs_c_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "LOLTH",
+    "subsystem_name": "LOLTH",
+    "db_name": "lolth_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "LPS",
+    "subsystem_name": "LPS",
+    "db_name": "lps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-0",
+    "subsystem_name": "LPS",
+    "db_name": "lps_0"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-1",
+    "subsystem_name": "LPS",
+    "db_name": "lps_1"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-2",
+    "subsystem_name": "LPS",
+    "db_name": "lps_2"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-3",
+    "subsystem_name": "LPS",
+    "db_name": "lps_3"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-4",
+    "subsystem_name": "LPS",
+    "db_name": "lps_4"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-5",
+    "subsystem_name": "LPS",
+    "db_name": "lps_5"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-6",
+    "subsystem_name": "LPS",
+    "db_name": "lps_6"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-7",
+    "subsystem_name": "LPS",
+    "db_name": "lps_7"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-app-list",
+    "subsystem_name": "LPS",
+    "db_name": "lps_app_list"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-auth-code",
+    "subsystem_name": "LPS",
+    "db_name": "lps_auth_code_2"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-b",
+    "subsystem_name": "LPS",
+    "db_name": "lps_b"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-iou",
+    "subsystem_name": "LPS",
+    "db_name": "lps_iou_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-iou-b",
+    "subsystem_name": "LPS",
+    "db_name": "lps_iou_b"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-log",
+    "subsystem_name": "LPS",
+    "db_name": "lps_log_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-msf-log",
+    "subsystem_name": "LPS",
+    "db_name": "lps_msf_log"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-obas",
+    "subsystem_name": "LPS",
+    "db_name": "lps_obas"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-sharding",
+    "subsystem_name": "LPS",
+    "db_name": "lps_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "lqs",
+    "subsystem_name": "LQS",
+    "db_name": "data_service"
+  },
+  {
+    "env": "STG2",
+    "system": "mall-extra",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_extra_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MALL-GOODS",
+    "subsystem_name": "MALL-GOODS",
+    "db_name": "mall_goods_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "mall-order",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_order_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MALL-ORDER-HX",
+    "subsystem_name": "MALL-ORDER-HX",
+    "db_name": "mall_order_hx2"
+  },
+  {
+    "env": "STG2",
+    "system": "mall-user",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_user_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "mall_merchant",
+    "subsystem_name": "MALL-ORDER-APP",
+    "db_name": "mall_merchant_2"
+  },
+  {
+    "env": "STG2",
+    "system": "MAS",
+    "subsystem_name": "MAS",
+    "db_name": "mas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MCP",
+    "subsystem_name": "MCP",
+    "db_name": "mcp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MDM",
+    "subsystem_name": "MDM",
+    "db_name": "mdm_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "mdmnew",
+    "subsystem_name": "MDMNEW",
+    "db_name": "mdmnew_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "mes",
+    "subsystem_name": "MES",
+    "db_name": "mes_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MKT-CMS",
+    "subsystem_name": "MKT-CMS",
+    "db_name": "mkt_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MMS",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-0",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_0"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-1",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_1"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-2",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_2"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-3",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_3"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-4",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_4"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-5",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_5"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-6",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_6"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-7",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_7"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-sharding",
+    "subsystem_name": "MMS",
+    "db_name": "mms_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "morphling",
+    "subsystem_name": "MORPHLING",
+    "db_name": "indic_pre"
+  },
+  {
+    "env": "STG2",
+    "system": "mos",
+    "subsystem_name": "MOS",
+    "db_name": "mos_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MPS",
+    "subsystem_name": "MPS",
+    "db_name": "mps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MPT",
+    "subsystem_name": "MPT",
+    "db_name": "mpt_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "MSF",
+    "subsystem_name": "MSF",
+    "db_name": "msf"
+  },
+  {
+    "env": "STG2",
+    "system": "mtd",
+    "subsystem_name": "MTD",
+    "db_name": "mtd_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "mtd-front",
+    "subsystem_name": "MTD-OPEN",
+    "db_name": "dsp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "mtd-jc",
+    "subsystem_name": "MTD-JC",
+    "db_name": "mtd_jc_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "NHOVE",
+    "subsystem_name": "NHOVE",
+    "db_name": "msf"
+  },
+  {
+    "env": "STG2",
+    "system": "NSP",
+    "subsystem_name": "NSP",
+    "db_name": "nsp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "nsp_ext",
+    "subsystem_name": "NSP",
+    "db_name": "nsp_ext_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ntis",
+    "subsystem_name": "NTIS",
+    "db_name": "ntis"
+  },
+  {
+    "env": "STG2",
+    "system": "OCAS",
+    "subsystem_name": "OCAS",
+    "db_name": "ocas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "OCEANUS",
+    "subsystem_name": "OCEANUS",
+    "db_name": "oceanus_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "openpl",
+    "subsystem_name": "OPENPL",
+    "db_name": "openpl"
+  },
+  {
+    "env": "STG2",
+    "system": "OPS",
+    "subsystem_name": "OPS",
+    "db_name": "ops_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "osa",
+    "subsystem_name": "OSA",
+    "db_name": "osa_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "osf",
+    "subsystem_name": "OSF",
+    "db_name": "osf_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "osfx",
+    "subsystem_name": "OSFX",
+    "db_name": "osfx_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "osrpt",
+    "subsystem_name": "OSRPT",
+    "db_name": "osrpt_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ots",
+    "subsystem_name": "OTS",
+    "db_name": "ots_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "PAI",
+    "subsystem_name": "PAI",
+    "db_name": "pai_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "painew",
+    "subsystem_name": "PAINEW",
+    "db_name": "painew_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "PAS",
+    "subsystem_name": "PAS",
+    "db_name": "pas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "PBC",
+    "subsystem_name": "PBC",
+    "db_name": "pbc_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pboc-query",
+    "subsystem_name": "PBOC-QUERY",
+    "db_name": "pboc_query_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "PCS",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pcs-bak",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_bak_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pcs-c",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_c_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pcs-check",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_check_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pcs-recon",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_recon_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pcs-w",
+    "subsystem_name": "PCS",
+    "db_name": "pcs_w_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "PDS",
+    "subsystem_name": "PDS",
+    "db_name": "pds_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pds-b",
+    "subsystem_name": "PDS",
+    "db_name": "pds_b"
+  },
+  {
+    "env": "STG2",
+    "system": "pe",
+    "subsystem_name": "PE",
+    "db_name": "pe_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pfs",
+    "subsystem_name": "PFS",
+    "db_name": "pfs"
+  },
+  {
+    "env": "STG2",
+    "system": "pfs-abtest",
+    "subsystem_name": "PFS",
+    "db_name": "pfs_abtest"
+  },
+  {
+    "env": "STG2",
+    "system": "pis",
+    "subsystem_name": "PIS",
+    "db_name": "pis_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "plms",
+    "subsystem_name": "PLMS",
+    "db_name": "plms_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pmds",
+    "subsystem_name": "PMDS",
+    "db_name": "pmds"
+  },
+  {
+    "env": "STG2",
+    "system": "pms-jk",
+    "subsystem_name": "PMS-JK",
+    "db_name": "pms"
+  },
+  {
+    "env": "STG2",
+    "system": "PPS",
+    "subsystem_name": "PPS",
+    "db_name": "pps_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "pps-b",
+    "subsystem_name": "PPS",
+    "db_name": "pps_b"
+  },
+  {
+    "env": "STG2",
+    "system": "pps-fg",
+    "subsystem_name": "PPS",
+    "db_name": "pps_fg"
+  },
+  {
+    "env": "STG2",
+    "system": "qbi",
+    "subsystem_name": "QBI",
+    "db_name": "qbi_test"
+  },
+  {
+    "env": "STG2",
+    "system": "QOA",
+    "subsystem_name": "QOA",
+    "db_name": "qoa"
+  },
+  {
+    "env": "STG2",
+    "system": "QOA-WRITE",
+    "subsystem_name": "QOA",
+    "db_name": "qoa"
+  },
+  {
+    "env": "STG2",
+    "system": "QOA-WRITE-BIG",
+    "subsystem_name": "QOA",
+    "db_name": "code_coverage"
+  },
+  {
+    "env": "STG2",
+    "system": "QOA-WRITE-TESTCASE",
+    "subsystem_name": "QOA",
+    "db_name": "qoa_testcase"
+  },
+  {
+    "env": "STG2",
+    "system": "RDS",
+    "subsystem_name": "RDS",
+    "db_name": "rds_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "reports",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "reports"
+  },
+  {
+    "env": "STG2",
+    "system": "RES",
+    "subsystem_name": "RES",
+    "db_name": "res_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "RFS",
+    "subsystem_name": "RFS",
+    "db_name": "rfs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "richmedia",
+    "subsystem_name": "RICHMEDIA",
+    "db_name": "richmedia_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ricp",
+    "subsystem_name": "RICP",
+    "db_name": "ricp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "RIDER",
+    "subsystem_name": "RIDER",
+    "db_name": "rider_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "rip",
+    "subsystem_name": "RIP",
+    "db_name": "rip_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "RIS",
+    "subsystem_name": "RIS",
+    "db_name": "ris_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "RRS",
+    "subsystem_name": "RRS",
+    "db_name": "rrs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "rtes",
+    "subsystem_name": "RTES",
+    "db_name": "rtes_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "RTS",
+    "subsystem_name": "RTS",
+    "db_name": "rts_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "rule",
+    "subsystem_name": "RULE-ENGINE",
+    "db_name": "rule_engine_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "rule-engine",
+    "subsystem_name": "RULE-ENGINE",
+    "db_name": "rule_engine_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "samel",
+    "subsystem_name": "SAMEL",
+    "db_name": "samel_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "SCAN",
+    "subsystem_name": "SCAN",
+    "db_name": "scan_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "SENTRY",
+    "subsystem_name": "SENTRY",
+    "db_name": "sentry_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "SFS",
+    "subsystem_name": "SFS",
+    "db_name": "sfs"
+  },
+  {
+    "env": "STG2",
+    "system": "sfs-admin",
+    "subsystem_name": "SFS",
+    "db_name": "sfs"
+  },
+  {
+    "env": "STG2",
+    "system": "shadow-eep",
+    "subsystem_name": "SHADOW-EEP",
+    "db_name": "shadow_eep_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "shadow-eep-re",
+    "subsystem_name": "SHADOW-EEP-RE",
+    "db_name": "shadow_eep_re_s2"
+  },
+  {
+    "env": "STG2",
+    "system": "shadow-fep",
+    "subsystem_name": "SHADOW-FEP",
+    "db_name": "shadow_fep_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "shadow-fep-re",
+    "subsystem_name": "SHADOW-FEP-RE",
+    "db_name": "shadow_fep_re_s2"
+  },
+  {
+    "env": "STG2",
+    "system": "shadow-rfs",
+    "subsystem_name": "SHADOW-RFS",
+    "db_name": "shadow_rfs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "shadow-rfs-re",
+    "subsystem_name": "SHADOW-RFS-RE",
+    "db_name": "shadow_rfs_re_s2"
+  },
+  {
+    "env": "STG2",
+    "system": "sls",
+    "subsystem_name": "SLS",
+    "db_name": "sls_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "srp",
+    "subsystem_name": "SRP",
+    "db_name": "srp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "tbs",
+    "subsystem_name": "TBS",
+    "db_name": "tbs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "TEMPLATE",
+    "subsystem_name": "TEMPLATE",
+    "db_name": "template"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-0",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_0"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-1",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_1"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-2",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_2"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-3",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_3"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-4",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_4"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-5",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_5"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-6",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_6"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-7",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_7"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-sharding",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "thoth",
+    "subsystem_name": "THOTH",
+    "db_name": "thoth_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "tip",
+    "subsystem_name": "TIP",
+    "db_name": "tip"
+  },
+  {
+    "env": "STG2",
+    "system": "TOTORO",
+    "subsystem_name": "TOTORO",
+    "db_name": "totoro_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "tpay",
+    "subsystem_name": "TPAY",
+    "db_name": "tpay_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "traffic-jk",
+    "subsystem_name": "TRAFFIC-JK",
+    "db_name": "traffic_jk"
+  },
+  {
+    "env": "STG2",
+    "system": "tsign",
+    "subsystem_name": "TSIGN",
+    "db_name": "tsign_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "TYPHOON",
+    "subsystem_name": "QOA",
+    "db_name": "typhoon"
+  },
+  {
+    "env": "STG2",
+    "system": "UBAS",
+    "subsystem_name": "UBAS",
+    "db_name": "ubas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ucs",
+    "subsystem_name": "UCS",
+    "db_name": "ucs_app_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "uds",
+    "subsystem_name": "UDS",
+    "db_name": "uds_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "ulp",
+    "subsystem_name": "ULP",
+    "db_name": "ulp_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "UMS",
+    "subsystem_name": "UMS",
+    "db_name": "ums_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "UOR",
+    "subsystem_name": "UOR",
+    "db_name": "UOR"
+  },
+  {
+    "env": "STG2",
+    "system": "UTAS",
+    "subsystem_name": "UTAS",
+    "db_name": "utas_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "vip",
+    "subsystem_name": "VIP",
+    "db_name": "vip_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-0",
+    "subsystem_name": "VIP",
+    "db_name": "vip_0"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-1",
+    "subsystem_name": "VIP",
+    "db_name": "vip_1"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-2",
+    "subsystem_name": "VIP",
+    "db_name": "vip_2"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-3",
+    "subsystem_name": "VIP",
+    "db_name": "vip_3"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-sharding",
+    "subsystem_name": "VIP",
+    "db_name": "vip_sharding_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "web-cyxj",
+    "subsystem_name": "JRKJ-BANK",
+    "db_name": "web_cyxj"
+  },
+  {
+    "env": "STG2",
+    "system": "web-jietiao-1",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao_1"
+  },
+  {
+    "env": "STG2",
+    "system": "weloan",
+    "subsystem_name": "WELOAN",
+    "db_name": "weloan_2"
+  },
+  {
+    "env": "STG2",
+    "system": "weloan-pboc2",
+    "subsystem_name": "WELOAN-PBOC",
+    "db_name": "weloan_pboc2_2"
+  },
+  {
+    "env": "STG2",
+    "system": "wxs",
+    "subsystem_name": "WXS",
+    "db_name": "wxs_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-bolt",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_bolt"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-canal",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_canal"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dam",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dam"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dds",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dds"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dis",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dis"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dmgnew",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dmgnew"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-eep",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_eep"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-fep",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_fep"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-fep-pboc",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_fep_pboc"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-jds",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_jds"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-kael",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_kael"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-rtos",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_rtos"
+  },
+  {
+    "env": "STG3",
+    "system": "absm",
+    "subsystem_name": "ABS",
+    "db_name": "abs3"
+  },
+  {
+    "env": "STG3",
+    "system": "abtest",
+    "subsystem_name": "ABTEST",
+    "db_name": "abtest_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "acs",
+    "subsystem_name": "ACS",
+    "db_name": "acs_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "aegis",
+    "subsystem_name": "AEGIS",
+    "db_name": "aegis_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "aegis-core",
+    "subsystem_name": "AEGIS",
+    "db_name": "aegis_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "AGS",
+    "subsystem_name": "AGS",
+    "db_name": "ags_a_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-b",
+    "subsystem_name": "AGS",
+    "db_name": "ags_b_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa0",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa0_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa1",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa1_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa2",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa2_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa3",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa3_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa4",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa4_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa5",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa5_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa6",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa6_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sa7",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa7_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sharding",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sharding_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "amls",
+    "subsystem_name": "SRP",
+    "db_name": "amls"
+  },
+  {
+    "env": "STG3",
+    "system": "AMS",
+    "subsystem_name": "AMS",
+    "db_name": "ams_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-b",
+    "subsystem_name": "AMS",
+    "db_name": "ams_b_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa0",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa0_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa1",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa1_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa2",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa2_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa3",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa3_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa4",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa4_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa5",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa5_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa6",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa6_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sa7",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa7_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sharding",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sharding_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ana-cyxj",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "ana_cyxj"
+  },
+  {
+    "env": "STG3",
+    "system": "aps",
+    "subsystem_name": "APS",
+    "db_name": "aps_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "APV",
+    "subsystem_name": "APV",
+    "db_name": "apv_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-0",
+    "subsystem_name": "APV",
+    "db_name": "apv_0"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-1",
+    "subsystem_name": "APV",
+    "db_name": "apv_1"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-2",
+    "subsystem_name": "APV",
+    "db_name": "apv_2"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-3",
+    "subsystem_name": "APV",
+    "db_name": "apv_3"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-4",
+    "subsystem_name": "APV",
+    "db_name": "apv_4"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-5",
+    "subsystem_name": "APV",
+    "db_name": "apv_5"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-6",
+    "subsystem_name": "APV",
+    "db_name": "apv_6"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-7",
+    "subsystem_name": "APV",
+    "db_name": "apv_7"
+  },
+  {
+    "env": "STG3",
+    "system": "APV-CP",
+    "subsystem_name": "APV",
+    "db_name": "apv_cp_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "APV-CT",
+    "subsystem_name": "APV",
+    "db_name": "apv_ct_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-sharding",
+    "subsystem_name": "APV",
+    "db_name": "apv_sharding_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-tidb",
+    "subsystem_name": "APV",
+    "db_name": "tidb_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-wf",
+    "subsystem_name": "APV",
+    "db_name": "apv_wf_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ares",
+    "subsystem_name": "ARES",
+    "db_name": "ares_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ARRCOLL",
+    "subsystem_name": "ARRCOLL",
+    "db_name": "arrcoll_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "automl",
+    "subsystem_name": "AUTOML",
+    "db_name": "automl"
+  },
+  {
+    "env": "STG3",
+    "system": "bas",
+    "subsystem_name": "BAS",
+    "db_name": "bas_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "bell",
+    "subsystem_name": "BELL",
+    "db_name": "bell_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "BMS",
+    "subsystem_name": "BMS",
+    "db_name": "bms_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "bps",
+    "subsystem_name": "BPS",
+    "db_name": "bps_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "btl",
+    "subsystem_name": "BTL",
+    "db_name": "btl_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "btl-agentx",
+    "subsystem_name": "BTL",
+    "db_name": "btl_agentx"
+  },
+  {
+    "env": "STG1",
+    "system": "rts-flow",
+    "subsystem_name": "RTOS",
+    "db_name": "rts_flow_db"
+  },
+  {
+    "env": "STG2",
+    "system": "morphling",
+    "subsystem_name": "MORPHLING",
+    "db_name": "indic_pre"
+  },
+  {
+    "env": "STG3",
+    "system": "ipay-p",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "amls",
+    "subsystem_name": "SRP",
+    "db_name": "amls_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "absm",
+    "subsystem_name": "ABS",
+    "db_name": "abs1"
+  },
+  {
+    "env": "STG2",
+    "system": "absm",
+    "subsystem_name": "ABS",
+    "db_name": "abs2"
+  },
+  {
+    "env": "STG3",
+    "system": "absm",
+    "subsystem_name": "ABS",
+    "db_name": "abs3"
+  },
+  {
+    "env": "STG1",
+    "system": "ipay-p-abandoned",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p"
+  },
+  {
+    "env": "STG2",
+    "system": "ipay-p-abandoned",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p"
+  },
+  {
+    "env": "STG1",
+    "system": "ipay-p",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "ipay-p",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-busi",
+    "subsystem_name": "ICE-BUSINESS",
+    "db_name": "ice_busi_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-busi",
+    "subsystem_name": "ICE-BUSINESS",
+    "db_name": "ice_busi_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-busi",
+    "subsystem_name": "ICE-BUSINESS",
+    "db_name": "ice_busi_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "apolloconfig-fat",
+    "subsystem_name": "APOLLO",
+    "db_name": "apolloconfig_fat"
+  },
+  {
+    "env": "STG1",
+    "system": "qbi",
+    "subsystem_name": "QBI",
+    "db_name": "qbi_test"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dds",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dds"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-bolt",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_bolt"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-canal",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_canal"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dam",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dam"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dis",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dis"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-dmgnew",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_dmgnew"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-eep",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_eep"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-fep",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_fep"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-fep-pboc",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_fep_pboc"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-jds",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_jds"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-kael",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_kael"
+  },
+  {
+    "env": "STG2",
+    "system": "yushu-tob-rtos",
+    "subsystem_name": "TOB-YUSHU",
+    "db_name": "yushu_rtos"
+  },
+  {
+    "env": "STG3",
+    "system": "moonbox",
+    "subsystem_name": "QOA",
+    "db_name": "moonbox"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa7",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa7_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa6",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa6_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa5",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa5_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa4",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa4_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa3",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa3_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa2",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa2_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa1",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa1_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sa0",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sa0_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "APV-CT",
+    "subsystem_name": "APV",
+    "db_name": "apv_ct_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-wf",
+    "subsystem_name": "APV",
+    "db_name": "apv_wf"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-4",
+    "subsystem_name": "APV",
+    "db_name": "apv_4"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa0"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa2"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa3"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa4"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa5"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa6"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sa7"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa0_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa1_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa2_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa3_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa4_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa5_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa6_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sa7_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa0",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa0"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa1",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa1"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa2",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa2"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa3",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa3"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa4",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa4"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa5",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa5"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa6",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa6"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sa7",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sa7"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa0",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa0_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa1",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa1_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa2",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa2_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa3",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa3_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa4",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa4_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa5",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa5_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa6",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa6_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sa7",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sa7_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-0",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_0"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-1",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_1"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-2",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_2"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-3",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_3"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-4",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_4"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-5",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_5"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-6",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_6"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-7",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_7"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-0",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_0"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-1",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_1"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-2",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_2"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-3",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_3"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-4",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_4"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-5",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_5"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-6",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_6"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-7",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_7"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-0",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_0"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-1",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_1"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-2",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_2"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-3",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_3"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-4",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_4"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-5",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_5"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-6",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_6"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-7",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_7"
+  },
+  {
+    "env": "STG1",
+    "system": "rtds",
+    "subsystem_name": "RTDS",
+    "db_name": "rtds"
+  },
+  {
+    "env": "STG3",
+    "system": "mtd-jc",
+    "subsystem_name": "MTD-JC",
+    "db_name": "mtd_jc_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "mtd-jc",
+    "subsystem_name": "MTD-JC",
+    "db_name": "mtd_jc_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "mtd-jc",
+    "subsystem_name": "MTD-JC",
+    "db_name": "mtd_jc_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "RIDER",
+    "subsystem_name": "RIDER",
+    "db_name": "rider_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "CRS-QUERY",
+    "subsystem_name": "CRS",
+    "db_name": "crs_query_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "EEP",
+    "subsystem_name": "EEP",
+    "db_name": "eep_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "web-jietiao-1",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao_1"
+  },
+  {
+    "env": "STG2",
+    "system": "web-jietiao-1",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao_1"
+  },
+  {
+    "env": "STG3",
+    "system": "web-jietiao-1",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao_1"
+  },
+  {
+    "env": "STG3",
+    "system": "cas-wf",
+    "subsystem_name": "CAS",
+    "db_name": "cas_wf_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-wf",
+    "subsystem_name": "CAS",
+    "db_name": "cas_wf_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-wf",
+    "subsystem_name": "CAS",
+    "db_name": "cas_wf_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "fintell-credit-api",
+    "subsystem_name": "PBOC-PLATFORM",
+    "db_name": "pboc_platform"
+  },
+  {
+    "env": "STG1",
+    "system": "credit-api",
+    "subsystem_name": "CREDIT-PLATFORM",
+    "db_name": "credit_platform"
+  },
+  {
+    "env": "STG3",
+    "system": "web-cyxj",
+    "subsystem_name": "JRKJ-BANK",
+    "db_name": "web_cyxj"
+  },
+  {
+    "env": "STG2",
+    "system": "web-cyxj",
+    "subsystem_name": "JRKJ-BANK",
+    "db_name": "web_cyxj"
+  },
+  {
+    "env": "STG1",
+    "system": "web-cyxj",
+    "subsystem_name": "JRKJ-BANK",
+    "db_name": "web_cyxj"
+  },
+  {
+    "env": "STG1",
+    "system": "confluence-app",
+    "subsystem_name": "QOA",
+    "db_name": "jira"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-sem",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_sem"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-sem",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_sem"
+  },
+  {
+    "env": "STG3",
+    "system": "ecs-sem",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_sem"
+  },
+  {
+    "env": "STG2",
+    "system": "investorals",
+    "subsystem_name": "INVESTORALS",
+    "db_name": "investorals_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "investor-als",
+    "subsystem_name": "INVESTORALS",
+    "db_name": "investorals_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "graphx",
+    "subsystem_name": "GRAPHX",
+    "db_name": "graphx"
+  },
+  {
+    "env": "STG2",
+    "system": "graphx",
+    "subsystem_name": "GRAPHX",
+    "db_name": "graphx"
+  },
+  {
+    "env": "STG1",
+    "system": "graphx",
+    "subsystem_name": "GRAPHX",
+    "db_name": "graphx"
+  },
+  {
+    "env": "STG2",
+    "system": "hive-meta",
+    "subsystem_name": "JDS",
+    "db_name": "hive_meta"
+  },
+  {
+    "env": "STG1",
+    "system": "cliok",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliok_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "cliok",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliok_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "cliok",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliok_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "cliok-external",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliokexter_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "cliok-external",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliokexter_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "cliok-external",
+    "subsystem_name": "MTD-JC",
+    "db_name": "cliokexter_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "traffic-jk",
+    "subsystem_name": "TRAFFIC-JK",
+    "db_name": "traffic_jk"
+  },
+  {
+    "env": "STG3",
+    "system": "traffic-jk",
+    "subsystem_name": "TRAFFIC-JK",
+    "db_name": "traffic_jk"
+  },
+  {
+    "env": "STG2",
+    "system": "traffic-jk",
+    "subsystem_name": "TRAFFIC-JK",
+    "db_name": "traffic_jk"
+  },
+  {
+    "env": "STG1",
+    "system": "bas",
+    "subsystem_name": "BAS",
+    "db_name": "bas_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "bas",
+    "subsystem_name": "BAS",
+    "db_name": "bas_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "bas",
+    "subsystem_name": "BAS",
+    "db_name": "bas_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "mms-4",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg3_4"
+  },
+  {
+    "env": "STG3",
+    "system": "mms-5",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg3_5"
+  },
+  {
+    "env": "STG3",
+    "system": "mms-6",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg3_6"
+  },
+  {
+    "env": "STG3",
+    "system": "mms-7",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg3_7"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-4",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_4"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-5",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_5"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-6",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_6"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-7",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg2_7"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-4",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_4"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-5",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_5"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-6",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_6"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-7",
+    "subsystem_name": "MMS",
+    "db_name": "mms_stg1_7"
+  },
+  {
+    "env": "STG1",
+    "system": "reports",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "reports"
+  },
+  {
+    "env": "STG2",
+    "system": "reports",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "reports"
+  },
+  {
+    "env": "STG3",
+    "system": "reports",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "reports"
+  },
+  {
+    "env": "STG1",
+    "system": "ics-b-r",
+    "subsystem_name": "ICS",
+    "db_name": "ics_b_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "EEP",
+    "subsystem_name": "EEP",
+    "db_name": "eep_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "osd-admin",
+    "subsystem_name": "OSD",
+    "db_name": "osd"
+  },
+  {
+    "env": "STG2",
+    "system": "frs-aw-2024",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_2024"
+  },
+  {
+    "env": "STG3",
+    "system": "frs-aw-2024",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_2024"
+  },
+  {
+    "env": "STG1",
+    "system": "frs-aw-2024",
+    "subsystem_name": "FRS",
+    "db_name": "frs_aw_2024"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-0",
+    "subsystem_name": "VIP",
+    "db_name": "vip_0"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-1",
+    "subsystem_name": "VIP",
+    "db_name": "vip_1"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-2",
+    "subsystem_name": "VIP",
+    "db_name": "vip_2"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-3",
+    "subsystem_name": "VIP",
+    "db_name": "vip_3"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-0",
+    "subsystem_name": "VIP",
+    "db_name": "vip_0"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-1",
+    "subsystem_name": "VIP",
+    "db_name": "vip_1"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-2",
+    "subsystem_name": "VIP",
+    "db_name": "vip_2"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-3",
+    "subsystem_name": "VIP",
+    "db_name": "vip_3"
+  },
+  {
+    "env": "STG3",
+    "system": "vip-0",
+    "subsystem_name": "VIP",
+    "db_name": "vip_0"
+  },
+  {
+    "env": "STG3",
+    "system": "vip-1",
+    "subsystem_name": "VIP",
+    "db_name": "vip_1"
+  },
+  {
+    "env": "STG3",
+    "system": "vip-2",
+    "subsystem_name": "VIP",
+    "db_name": "vip_2"
+  },
+  {
+    "env": "STG3",
+    "system": "vip-3",
+    "subsystem_name": "VIP",
+    "db_name": "vip_3"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-batch",
+    "subsystem_name": "CAS",
+    "db_name": "cas_batch_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-batch",
+    "subsystem_name": "CAS",
+    "db_name": "cas_batch_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "cas-batch",
+    "subsystem_name": "CAS",
+    "db_name": "cas_batch_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-0",
+    "subsystem_name": "APV",
+    "db_name": "apv_0"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-1",
+    "subsystem_name": "APV",
+    "db_name": "apv_1"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-2",
+    "subsystem_name": "APV",
+    "db_name": "apv_2"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-3",
+    "subsystem_name": "APV",
+    "db_name": "apv_3"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-5",
+    "subsystem_name": "APV",
+    "db_name": "apv_5"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-6",
+    "subsystem_name": "APV",
+    "db_name": "apv_6"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-7",
+    "subsystem_name": "APV",
+    "db_name": "apv_7"
+  },
+  {
+    "env": "STG1",
+    "system": "vip-sharding",
+    "subsystem_name": "VIP",
+    "db_name": "vip_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "vip-sharding",
+    "subsystem_name": "VIP",
+    "db_name": "vip_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "vip-sharding",
+    "subsystem_name": "VIP",
+    "db_name": "vip_sharding_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "lcs-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sharding_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "lcs-rp-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sharding_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "ags-sharding",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sharding_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "ags-sharding",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sharding_stg1"
+  },
+  {
+    "env": "STG3",
+    "system": "ags-sharding",
+    "subsystem_name": "AGS",
+    "db_name": "ags_sharding_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sharding_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_sharding_stg1"
+  },
+  {
+    "env": "STG3",
+    "system": "ams-sharding",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sharding_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "ams-sharding",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sharding_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "ams-sharding",
+    "subsystem_name": "AMS",
+    "db_name": "ams_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "imgp-sharding",
+    "subsystem_name": "IMGP",
+    "db_name": "imgp_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "imgp-sharding",
+    "subsystem_name": "IMGP",
+    "db_name": "imgp_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "imgp-sharding",
+    "subsystem_name": "IMGP",
+    "db_name": "imgp_sharding_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-rp-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-rp-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_rp_sharding_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "apv-sharding",
+    "subsystem_name": "APV",
+    "db_name": "apv_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "apv-sharding",
+    "subsystem_name": "APV",
+    "db_name": "apv_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "apv-sharding",
+    "subsystem_name": "APV",
+    "db_name": "apv_sharding_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "cas-sharding",
+    "subsystem_name": "CAS",
+    "db_name": "cas_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "cas-sharding",
+    "subsystem_name": "CAS",
+    "db_name": "cas_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "cas-sharding",
+    "subsystem_name": "CAS",
+    "db_name": "cas_sharding_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "ipay-p-sharding",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_sharding_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "ipay-p-sharding",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_sharding_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "ipay-p-sharding",
+    "subsystem_name": "IPAY",
+    "db_name": "ipay_p_sharding_stg1"
+  },
+  {
+    "env": "STG3",
+    "system": "mms-sharding",
+    "subsystem_name": "MMS",
+    "db_name": "mms_sharding_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "mms-sharding",
+    "subsystem_name": "MMS",
+    "db_name": "mms_sharding_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "mms-sharding",
+    "subsystem_name": "MMS",
+    "db_name": "mms_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "lps-sharding",
+    "subsystem_name": "LPS",
+    "db_name": "lps_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "lps-sharding",
+    "subsystem_name": "LPS",
+    "db_name": "lps_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "lps-sharding",
+    "subsystem_name": "LPS",
+    "db_name": "lps_sharding_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "cis-sharding",
+    "subsystem_name": "CIS",
+    "db_name": "cis_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "cis-sharding",
+    "subsystem_name": "CIS",
+    "db_name": "cis_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "cis-sharding",
+    "subsystem_name": "CIS",
+    "db_name": "cis_sharding_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "lcs-batch-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "lcs-batch-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "lcs-batch-sharding",
+    "subsystem_name": "LCS",
+    "db_name": "lcs_batch_sharding_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "jira-dc",
+    "subsystem_name": "QOA",
+    "db_name": "jira_dc"
+  },
+  {
+    "env": "STG3",
+    "system": "leads-be",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_be_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "leads-crm",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_crm_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "tfs-sharding",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_sharding_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "tfs-sharding",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "tfs-sharding",
+    "subsystem_name": "TFS",
+    "db_name": "tfs_sharding_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-crm",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_crm_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-be",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_be_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-crm",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_crm_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-be",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_be_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "counter",
+    "subsystem_name": "COUNTER",
+    "db_name": "counter"
+  },
+  {
+    "env": "STG2",
+    "system": "counter",
+    "subsystem_name": "COUNTER",
+    "db_name": "counter"
+  },
+  {
+    "env": "STG3",
+    "system": "counter",
+    "subsystem_name": "COUNTER",
+    "db_name": "counter"
+  },
+  {
+    "env": "STG3",
+    "system": "ecs-oss",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_oss"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-oss",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_oss"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-oss",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_oss"
+  },
+  {
+    "env": "STG1",
+    "system": "osf",
+    "subsystem_name": "OSF",
+    "db_name": "osf_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "osf",
+    "subsystem_name": "OSF",
+    "db_name": "osf_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "osf",
+    "subsystem_name": "OSF",
+    "db_name": "osf_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "osa",
+    "subsystem_name": "OSA",
+    "db_name": "osa_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "osa",
+    "subsystem_name": "OSA",
+    "db_name": "osa_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "osa",
+    "subsystem_name": "OSA",
+    "db_name": "osa_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "dpm",
+    "subsystem_name": "DPM",
+    "db_name": "dpm_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "dpm",
+    "subsystem_name": "DPM",
+    "db_name": "dpm_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "dpm",
+    "subsystem_name": "DPM",
+    "db_name": "dpm_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "pe",
+    "subsystem_name": "PE",
+    "db_name": "pe_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "pe",
+    "subsystem_name": "PE",
+    "db_name": "pe_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "pe",
+    "subsystem_name": "PE",
+    "db_name": "pe_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "cmf",
+    "subsystem_name": "CMF",
+    "db_name": "cmf_stg1"
+  },
+  {
+    "env": "STG3",
+    "system": "cmf",
+    "subsystem_name": "CMF",
+    "db_name": "cmf_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "cmf",
+    "subsystem_name": "CMF",
+    "db_name": "cmf_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "fp",
+    "subsystem_name": "FP",
+    "db_name": "fp_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "fp",
+    "subsystem_name": "FP",
+    "db_name": "fp_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "fp",
+    "subsystem_name": "FP",
+    "db_name": "fp_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "fpas",
+    "subsystem_name": "LPS",
+    "db_name": "fpas"
+  },
+  {
+    "env": "STG2",
+    "system": "fpas",
+    "subsystem_name": "LPS",
+    "db_name": "fpas"
+  },
+  {
+    "env": "STG3",
+    "system": "fpas",
+    "subsystem_name": "LPS",
+    "db_name": "fpas"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-obas",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_obas"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-obas",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_obas"
+  },
+  {
+    "env": "STG3",
+    "system": "ecs-obas",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_obas"
+  },
+  {
+    "env": "STG1",
+    "system": "ana-cyxj",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "ana_cyxj"
+  },
+  {
+    "env": "STG2",
+    "system": "ana-cyxj",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "ana_cyxj"
+  },
+  {
+    "env": "STG3",
+    "system": "ana-cyxj",
+    "subsystem_name": "JRKJ-REPORT",
+    "db_name": "ana_cyxj"
+  },
+  {
+    "env": "STG1",
+    "system": "jrkj2",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao"
+  },
+  {
+    "env": "STG2",
+    "system": "jrkj2",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao"
+  },
+  {
+    "env": "STG3",
+    "system": "jrkj2",
+    "subsystem_name": "JRKJ2",
+    "db_name": "web_jietiao"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-mce",
+    "subsystem_name": "ECS",
+    "db_name": "mce"
+  },
+  {
+    "env": "STG2",
+    "system": "ecs-mce",
+    "subsystem_name": "ECS",
+    "db_name": "mce"
+  },
+  {
+    "env": "STG3",
+    "system": "ecs-mce",
+    "subsystem_name": "ECS",
+    "db_name": "mce"
+  },
+  {
+    "env": "STG1",
+    "system": "product-platform",
+    "subsystem_name": "PBOC-PLATFORM",
+    "db_name": "flink_test"
+  },
+  {
+    "env": "STG2",
+    "system": "qbi",
+    "subsystem_name": "QBI",
+    "db_name": "qbi_test"
+  },
+  {
+    "env": "STG2",
+    "system": "cadc",
+    "subsystem_name": "CADC",
+    "db_name": "cadc"
+  },
+  {
+    "env": "STG3",
+    "system": "cadc",
+    "subsystem_name": "CADC",
+    "db_name": "cadc"
+  },
+  {
+    "env": "STG1",
+    "system": "cadc",
+    "subsystem_name": "CADC",
+    "db_name": "cadc"
+  },
+  {
+    "env": "STG3",
+    "system": "gws-os",
+    "subsystem_name": "GWS-OS",
+    "db_name": "gws_os_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "tip",
+    "subsystem_name": "TIP",
+    "db_name": "tip"
+  },
+  {
+    "env": "STG2",
+    "system": "tip",
+    "subsystem_name": "TIP",
+    "db_name": "tip"
+  },
+  {
+    "env": "STG1",
+    "system": "cap-mon",
+    "subsystem_name": "CAPACITY-MONITOR",
+    "db_name": "cap_mon"
+  },
+  {
+    "env": "STG2",
+    "system": "btl-agentx",
+    "subsystem_name": "BTL",
+    "db_name": "btl_agentx"
+  },
+  {
+    "env": "STG1",
+    "system": "btl-agentx",
+    "subsystem_name": "BTL",
+    "db_name": "btl_agentx"
+  },
+  {
+    "env": "STG3",
+    "system": "btl-agentx",
+    "subsystem_name": "BTL",
+    "db_name": "btl_agentx"
+  },
+  {
+    "env": "STG2",
+    "system": "evps",
+    "subsystem_name": "PPS",
+    "db_name": "evps_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "evps",
+    "subsystem_name": "PPS",
+    "db_name": "evps_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "crs-query",
+    "subsystem_name": "CRS",
+    "db_name": "crs_query_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa0",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa0_st1"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa0",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa0_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa1",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa1_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa2",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa2_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa3",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa3_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa4",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa4_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa5",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa5_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa6",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa6_st2"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sa7",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa7_st2"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa0",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa0_st3"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa1",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa1_st3"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa2",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa2_st3"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa3",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa3_st3"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa4",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa4_st3"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa5",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa5_st3"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa6",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa6_st3"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sa7",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa7_st3"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa1",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa1_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa2",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa2_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa3",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa3_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa4",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa4_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa5",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa5_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa6",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa6_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sa7",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sa7_st1"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-core",
+    "subsystem_name": "LEADS-CORE",
+    "db_name": "leads_core_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-core",
+    "subsystem_name": "LEADS-CORE",
+    "db_name": "leads_core_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "leads-core",
+    "subsystem_name": "LEADS-CORE",
+    "db_name": "leads_core_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "leads-pfs",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_pfs"
+  },
+  {
+    "env": "STG2",
+    "system": "leads-pfs",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_pfs"
+  },
+  {
+    "env": "STG3",
+    "system": "leads-pfs",
+    "subsystem_name": "LEADS",
+    "db_name": "leads_pfs"
+  },
+  {
+    "env": "STG1",
+    "system": "evps",
+    "subsystem_name": "PPS",
+    "db_name": "evps"
+  },
+  {
+    "env": "STG3",
+    "system": "osfx",
+    "subsystem_name": "OSFX",
+    "db_name": "osfx_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "osrpt",
+    "subsystem_name": "OSRPT",
+    "db_name": "osrpt_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "frs-hub",
+    "subsystem_name": "FRS-DB",
+    "db_name": "frs_hub_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "QOA-WRITE-TESTCASE",
+    "subsystem_name": "QOA",
+    "db_name": "qoa_testcase"
+  },
+  {
+    "env": "STG2",
+    "system": "QOA-WRITE",
+    "subsystem_name": "QOA",
+    "db_name": "qoa"
+  },
+  {
+    "env": "STG2",
+    "system": "QOA-WRITE-BIG",
+    "subsystem_name": "QOA",
+    "db_name": "code_coverage"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-core-sharding",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sharding_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "pmds",
+    "subsystem_name": "PMDS",
+    "db_name": "pmds"
+  },
+  {
+    "env": "STG2",
+    "system": "pmds",
+    "subsystem_name": "PMDS",
+    "db_name": "pmds"
+  },
+  {
+    "env": "STG3",
+    "system": "pmds",
+    "subsystem_name": "PMDS",
+    "db_name": "pmds"
+  },
+  {
+    "env": "STG1",
+    "system": "dia-be",
+    "subsystem_name": "DIA",
+    "db_name": "dia"
+  },
+  {
+    "env": "STG2",
+    "system": "osfx",
+    "subsystem_name": "OSFX",
+    "db_name": "osfx_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "gws-os",
+    "subsystem_name": "GWS-OS",
+    "db_name": "gws_os_stg2"
+  },
+  {
+    "env": "STG2",
+    "system": "osrpt",
+    "subsystem_name": "OSRPT",
+    "db_name": "osrpt_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "GWS-LCS",
+    "subsystem_name": "GWS-LCS",
+    "db_name": "gws_stg3"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-core-sharding",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sharding_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-core-sharding",
+    "subsystem_name": "ICE-CORE",
+    "db_name": "ice_core_sharding_stg3"
+  },
+  {
+    "env": "STG3",
+    "system": "pms-app",
+    "subsystem_name": "PMS-JK",
+    "db_name": "web_jietiao"
+  },
+  {
+    "env": "STG1",
+    "system": "dsphere",
+    "subsystem_name": "DSPHERE",
+    "db_name": "dsphere_stg1"
+  },
+  {
+    "env": "STG1",
+    "system": "dfoundry",
+    "subsystem_name": "DFOUNDRY",
+    "db_name": "dfoundry_stg1"
+  },
+  {
+    "env": "STG3",
+    "system": "plms",
+    "subsystem_name": "PLMS",
+    "db_name": "plms_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "pms-jk",
+    "subsystem_name": "PMS-JK",
+    "db_name": "pms"
+  },
+  {
+    "env": "STG2",
+    "system": "pms-jk",
+    "subsystem_name": "PMS-JK",
+    "db_name": "pms"
+  },
+  {
+    "env": "STG3",
+    "system": "pms-jk",
+    "subsystem_name": "PMS-JK",
+    "db_name": "pms"
+  },
+  {
+    "env": "STG1",
+    "system": "plms",
+    "subsystem_name": "PLMS",
+    "db_name": "plms_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "plms",
+    "subsystem_name": "PLMS",
+    "db_name": "plms_stg2"
+  },
+  {
+    "env": "STG1",
+    "system": "probe",
+    "subsystem_name": "PROBE",
+    "db_name": "probe"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-lps",
+    "subsystem_name": "ECS",
+    "db_name": "ecs_lps"
+  },
+  {
+    "env": "STG1",
+    "system": "KOALA",
+    "subsystem_name": "KOALA",
+    "db_name": "koala_sql"
+  },
+  {
+    "env": "STG2",
+    "system": "KOALA",
+    "subsystem_name": "KOALA",
+    "db_name": "koala_sql"
+  },
+  {
+    "env": "STG3",
+    "system": "KOALA",
+    "subsystem_name": "KOALA",
+    "db_name": "koala_sql"
+  },
+  {
+    "env": "STG1",
+    "system": "dam-b",
+    "subsystem_name": "DAM",
+    "db_name": "dam_b"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu7",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_7"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu6",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_6"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu5",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_5"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu4",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_4"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu3",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_3"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu2",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_2"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu1",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_1"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-nu0",
+    "subsystem_name": "DMP",
+    "db_name": "dmnump_0"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa7",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa7"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa6",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa6"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa5",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa5"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa4",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa4"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa3",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa3"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa2",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa2"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa1",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa1"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-sa0",
+    "subsystem_name": "DMP",
+    "db_name": "dmsap_sa0"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-2",
+    "subsystem_name": "DMP",
+    "db_name": "dmpp_b"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-1",
+    "subsystem_name": "DMP",
+    "db_name": "dmpp"
+  },
+  {
+    "env": "STG1",
+    "system": "lfs-c",
+    "subsystem_name": "LFS",
+    "db_name": "lfs_c_stg1"
+  },
+  {
+    "env": "STG2",
+    "system": "lfs-c",
+    "subsystem_name": "LFS",
+    "db_name": "lfs_c_stg2"
+  },
+  {
+    "env": "STG3",
+    "system": "lfs-c",
+    "subsystem_name": "LFS",
+    "db_name": "lfs_c_stg3"
+  },
+  {
+    "env": "STG1",
+    "system": "dmp-te",
+    "subsystem_name": "DMP",
+    "db_name": "dmp_te"
+  },
+  {
+    "env": "STG3",
+    "system": "ice-pfs-flow",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_flow"
+  },
+  {
+    "env": "STG2",
+    "system": "ice-pfs-flow",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_flow"
+  },
+  {
+    "env": "STG1",
+    "system": "ice-pfs-flow",
+    "subsystem_name": "ICE-PFS",
+    "db_name": "ice_pfs_flow"
+  },
+  {
+    "env": "STG1",
+    "system": "jrops",
+    "subsystem_name": "JROPS",
+    "db_name": "jrops"
+  },
+  {
+    "env": "STG1",
+    "system": "prboe-1",
+    "subsystem_name": "PROBE",
+    "db_name": "probe_1"
+  },
+  {
+    "env": "STG1",
+    "system": "probe-2",
+    "subsystem_name": "PROBE",
+    "db_name": "probe_2"
+  },
+  {
+    "env": "STG1",
+    "system": "ecs-ob",
+    "subsystem_name": "ECS",
+    "db_name": "lps_obas"
+  }
+]

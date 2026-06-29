@@ -1,0 +1,1924 @@
+{
+  "requirement_id": "NREQUEST-49267",
+  "story_id": "JYSG-148994",
+  "requirement_title": "aps库大表order_repay_withhold冷热分离治理",
+  "channel": "XingXuan",
+  "app_id": "TTXX360",
+  "app": "aps-app",
+  "service_name": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+  "dispatch_method": "orderRequestHandlerMap",
+  "invoke_mode": "invokeFacade",
+  "env": "STG2",
+  "generated_at": "2026-06-14",
+  "generated_by": "test-mapper (main session direct)",
+  "matching_summary": {
+    "total_cases": 14,
+    "matched_interfaces": 2,
+    "match_source": "testmind:auto-interface-list 平台接口列表匹配",
+    "interfaces": [
+      {
+        "platform_id": 21203,
+        "platform_name": "星选还款通知",
+        "method": "repayNotify",
+        "label": "还款通知接口（写入）",
+        "role": "写入触发",
+        "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+        "dispatch": "orderRequestHandlerMap",
+        "appId": "TTXX360",
+        "inputs": [
+          "order_no",
+          "amount",
+          "account_id",
+          "trade_time",
+          "repay_order_id",
+          "loan_id"
+        ],
+        "writes_to": [
+          "order_repay_withhold",
+          "order_repay_withhold_hot",
+          "order_repay_withhold_backup"
+        ],
+        "write_routing": "由 Apollo aps.apollo.config.repayWithholdWriteMode 决定"
+      },
+      {
+        "platform_id": 21204,
+        "platform_name": "星选还款通知查询",
+        "method": "pullRepayNotify",
+        "label": "还款结果查询接口（读取）",
+        "role": "读取验证",
+        "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+        "dispatch": "orderRequestHandlerMap",
+        "appId": "TTXX360",
+        "inputs": [
+          "account_id",
+          "repay_order_id"
+        ],
+        "reads_from": [
+          "order_repay_withhold",
+          "order_repay_withhold_hot",
+          "order_repay_withhold_backup"
+        ],
+        "read_routing": "由 Apollo aps.apollo.function.switch.repayWithholdReadNew 决定"
+      }
+    ],
+    "unmatched_steps": 2,
+    "unmatched_reason": "监控用例需要通过SQL直接操作DB触发，不经过渠道接口"
+  },
+  "apollo_configs": [
+    {
+      "key": "aps.apollo.config.repayWithholdWriteMode",
+      "type": "String",
+      "default": "OLD_ONLY",
+      "options": [
+        "OLD_ONLY",
+        "TRIPLE",
+        "DUAL"
+      ],
+      "description": "写入模式路由"
+    },
+    {
+      "key": "aps.apollo.function.switch.repayWithholdReadNew",
+      "type": "boolean",
+      "default": false,
+      "options": [
+        true,
+        false
+      ],
+      "description": "读取路由开关"
+    },
+    {
+      "key": "aps.apollo.function.switch.repayWithholdObWriteLog",
+      "type": "boolean",
+      "default": false,
+      "options": [
+        true,
+        false
+      ],
+      "description": "OB写入日志开关"
+    },
+    {
+      "key": "aps.apollo.function.switch.repayWithholdObReadLog",
+      "type": "boolean",
+      "default": false,
+      "options": [
+        true,
+        false
+      ],
+      "description": "OB读取日志开关"
+    },
+    {
+      "key": "aps.switch.control.monitorEnabled",
+      "type": "boolean",
+      "default": false,
+      "options": [
+        true,
+        false
+      ],
+      "description": "历史数据监控开关"
+    },
+    {
+      "key": "aps.switch.control.monitorDayDiff",
+      "type": "int",
+      "default": 1,
+      "options": "正整数",
+      "description": "监控差值天数阈值"
+    }
+  ],
+  "db_tables": [
+    {
+      "table": "order_repay_withhold",
+      "database": "aps",
+      "subsystem": "aps-app",
+      "role": "旧MySQL表（写入路由=OLD_ONLY时写入，readNew=false时读取）",
+      "key_field": "id"
+    },
+    {
+      "table": "order_repay_withhold_hot",
+      "database": "aps",
+      "subsystem": "aps-app",
+      "role": "新MySQL热表（writeMode=TRIPLE/DUAL时写入，readNew=true时优先读取）",
+      "key_field": "id"
+    },
+    {
+      "table": "order_repay_withhold_backup",
+      "database": "OB库",
+      "subsystem": "apss-ob",
+      "role": "OceanBase备份表（writeMode=TRIPLE/DUAL时异步写入，热表miss时穿透读取）",
+      "key_field": "id",
+      "note": "异步写入，需等待3-5秒"
+    }
+  ],
+  "io_bindings": {
+    "dependency_chain": {
+      "repayNotify": {
+        "produces": [
+          "repay_order_id",
+          "repay_tran_no",
+          "account_id"
+        ],
+        "source": "response.data"
+      },
+      "db_queries": {
+        "consumes": [
+          "repay_order_id",
+          "repay_tran_no"
+        ],
+        "source": "从 repayNotify 响应中提取"
+      },
+      "pullRepayNotify": {
+        "consumes": [
+          "repay_order_id",
+          "account_id"
+        ],
+        "source": "从 repayNotify 响应或 DB 中提取"
+      }
+    },
+    "pending_data": [
+      {
+        "field": "account_id",
+        "description": "星选测试账号ID，需从数据工厂获取或手动提供",
+        "source": "external"
+      },
+      {
+        "field": "repay_order_id",
+        "description": "还款订单号（格式 RN+日期+序列号），首次执行时由 pullRepayNotify 响应返回，后续用例可复用",
+        "source": "dynamic_from_pullRepayNotify",
+        "fallback": "可从DB中查已有数据的 repay_order_id"
+      }
+    ]
+  },
+  "log_verification": {
+    "app": "aps-app",
+    "keywords": {
+      "request_entry": "REQ 头条星选订单请求处理 params={method=",
+      "query_entry": "REQ 还款结果查询接口 请求入参",
+      "read_mode": "读取模式:NEW 或 读取模式:OLD",
+      "sql_pattern": "Preparing: SELECT ... FROM order_repay_withhold",
+      "monitor_alert": "ERR 监控order_repay_withhold表历史数据",
+      "ob_write": "OB写入",
+      "ob_read": "OB OUTREQ / OUTRESP"
+    },
+    "log_classes": {
+      "XingXuanOrderFacadeImpl:86": "请求入口日志",
+      "XingXuanOrderServicePullRepayNotify:52": "还款通知处理",
+      "OrderRepayWithholdServiceImpl:214": "读写路由判断",
+      "O.selectByRepayTranNo:139": "SQL日志"
+    }
+  },
+  "cases": [
+    {
+      "case_name": "aps冷热分离-写入-OLD_ONLY仅写旧表",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "写入路由,OLD_ONLY,星选",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "OLD_ONLY"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "io_bindings_sources": {},
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ],
+          "auto_generated_params": [
+            "repay_order_id"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "接口返回成功"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知"
+        },
+        {
+          "seq": 2,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold，确认数据写入",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "aps库旧表有数据"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold_hot，确认无数据写入",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold_hot",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "not_exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "aps库热表无数据"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "db",
+          "description": "查询apss-ob子系统OB库order_repay_withhold_backup，确认无数据写入",
+          "db_check": {
+            "subsystem": "apss-ob",
+            "database": "OB库",
+            "table": "order_repay_withhold_backup",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "not_exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "apss-ob子系统OB表无数据"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-写入-TRIPLE三写",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "写入路由,TRIPLE,三写,星选",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ],
+          "auto_generated_params": [
+            "repay_order_id"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "接口返回成功"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知"
+        },
+        {
+          "seq": 2,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold，确认写入，记录id",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "capture_fields": [
+              "id",
+              "repay_tran_no",
+              "repay_order_id"
+            ]
+          },
+          "io_bindings_sources": {
+            "repay_tran_no": "pullRepayNotify.response.repay_tran_no"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "aps库旧表+热表均落库，id一致"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold_hot，确认写入且id与旧表一致",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold_hot",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "compare": {
+              "field": "id",
+              "with_step": 2,
+              "expect": "equal"
+            }
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "aps库热表+旧表id一致"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "db",
+          "description": "等3-5秒，查询apss-ob子系统OB库order_repay_withhold_backup，确认写入且id一致",
+          "db_check": {
+            "subsystem": "apss-ob",
+            "database": "OB库",
+            "table": "order_repay_withhold_backup",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "wait_seconds": 5,
+            "compare": {
+              "field": "id",
+              "with_step": 2,
+              "expect": "equal"
+            }
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "apss-ob子系统OB表落库，id一致"
+          }
+        },
+        {
+          "seq": 5,
+          "type": "check",
+          "description": "比对三表关键字段一致",
+          "check": {
+            "tables": [
+              "order_repay_withhold",
+              "order_repay_withhold_hot",
+              "order_repay_withhold_backup"
+            ],
+            "compare_fields": [
+              "id",
+              "repay_order_id",
+              "repay_tran_no",
+              "amount",
+              "state"
+            ],
+            "expect": "all_equal"
+          },
+          "expected": {
+            "type": "check",
+            "raw_text": "三表关键字段值完全一致"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-写入-DUAL双写不写旧表",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "写入路由,DUAL,双写,星选",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "DUAL"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ],
+          "auto_generated_params": [
+            "repay_order_id"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "接口返回成功"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知"
+        },
+        {
+          "seq": 2,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold，确认无新数据",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "not_exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "aps库旧表无新数据"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold_hot，确认数据写入",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold_hot",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "capture_fields": [
+              "id",
+              "repay_tran_no"
+            ]
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "aps库热表落库"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "db",
+          "description": "等3-5秒，查询apss-ob子系统OB库order_repay_withhold_backup，确认写入",
+          "db_check": {
+            "subsystem": "apss-ob",
+            "database": "OB库",
+            "table": "order_repay_withhold_backup",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "wait_seconds": 5
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "apss-ob子系统OB表落库"
+          }
+        },
+        {
+          "seq": 5,
+          "type": "check",
+          "description": "比对热表与OB表关键字段一致",
+          "check": {
+            "tables": [
+              "order_repay_withhold_hot",
+              "order_repay_withhold_backup"
+            ],
+            "compare_fields": [
+              "id",
+              "repay_order_id",
+              "repay_tran_no",
+              "amount",
+              "state"
+            ],
+            "expect": "all_equal"
+          },
+          "expected": {
+            "type": "check",
+            "raw_text": "热表与OB表关键字段一致"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-写入-紧急回滚TRIPLE切OLD_ONLY",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "写入路由,紧急回滚,OLD_ONLY,星选",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE",
+          "note": "初始值，回滚前先确认三写正常"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "check",
+          "description": "确认TRIPLE模式下三写正常",
+          "check": "前置条件验证：当前 writeMode=TRIPLE，三表写入正常"
+        },
+        {
+          "seq": 2,
+          "type": "config",
+          "description": "Apollo修改：aps.apollo.config.repayWithholdWriteMode=OLD_ONLY",
+          "config_change": {
+            "key": "aps.apollo.config.repayWithholdWriteMode",
+            "from": "TRIPLE",
+            "to": "OLD_ONLY",
+            "wait_after_seconds": 2
+          }
+        },
+        {
+          "seq": 3,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ],
+          "auto_generated_params": [
+            "repay_order_id_new"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "接口返回成功"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知"
+        },
+        {
+          "seq": 4,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold，确认写入",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "key": "repay_tran_no = {repay_order_id_new}",
+            "expect": "exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "切换后仅aps库旧表有数据"
+          }
+        },
+        {
+          "seq": 5,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold_hot，确认无新数据",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold_hot",
+            "key": "repay_tran_no = {repay_order_id_new}",
+            "expect": "not_exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "热表无新数据"
+          }
+        },
+        {
+          "seq": 6,
+          "type": "db",
+          "description": "查询apss-ob子系统OB库，确认无新数据",
+          "db_check": {
+            "subsystem": "apss-ob",
+            "database": "OB库",
+            "table": "order_repay_withhold_backup",
+            "key": "repay_tran_no = {repay_order_id_new}",
+            "expect": "not_exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "OB表无新数据"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-写入-紧急回滚DUAL切OLD_ONLY",
+      "priority": "P1",
+      "need_regression": false,
+      "tags": "写入路由,紧急回滚,DUAL,OLD_ONLY,星选",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "DUAL",
+          "note": "初始值"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true,
+          "note": "初始值"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "check",
+          "description": "确认DUAL模式下双写正常",
+          "check": "前置条件验证：当前 writeMode=DUAL, readNew=true，热表+OB双写正常"
+        },
+        {
+          "seq": 2,
+          "type": "config",
+          "description": "Apollo修改：aps.apollo.config.repayWithholdWriteMode=OLD_ONLY",
+          "config_change": {
+            "key": "aps.apollo.config.repayWithholdWriteMode",
+            "from": "DUAL",
+            "to": "OLD_ONLY",
+            "wait_after_seconds": 2
+          }
+        },
+        {
+          "seq": 3,
+          "type": "config",
+          "description": "Apollo修改：aps.apollo.function.switch.repayWithholdReadNew=false",
+          "config_change": {
+            "key": "aps.apollo.function.switch.repayWithholdReadNew",
+            "from": true,
+            "to": false,
+            "wait_after_seconds": 2
+          }
+        },
+        {
+          "seq": 4,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "接口返回成功"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知",
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ]
+        },
+        {
+          "seq": 5,
+          "type": "db",
+          "description": "查询aps库旧表有数据，热表+OB无新数据",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "key": "repay_tran_no = {repay_order_id_new}",
+            "expect": "exists"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "切换后仅旧表有数据"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-读取-readNew=false查旧表",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "读取路由,readNew=false,旧表,星选,日志验证",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": false
+        },
+        {
+          "type": "data",
+          "description": "已通过还款通知接口写入测试数据，repay_order_id已知"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "pullRepayNotify",
+          "label": "还款结果查询接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "pullRepayNotify",
+              "appId": "TTXX360",
+              "params": "{\"account_id\":\"${account_id}\",\"repay_order_id\":\"${repay_order_id}\"}"
+            }
+          },
+          "param_placeholders": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "io_bindings_sources": {
+            "repay_order_id": "从前置步骤的 pullRepayNotify 响应或 DB 中获取"
+          },
+          "external_params": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "查询返回正确"
+          },
+          "platform_id": 21204,
+          "platform_name": "星选还款通知查询"
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "以还款订单号为关键字查询aps-app日志",
+          "tool": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "{repay_order_id}",
+            "env": "STG2"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志读取模式=OLD"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "check",
+          "description": "确认读取模式:OLD",
+          "check": {
+            "source": "step2日志",
+            "keyword": "读取模式:OLD",
+            "expect": "found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "读取模式:OLD"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "check",
+          "description": "确认SQL查order_repay_withhold（旧表）",
+          "check": {
+            "source": "step2日志",
+            "keyword": "FROM order_repay_withhold WHERE",
+            "expect": "found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "SQL查order_repay_withhold"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-读取-readNew=true查热表",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "读取路由,readNew=true,热表命中,星选,日志验证",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true
+        },
+        {
+          "type": "data",
+          "description": "热表中存在目标还款订单号的测试数据"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "pullRepayNotify",
+          "label": "还款结果查询接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "pullRepayNotify",
+              "appId": "TTXX360",
+              "params": "{\"account_id\":\"${account_id}\",\"repay_order_id\":\"${repay_order_id}\"}"
+            }
+          },
+          "param_placeholders": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "external_params": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "查询返回正确"
+          },
+          "platform_id": 21204,
+          "platform_name": "星选还款通知查询"
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "以还款订单号为关键字查询aps-app日志",
+          "tool": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "{repay_order_id_in_hot}",
+            "env": "STG2"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志读取模式=NEW"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "check",
+          "description": "确认读取模式:NEW",
+          "check": {
+            "source": "step2日志",
+            "keyword": "读取模式:NEW",
+            "expect": "found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "读取模式:NEW"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "check",
+          "description": "确认SQL查order_repay_withhold_hot",
+          "check": {
+            "source": "step2日志",
+            "keyword": "FROM order_repay_withhold_hot WHERE",
+            "expect": "found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "SQL查order_repay_withhold_hot"
+          }
+        },
+        {
+          "seq": 5,
+          "type": "check",
+          "description": "确认Total=1，未触发OB穿透",
+          "check": {
+            "source": "step2日志",
+            "keyword": "Total=1",
+            "expect": "found",
+            "negative_check": "日志中不存在 order_repay_withhold_backup"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "Total=1，无OB查询"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-读取-热表miss穿透OB",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "读取路由,热表miss,OB穿透,星选,日志验证",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true
+        },
+        {
+          "type": "data",
+          "description": "目标还款订单号在热表中不存在，仅在OB表中存在"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "pullRepayNotify",
+          "label": "还款结果查询接口",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "pullRepayNotify",
+              "appId": "TTXX360",
+              "params": "{\"account_id\":\"${account_id}\",\"repay_order_id\":\"${repay_order_id}\"}"
+            }
+          },
+          "param_placeholders": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "external_params": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "查询返回正确"
+          },
+          "platform_id": 21204,
+          "platform_name": "星选还款通知查询"
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "以还款订单号为关键字查询aps-app日志",
+          "tool": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "{repay_order_id_in_ob_only}",
+            "env": "STG2"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示热表miss+OB命中"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "check",
+          "description": "确认先查order_repay_withhold_hot，Total=0（miss）",
+          "check": {
+            "source": "step2日志",
+            "keyword": "order_repay_withhold_hot",
+            "sub_check": "Total=0",
+            "expect": "found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示热表miss（Total=0）"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "check",
+          "description": "确认再查order_repay_withhold_backup，Total=1（命中）",
+          "check": {
+            "source": "step2日志",
+            "keyword": "order_repay_withhold_backup",
+            "sub_check": "Total=1",
+            "expect": "found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示OB命中（Total=1）"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-Apollo动态切换-OLD_ONLY与TRIPLE互切",
+      "priority": "P1",
+      "need_regression": false,
+      "tags": "Apollo动态切换,OLD_ONLY,TRIPLE,星选",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "OLD_ONLY",
+          "note": "初始值"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口 (OLD_ONLY)",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "expected": {
+            "type": "check",
+            "raw_text": "仅旧表有数据"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知",
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ]
+        },
+        {
+          "seq": 2,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口 (TRIPLE)",
+          "apollo_pre_change": {
+            "key": "aps.apollo.config.repayWithholdWriteMode",
+            "to": "TRIPLE"
+          },
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "expected": {
+            "type": "check",
+            "raw_text": "三写正常"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知",
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ]
+        },
+        {
+          "seq": 3,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口 (OLD_ONLY)",
+          "apollo_pre_change": {
+            "key": "aps.apollo.config.repayWithholdWriteMode",
+            "to": "OLD_ONLY"
+          },
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "expected": {
+            "type": "check",
+            "raw_text": "仅旧表有数据"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知",
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ]
+        },
+        {
+          "seq": 4,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口 (TRIPLE)",
+          "apollo_pre_change": {
+            "key": "aps.apollo.config.repayWithholdWriteMode",
+            "to": "TRIPLE"
+          },
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "expected": {
+            "type": "check",
+            "raw_text": "三写正常"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知",
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ]
+        },
+        {
+          "seq": 5,
+          "type": "check",
+          "description": "每次切换后验证DB落库与配置一致",
+          "check": {
+            "verify_each_round": true,
+            "rounds": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "tables": [
+              "order_repay_withhold",
+              "order_repay_withhold_hot",
+              "order_repay_withhold_backup"
+            ]
+          },
+          "expected": {
+            "type": "check",
+            "raw_text": "多次切换无状态残留"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-日志开关-OB写入日志",
+      "priority": "P2",
+      "need_regression": false,
+      "tags": "日志开关,OB写入",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdObWriteLog",
+          "value": false,
+          "note": "默认值"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口 (ObWriteLog=false)",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "post_check": {
+            "type": "tool",
+            "tool": "testmind:query-log",
+            "params": {
+              "app": "aps-app",
+              "keyword": "{repay_order_id_a}",
+              "negative_keyword": "OB写入",
+              "env": "STG2"
+            },
+            "expect": "negative_keyword NOT found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "开关=false：无OB写入详细日志"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知",
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ]
+        },
+        {
+          "seq": 2,
+          "type": "config",
+          "description": "Apollo修改：aps.apollo.function.switch.repayWithholdObWriteLog=true",
+          "config_change": {
+            "key": "aps.apollo.function.switch.repayWithholdObWriteLog",
+            "from": false,
+            "to": true,
+            "wait_after_seconds": 2
+          }
+        },
+        {
+          "seq": 3,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口 (ObWriteLog=true)",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "post_check": {
+            "type": "tool",
+            "tool": "testmind:query-log",
+            "params": {
+              "app": "aps-app",
+              "keyword": "{repay_order_id_b}",
+              "positive_keyword": "OB写入",
+              "env": "STG2"
+            },
+            "expect": "positive_keyword found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "开关=true：有OB写入详细日志"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知",
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ]
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-日志开关-OB读取日志",
+      "priority": "P2",
+      "need_regression": false,
+      "tags": "日志开关,OB读取",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdObReadLog",
+          "value": false,
+          "note": "默认值"
+        },
+        {
+          "type": "data",
+          "description": "存在仅OB中有的还款订单号（热表中不存在）"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "pullRepayNotify",
+          "label": "还款结果查询接口 (ObReadLog=false)",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "pullRepayNotify",
+              "appId": "TTXX360",
+              "params": "{\"account_id\":\"${account_id}\",\"repay_order_id\":\"${repay_order_id}\"}"
+            }
+          },
+          "post_check": {
+            "type": "tool",
+            "tool": "testmind:query-log",
+            "params": {
+              "app": "aps-app",
+              "keyword": "{repay_order_id_in_ob_only}",
+              "negative_keyword": "OB OUTREQ",
+              "env": "STG2"
+            },
+            "expect": "negative_keyword NOT found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "开关=false：无OB查询日志"
+          },
+          "platform_id": 21204,
+          "platform_name": "星选还款通知查询",
+          "param_placeholders": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "external_params": [
+            "account_id",
+            "repay_order_id"
+          ]
+        },
+        {
+          "seq": 2,
+          "type": "config",
+          "description": "Apollo修改：aps.apollo.function.switch.repayWithholdObReadLog=true",
+          "config_change": {
+            "key": "aps.apollo.function.switch.repayWithholdObReadLog",
+            "from": false,
+            "to": true,
+            "wait_after_seconds": 2
+          }
+        },
+        {
+          "seq": 3,
+          "type": "interface",
+          "method": "pullRepayNotify",
+          "label": "还款结果查询接口 (ObReadLog=true)",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "pullRepayNotify",
+              "appId": "TTXX360",
+              "params": "{\"account_id\":\"${account_id}\",\"repay_order_id\":\"${repay_order_id}\"}"
+            }
+          },
+          "post_check": {
+            "type": "tool",
+            "tool": "testmind:query-log",
+            "params": {
+              "app": "aps-app",
+              "keyword": "{repay_order_id_in_ob_only}",
+              "positive_keyword": "OB OUTREQ",
+              "env": "STG2"
+            },
+            "expect": "positive_keyword found"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "开关=true：有OB查询日志"
+          },
+          "platform_id": 21204,
+          "platform_name": "星选还款通知查询",
+          "param_placeholders": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "external_params": [
+            "account_id",
+            "repay_order_id"
+          ]
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-监控-默认关闭不告警",
+      "priority": "P1",
+      "need_regression": false,
+      "tags": "监控,monitorEnabled,默认关闭",
+      "invoke_mode": "direct_db_sql",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.switch.control.monitorEnabled",
+          "value": false
+        },
+        {
+          "type": "apollo",
+          "key": "aps.switch.control.monitorDayDiff",
+          "value": 1
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "check",
+          "description": "确认monitorEnabled=false, monitorDayDiff=1",
+          "check": "通过Apollo确认配置"
+        },
+        {
+          "seq": 2,
+          "type": "db",
+          "description": "查询或更新date_created超过1天的order_repay_withhold数据",
+          "db_operation": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "sql": "SELECT * FROM order_repay_withhold WHERE date_created < DATE_SUB(NOW(), INTERVAL 1 DAY) LIMIT 1",
+            "or": "UPDATE order_repay_withhold SET state=state WHERE date_created < DATE_SUB(NOW(), INTERVAL 1 DAY) LIMIT 1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "业务操作正常返回"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "tool",
+          "description": "检查aps-app日志，确认无 ERR 监控告警",
+          "tool": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "ERR 监控order_repay_withhold表历史数据",
+            "expect": "NOT found",
+            "env": "STG2"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志中无监控告警"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-监控-开启触发历史数据告警",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "监控,monitorEnabled,monitorDayDiff,ERR告警",
+      "invoke_mode": "direct_db_sql",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.switch.control.monitorEnabled",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.switch.control.monitorDayDiff",
+          "value": 1
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "config",
+          "description": "Apollo修改：aps.switch.control.monitorEnabled=true",
+          "config_change": {
+            "key": "aps.switch.control.monitorEnabled",
+            "from": false,
+            "to": true,
+            "wait_after_seconds": 2
+          }
+        },
+        {
+          "seq": 2,
+          "type": "config",
+          "description": "Apollo修改：aps.switch.control.monitorDayDiff=1",
+          "config_change": {
+            "key": "aps.switch.control.monitorDayDiff",
+            "to": 1,
+            "wait_after_seconds": 2
+          }
+        },
+        {
+          "seq": 3,
+          "type": "db",
+          "description": "查询或更新date_created超过1天的order_repay_withhold数据",
+          "db_operation": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "sql": "SELECT * FROM order_repay_withhold WHERE date_created < DATE_SUB(NOW(), INTERVAL 1 DAY) LIMIT 1",
+            "or": "UPDATE order_repay_withhold SET state=state WHERE date_created < DATE_SUB(NOW(), INTERVAL 1 DAY) LIMIT 1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "业务操作正常完成"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "tool",
+          "description": "检查aps-app日志，确认有 ERR 监控告警",
+          "tool": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "ERR 监控order_repay_withhold表历史数据",
+            "expect": "found",
+            "env": "STG2"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志中出现 ERR 监控告警"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "aps冷热分离-星选全流程回归-TRIPLE模式",
+      "priority": "P0",
+      "need_regression": true,
+      "tags": "端到端,星选,TRIPLE,日志验证",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.repayWithholdWriteMode",
+          "value": "TRIPLE"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.repayWithholdReadNew",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "interface",
+          "method": "repayNotify",
+          "label": "还款通知接口（写入）",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "repayNotify",
+              "appId": "TTXX360",
+              "params": "{\"order_no\":\"${order_no}\",\"amount\":\"${amount}\",\"account_id\":\"${account_id}\",\"trade_time\":\"${trade_time}\",\"repay_order_id\":\"${repay_order_id}\",\"repay_detail\":[{\"amount\":\"${amount}\",\"loan_id\":\"${loan_id}\"}],\"currency\":\"CNY\",\"mch_id\":\"6200002559\",\"app_id\":\"600013501805\",\"repay_channel\":\"Normal\"}"
+            }
+          },
+          "param_placeholders": [
+            "order_no",
+            "amount",
+            "account_id",
+            "trade_time",
+            "repay_order_id",
+            "loan_id"
+          ],
+          "external_params": [
+            "account_id",
+            "order_no",
+            "loan_id",
+            "amount"
+          ],
+          "auto_generated_params": [
+            "repay_order_id"
+          ],
+          "capture_output": [
+            "repay_order_id",
+            "repay_tran_no"
+          ],
+          "expected": {
+            "type": "field",
+            "raw_text": "接口返回成功"
+          },
+          "platform_id": 21203,
+          "platform_name": "星选还款通知"
+        },
+        {
+          "seq": 2,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold确认旧表落库",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "capture_fields": [
+              "id"
+            ]
+          },
+          "io_bindings_sources": {
+            "repay_tran_no": "step1.response.repay_tran_no"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "旧表落库"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "db",
+          "description": "查询aps库order_repay_withhold_hot确认热表落库，id与旧表一致",
+          "db_check": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "table": "order_repay_withhold_hot",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "compare": {
+              "field": "id",
+              "with_step": 2
+            }
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "热表落库，id一致"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "db",
+          "description": "等3-5秒查询apss-ob子系统OB库确认落库",
+          "db_check": {
+            "subsystem": "apss-ob",
+            "database": "OB库",
+            "table": "order_repay_withhold_backup",
+            "key": "repay_tran_no = {repay_tran_no}",
+            "expect": "exists",
+            "wait_seconds": 5
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "OB表落库"
+          }
+        },
+        {
+          "seq": 5,
+          "type": "interface",
+          "method": "pullRepayNotify",
+          "label": "还款结果查询接口（读取）",
+          "invoke": {
+            "facade": "com.qihoo.finance.aps.modules.xingxuan.facade.XingXuanOrderFacade",
+            "dispatch": "orderRequestHandlerMap",
+            "params": {
+              "method": "pullRepayNotify",
+              "appId": "TTXX360",
+              "params": "{\"account_id\":\"${account_id}\",\"repay_order_id\":\"${repay_order_id}\"}"
+            }
+          },
+          "io_bindings_sources": {
+            "repay_order_id": "step1.response.repay_order_id"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "查询返回正确"
+          },
+          "platform_id": 21204,
+          "platform_name": "星选还款通知查询",
+          "param_placeholders": [
+            "account_id",
+            "repay_order_id"
+          ],
+          "external_params": [
+            "account_id",
+            "repay_order_id"
+          ]
+        },
+        {
+          "seq": 6,
+          "type": "tool",
+          "description": "以还款订单号搜日志：确认读取模式:NEW，SQL查order_repay_withhold_hot",
+          "tool": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "{repay_order_id}",
+            "positive_keywords": [
+              "读取模式:NEW",
+              "order_repay_withhold_hot"
+            ],
+            "env": "STG2"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "读取模式=NEW，SQL查order_repay_withhold_hot"
+          }
+        },
+        {
+          "seq": 7,
+          "type": "check",
+          "description": "比对查询返回与DB数据一致",
+          "check": {
+            "compare_api_response_with_db": {
+              "step5_response": "pullRepayResult",
+              "step2_db": "order_repay_withhold",
+              "step3_db": "order_repay_withhold_hot"
+            }
+          },
+          "expected": {
+            "type": "check",
+            "raw_text": "接口返回与DB数据一致"
+          }
+        }
+      ]
+    }
+  ],
+  "execution_notes": {
+    "param_assembly": "account_id需要从数据工厂获取星选测试账号，repay_order_id首次由pullRepayNotify响应返回，格式RN+日期+序列号",
+    "apollo_changes": "所有Apollo配置修改后等待2秒确保生效",
+    "ob_async_wait": "OB写入为异步，验证OB数据前等待5秒",
+    "log_verification": "读取路由验证必须查日志确认SQL中的FROM表名，不可仅凭接口返回判断",
+    "pending_channels": "XingXuan.json 渠道定义文件缺失，需通过 Platform Manager 建设",
+    "pending_interfaces": "pullRepayNotify 和 pullRepayResult 未注册到平台 auto-interface-list，需 Platform Manager 录入",
+    "invoke_fallback": "若 invokeFacade 不通，降级使用 testmind:dubbo-call 直接调用 XingXuanOrderFacade#orderRequestHandlerMap"
+  }
+}

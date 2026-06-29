@@ -1,0 +1,59 @@
+﻿{
+    "count":  1,
+    "next":  null,
+    "previous":  null,
+    "results":  [
+                    {
+                        "id":  72278,
+                        "sprint":  [
+                                       "20260625 è¿­ä»£çæ¬"
+                                   ],
+                        "package":  [
+                                        "aps-app"
+                                    ],
+                        "story":  [
+                                      "JYSG-148394"
+                                  ],
+                        "jira_url":  "http://lingxi.daikuan.qihoo.net/?timestamp=1621927659880#/detail/",
+                        "key":  "NREQUEST-47459",
+                        "summary":  "20260407 èèè´·è¶\u0085ç´è¿æ¯æè´·ä¸­æ¸\u0085é",
+                        "status":  "50å¼åå®æ",
+                        "assignee":  "leiyueping-jk",
+                        "assignee_key":  "leiyueping-jk",
+                        "reporter":  "zhangzhiwei-jk",
+                        "lingxi_group_names":  "è¿è¥ææ¯é¨/æµéè¿è¥å¼åç»",
+                        "components":  "",
+                        "priority":  "ä¸­ä½",
+                        "it_resp":  "leiyueping-jk",
+                        "req_resp":  "zhangzhiwei-jk",
+                        "resource":  "",
+                        "form":  "",
+                        "estimated_output_type1":  null,
+                        "estimated_output_type2":  null,
+                        "req_create_time":  "2026-04-07",
+                        "req_in_sprint_time":  "2026-06-10",
+                        "req_complete_time":  null,
+                        "is_intime":  true,
+                        "daichengqing_date":  null,
+                        "test_resp":  "shenwenjie-jk",
+                        "project":  "APIç«¯å¤æ¸ éåä½,(574)èèè´·è¶\u0085ç´è¿",
+                        "jira_updated_date":  "2026-06-15",
+                        "last_clarify_time":  "2026-06-10T00:00:00",
+                        "is_rollback":  false,
+                        "is_rule_involved":  false,
+                        "sec_id":  "",
+                        "rule_complied_status":  null,
+                        "is_app_request":  false,
+                        "is_compliance":  false,
+                        "organization":  "éæºæç±»",
+                        "publish_organization":  "",
+                        "remark":  "",
+                        "update_source":  "jira",
+                        "is_deleted":  false,
+                        "creator":  "linshiyuan-jk",
+                        "updater":  "sys",
+                        "created_date":  "2026-04-07T15:12:35.877846",
+                        "update_date":  "2026-06-16T16:42:19.415127"
+                    }
+                ]
+}

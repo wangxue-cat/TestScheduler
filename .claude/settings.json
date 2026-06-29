@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/project/aps/**)",
+      "Edit(/.claude/skills/testmind-facade/**)"
+    ]
+  }
+}

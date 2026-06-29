@@ -1,0 +1,344 @@
+{
+  "name": "innovateTools API小工具合集",
+  "description": "协助查询/处理API渠道流程，包括查询/处理用户、授信、借款、还款等",
+  "prefix": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools",
+  "total": 21,
+  "headers": {
+    "Content-Type": "application/json",
+    "token": "从 token.txt 读取，路径: D:\\ClaudeMind\\memory\\innovate_tools_api\\token.txt"
+  },
+  "apis": [
+    {
+      "id": 1,
+      "category": "用户信息查询",
+      "name": "查询用户的三要素、银行卡号、授信评级、额度信息、及管制禁申信息",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/getUserInfo/",
+      "function": "getUserInfo",
+      "source_file": "getUserInfoApi.py",
+      "desc": "根据用户号、客户号、手机号、order_no查询用户信息",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "user", "type": "string", "desc": "用户号、客户号、手机号、order_no", "required": true }
+      ]
+    },
+    {
+      "id": 2,
+      "category": "用户查询",
+      "name": "获取随机用户信息",
+      "method": "GET",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/getRandomUserInfo/",
+      "function": "getRandomUserInfo",
+      "source_file": "getRandomUserInfoApi.py",
+      "desc": "获取随机用户信息（APS开发使用）",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "授信处理",
+      "name": "APV借款mock",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/apvMock/",
+      "function": "apvMock",
+      "source_file": "apvMockApi.py",
+      "desc": "APV审批mock，模拟审批通过/拒绝",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "keyName", "type": "string", "desc": "mock键名", "required": true },
+        { "name": "keyValue", "type": "string", "desc": "mock键值", "required": true },
+        { "name": "mockStatus", "type": "string", "desc": "mock状态", "default": "APS", "required": false }
+      ]
+    },
+    {
+      "id": 5,
+      "category": "授信处理",
+      "name": "卡授信重试工具",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/creditRetry/",
+      "function": "creditRetry",
+      "source_file": "creditRetryApi.py",
+      "desc": "卡授信流程重试",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "order_no", "type": "string", "desc": "订单号", "required": true },
+        { "name": "output_format", "type": "string", "desc": "输出格式：json 或 html", "required": true },
+        { "name": "appl_no_apv", "type": "string", "desc": "APV申请号", "required": true },
+        { "name": "result", "type": "string", "desc": "当前APV阶段结果", "required": true }
+      ]
+    },
+    {
+      "id": 6,
+      "category": "借款处理",
+      "name": "获取借款信息by借据",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/getLoanInfo/",
+      "function": "getLoanInfo",
+      "source_file": "getLoanInfoApi.py",
+      "desc": "根据用户号查询借据/借款信息",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "user", "type": "string", "desc": "用户号", "required": true }
+      ]
+    },
+    {
+      "id": 7,
+      "category": "借款处理",
+      "name": "解决用户借款无子产品",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/updateThirdInfo/",
+      "function": "updateThirdInfo",
+      "source_file": "updateThirdInfoApi.py",
+      "desc": "修复用户借款无子产品问题",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "orderNo", "type": "string", "desc": "订单号", "required": true },
+        { "name": "userLever", "type": "string", "desc": "用户层级", "required": false },
+        { "name": "thirdCode", "type": "string", "desc": "资方编码", "required": false }
+      ]
+    },
+    {
+      "id": 8,
+      "category": "借款处理",
+      "name": "更新API流量 授信或借款人脸和OCR信息",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/updateFace/",
+      "function": "updateFace",
+      "source_file": "updateFaceApi.py",
+      "desc": "更新API流量 授信或借款人脸和OCR信息",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "orderNo", "type": "string", "desc": "订单号", "required": true },
+        { "name": "address", "type": "string", "desc": "地址", "required": false },
+        { "name": "type", "type": "string", "desc": "类型：授信=更新授信人脸OCR，其他值=更新借款人脸OCR", "required": true },
+        { "name": "status", "type": "string", "desc": "状态", "default": "03", "required": false },
+        { "name": "isReal", "type": "string", "desc": "是否真实", "default": "N", "required": false }
+      ]
+    },
+    {
+      "id": 9,
+      "category": "借款处理",
+      "name": "清除用户信息",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/deletePpdInfo/",
+      "function": "deletePpdInfo",
+      "source_file": "deletePpdInfoApi.py",
+      "desc": "清除用户相关信息",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "user", "type": "string", "desc": "用户号", "required": true }
+      ]
+    },
+    {
+      "id": 10,
+      "category": "还款处理",
+      "name": "APS查询还款计划",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/LoanRepaymentPlan/",
+      "function": "loanRepaymentPlan",
+      "source_file": "loanRepaymentPlanApi.py",
+      "desc": "查询APS还款计划详情",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "input_param", "type": "string", "desc": "输入参数", "required": true },
+        { "name": "output_format", "type": "string", "desc": "输出格式", "default": "json", "required": false },
+        { "name": "ln_loan_fields", "type": "string", "desc": "借款字段", "required": false },
+        { "name": "tr_tran_proc_fields", "type": "string", "desc": "交易处理字段", "required": false },
+        { "name": "ln_plan_fields", "type": "string", "desc": "还款计划字段", "required": false }
+      ]
+    },
+    {
+      "id": 11,
+      "category": "还款处理",
+      "name": "处理api还款相关",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/aiRepayHandle/",
+      "function": "aiRepayHandle",
+      "source_file": "aiRepayHandleApi.py",
+      "desc": "处理API渠道还款相关操作",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "method", "type": "string", "desc": "方法分支", "required": true }
+      ]
+    },
+    {
+      "id": 12,
+      "category": "还款处理",
+      "name": "还款批扣",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/ApsRepaymentBatchApi/",
+      "function": "apsRepaymentBatchApi",
+      "source_file": "ApsRepaymentBatchApi.py",
+      "desc": "APS还款批扣处理",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "method", "type": "string", "desc": "方法分支", "required": true }
+      ]
+    },
+    {
+      "id": 13,
+      "category": "流程自动化",
+      "name": "自动化",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/autoProcess/",
+      "function": "autoProcess",
+      "source_file": "autoProcessApi.py",
+      "desc": "多功能自动化处理，method参数决定具体操作",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "method", "type": "string", "desc": "方法分支", "required": true },
+        { "name": "orderNo", "type": "string", "desc": "订单号", "required": true },
+        { "name": "tranNo", "type": "string", "desc": "交易号", "required": false },
+        { "name": "status", "type": "string", "desc": "状态", "default": "03", "required": false },
+        { "name": "term", "type": "string", "desc": "期数", "required": false },
+        { "name": "partnerCode", "type": "string", "desc": "合作方编码", "required": false },
+        { "name": "mockType", "type": "string", "desc": "mock类型", "default": "apvMock", "required": false },
+        { "name": "repaymentType", "type": "string", "desc": "还款方式", "required": false },
+        { "name": "custNo", "type": "string", "desc": "客户号", "required": false },
+        { "name": "RTranNo", "type": "string", "desc": "还款交易号", "required": false },
+        { "name": "repayStatus", "type": "string", "desc": "还款状态", "default": "success", "required": false },
+        { "name": "dateSuccess", "type": "string", "desc": "成功日期", "required": false },
+        { "name": "overDueDays", "type": "string", "desc": "逾期天数", "default": "5", "required": false }
+      ],
+      "method_branches": [
+        "apsIouChange",
+        "repayOption",
+        "getCanLoanUser",
+        "handleRepayResult",
+        "queryApsOrderApplState"
+      ]
+    },
+    {
+      "id": 14,
+      "category": "辅助工具",
+      "name": "调用定时任务",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/executeTasks/",
+      "function": "executeTasks",
+      "source_file": "executeTasks.py",
+      "desc": "手动触发定时任务执行",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "taskName", "type": "string", "desc": "任务名称", "required": true },
+        { "name": "appName", "type": "string", "desc": "应用名称", "required": true }
+      ]
+    },
+    {
+      "id": 15,
+      "category": "辅助工具",
+      "name": "Dubbo接口转义",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/apsDubboEscapeApi/",
+      "function": "apsDubboEscapeApi",
+      "source_file": "APSDubboEscapeApi.py",
+      "desc": "Dubbo接口参数转义处理",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "input_param", "type": "string", "desc": "输入JSON参数", "required": true }
+      ]
+    },
+    {
+      "id": 16,
+      "category": "辅助工具",
+      "name": "查询订单表工具",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/ApsOrderQueryDbApi/",
+      "function": "apsOrderQueryDbApi",
+      "source_file": "ApsOrderQueryDbApi.py",
+      "desc": "查询订单相关数据库表",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "table_configs", "type": "string", "desc": "表配置", "default": "", "required": false },
+        { "name": "tables_per_row", "type": "string", "desc": "每行表数", "default": "3", "required": false },
+        { "name": "page_title", "type": "string", "desc": "页面标题", "default": "DB-订单查询结果", "required": false },
+        { "name": "min_length", "type": "string", "desc": "最小长度", "default": "8", "required": false }
+      ]
+    },
+    {
+      "id": 17,
+      "category": "辅助工具",
+      "name": "DB执行工具",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/APSDBOperationsApi/",
+      "function": "apsDBOperations",
+      "source_file": "APSDbOperations.py",
+      "desc": "执行数据库操作",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "input_param", "type": "string", "desc": "输入参数", "required": true }
+      ]
+    },
+    {
+      "id": 18,
+      "category": "辅助工具",
+      "name": "Dubbo日志转接口工具",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/apsDubboLogParserApi/",
+      "function": "apsDubboLogParserApi",
+      "source_file": "APSDubboLogParserApi.py",
+      "desc": "将Dubbo日志解析转换为接口调用",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "log", "type": "string", "desc": "日志内容(log/content/message/text)", "required": true }
+      ]
+    },
+    {
+      "id": 19,
+      "category": "辅助工具",
+      "name": "APS日志查询工具",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/innovateTools/apsLogQueryTool/",
+      "function": "apsLogQueryTool",
+      "source_file": null,
+      "desc": "查询APS系统日志",
+      "params": [
+        { "name": "env", "type": "string", "desc": "环境(STG1/STG2)", "required": true },
+        { "name": "req_no", "type": "string", "desc": "请求编号(req_no或message)", "required": true },
+        { "name": "message", "type": "string", "desc": "日志消息(req_no或message)", "required": true }
+      ]
+    },
+    {
+      "id": 20,
+      "category": "随机生成信息小工具",
+      "name": "随机生成信息小工具",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/finance/financeTools/",
+      "function": "financeTools",
+      "source_file": null,
+      "desc": "随机生成信息小工具，随机生成手机号、身份证号、银行卡号等",
+      "params": [
+        { "name": "operationType", "type": "string", "desc": "生成信息类型", "required": true, "enum": { "random-mobileNo": "随机手机号", "random-id": "随机身份证号", "random-card": "随机银行卡号" } }
+      ]
+    },
+    {
+      "id": 21,
+      "category": "随机生成信息小工具",
+      "name": "生成指定银行卡信息",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/finance/genBankCard",
+      "function": "exceptionRetry",
+      "source_file": null,
+      "desc": "生成指定银行卡的银行卡信息，可指定卡bin、卡类型和生成数量",
+      "params": [
+        { "name": "cardType", "type": "string", "desc": "卡类型", "required": true, "enum": { "bank": "银行卡", "credits": "信用卡" } },
+        { "name": "cardBin", "type": "string", "desc": "银行卡卡bin，指定生成某银行的卡号", "required": false },
+        { "name": "amount", "type": "integer", "desc": "生成数量", "required": true, "default": "1" }
+      ]
+    },
+    {
+      "id": 22,
+      "category": "辅助工具",
+      "name": "加解密小工具",
+      "method": "POST",
+      "url": "http://stg1-qoatools-app.daikuan.qihoo.net/finance/clioTools/",
+      "function": "clioTools",
+      "source_file": null,
+      "desc": "Clio加解密工具，支持crypt加密/解密、md5x加密、md5加密",
+      "params": [
+        { "name": "operationType", "type": "string", "desc": "操作类型", "required": true, "enum": { "clioDecrypt": "crypt解密", "clioEncrypt": "crypt加密", "clioMd5": "md5x加密", "md5": "md5加密" } },
+        { "name": "data", "type": "string", "desc": "需要处理的数据", "required": true }
+      ]
+    }
+  ]
+}

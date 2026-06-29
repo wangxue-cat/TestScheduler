@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智测链 — NREQUEST-47732 需求测试复盘</title>
+<style>
+  :root {
+    --primary: #1a1a2e;
+    --accent: #0f3460;
+    --highlight: #e94560;
+    --bg: #f8f9fa;
+    --card: #ffffff;
+    --border: #e0e0e0;
+    --text: #333333;
+    --muted: #666666;
+    --success: #10b981;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: #fff;
+    padding: 48px 40px 36px;
+    text-align: center;
+  }
+  .hero .ip-name {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .hero .ip-subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,.65);
+    letter-spacing: 1px;
+  }
+  .hero .team-tag {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 6px 20px;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,.85);
+  }
+
+  .grid-7 {
+    display: grid;
+    grid-template-columns: 160px 220px 140px 1fr 1fr 1fr 130px;
+    gap: 0;
+    margin: 28px 32px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--card);
+    box-shadow: 0 2px 16px rgba(0,0,0,.06);
+  }
+  .grid-7 .col-header {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 12px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    border-right: 1px solid rgba(255,255,255,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .grid-7 .col-header:last-child { border-right: none; }
+  .grid-7 .col-data {
+    padding: 16px 14px;
+    font-size: 13px;
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    vertical-align: top;
+    word-break: break-word;
+  }
+  .grid-7 .col-data:last-child { border-right: none; }
+
+  .col-team {
+    background: #f0f4ff;
+    text-align: center;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .col-ip {
+    background: linear-gradient(180deg, #fffdf5 0%, #fff9e6 100%);
+    text-align: center;
+  }
+  .col-ip .ip-highlight {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a1a2e;
+    letter-spacing: 1px;
+  }
+  .col-ip .ip-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .col-req {
+    text-align: center;
+    font-family: "SF Mono", "Consolas", monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--highlight);
+  }
+  .col-req .req-title {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 4px;
+    font-family: inherit;
+  }
+
+  .col-content h4 {
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed #e0e0e0;
+  }
+  .col-content .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .col-content .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .tag.blue   { background: #dbeafe; color: #1e40af; }
+  .tag.green  { background: #d1fae5; color: #065f46; }
+  .tag.purple { background: #ede9fe; color: #5b21b6; }
+  .tag.orange { background: #ffedd5; color: #9a3412; }
+  .tag.red    { background: #fee2e2; color: #991b1b; }
+  .tag.gray   { background: #f3f4f6; color: #374151; }
+
+  .col-content ul {
+    list-style: none;
+    padding: 0;
+  }
+  .col-content ul li {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .col-content ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 10px;
+  }
+  .col-content .highlight-num {
+    font-weight: 700;
+    color: var(--highlight);
+  }
+  .col-content .check-mark {
+    color: var(--success);
+    font-weight: 700;
+  }
+
+  .token-bar-wrap { margin-top: 4px; }
+  .token-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .token-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .token-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #10b981, #f59e0b, #e94560);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .hero { padding: 24px 20px 18px; }
+    .grid-7 { margin: 12px 16px; font-size: 10px; }
+    .grid-7 .col-header, .grid-7 .col-data { padding: 8px 6px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="ip-name">智测链 (TestChain)</div>
+  <div class="ip-subtitle">多Agent智能测试调度引擎</div>
+  <div class="team-tag">🏢 创新与嵌入式金融测试组</div>
+</div>
+
+<div class="grid-7">
+  <div class="col-header">测试组</div>
+  <div class="col-header">IP</div>
+  <div class="col-header">需求ID</div>
+  <div class="col-header">AI用法（场景）</div>
+  <div class="col-header">为什么可复制</div>
+  <div class="col-header">产出证据</div>
+  <div class="col-header">Token消耗</div>
+
+  <div class="col-data col-team">
+    创新与嵌入式金融测试组
+  </div>
+
+  <div class="col-data col-ip">
+    <div class="ip-highlight">智测链 (TestChain)</div>
+    <div class="ip-desc">多Agent智能测试调度引擎</div>
+  </div>
+
+  <div class="col-data col-req">
+    NREQUEST-47732
+    <div class="req-title">JIEITAO 用户静默 360API 失败后在交易环节拒绝</div>
+  </div>
+
+  <div class="col-data col-content">
+    <h4>📋 5个AI场景</h4>
+    <div class="tag-list" style="margin-bottom:8px;">
+      <span class="tag blue">需求分析</span>
+      <span class="tag green">用例生成</span>
+      <span class="tag purple">接口映射</span>
+      <span class="tag orange">参数组装+执行</span>
+      <span class="tag red">结果复验</span>
+    </div>
+    <ul>
+      <li>拉取需求详情 + 分析涉及的借款环节（动支前查询/试算/申请），提取<span class="highlight-num">3类场景</span></li>
+      <li>生成<span class="highlight-num">9条</span>用例：静默失败拒绝场景(3) + 正常用户通过场景(3) + 开关未配置回退场景(3)</li>
+      <li>平台接口自动匹配：drawPreQuery + drawTrial + confirmDraw，覆盖全部借款环节</li>
+      <li>渠道规则自动生成参数，Apollo 配置 <code>silent360APIFailDrawRejectPartners</code> 开/关自动切换</li>
+      <li>SQL 落库校验：order_iou（借款表）写入验证 + order_iou_err_request_log（拒绝原因表）APS8056 错误码校验</li>
+    </ul>
+  </div>
+
+  <div class="col-data col-content">
+    <h4>🔧 6层抽象架构</h4>
+    <div class="tag-list" style="margin-bottom:8px;">
+      <span class="tag blue">意图层</span>
+      <span class="tag green">路由层</span>
+      <span class="tag purple">Agent层</span>
+      <span class="tag orange">Skill层</span>
+      <span class="tag red">数据抽象层</span>
+      <span class="tag gray">资产沉淀层</span>
+    </div>
+    <ul>
+      <li><b>Agent可插拔组合</b>：8个Agent独立运行，按需编排（全流程/单步/跳跃）</li>
+      <li><b>执行计划JSON标准化</b>：渠道→接口→入参占位符→io_bindings→DB表→日志关键字，同一Schema覆盖所有渠道</li>
+      <li><b>参数占位符机制</b>：<code>${account_id}</code>等占位符自动填充，换渠道仅替换规则文件</li>
+      <li><b>Apollo配置驱动场景</b>：测试场景通过开关组合而非硬编码，切换模式只改配置值</li>
+      <li><b>日志验证模式标准化</b>：关键字搜索→匹配标记→确认表名/状态，适用任何需日志验证的需求</li>
+      <li><b>memory/ 目录结构统一</b>：需求材料→用例→计划→结果→报告，产出物路径一致，知识沉淀自动发现</li>
+    </ul>
+    <p style="font-size:12px;color:var(--accent);margin-top:8px;font-weight:600;">
+      💡 需求变，架构不变。新需求接入只需替换：需求文档+渠道+接口+DB表名+Apollo配置项，Agent流水线完全复用。
+    </p>
+  </div>
+
+  <div class="col-data col-content">
+    <h4>📦 需求材料（4份）</h4>
+    <ul>
+      <li><code>NREQUEST-47732_requirement.md</code></li>
+      <li><code>NREQUEST-47732_dev_doc.md</code></li>
+      <li><code>NREQUEST-47732_tester_notes.md</code></li>
+      <li><code>NREQUEST-47732_code_repo.md</code></li>
+    </ul>
+    <h4 style="margin-top:10px;">📝 测试用例（1份）</h4>
+    <ul>
+      <li><code>NREQUEST-47732_testcases_v4.xlsx</code> — 9条</li>
+    </ul>
+    <h4 style="margin-top:10px;">📈 核心数据</h4>
+    <ul>
+      <li>用例数：<span class="highlight-num">9条</span>（3类场景各3条）</li>
+      <li>涉及接口：<span class="highlight-num">3个</span>（drawPreQuery / drawTrial / confirmDraw）</li>
+      <li>Apollo开关：<span class="highlight-num">1项</span>（silent360APIFailDrawRejectPartners）</li>
+      <li>测试渠道：头条星选（TouTiao）</li>
+      <li>迭代版本：20260611</li>
+    </ul>
+  </div>
+
+  <div class="col-data col-content" style="text-align:center;">
+    <div style="font-size:28px;font-weight:800;color:#e94560;margin-bottom:4px;">
+      ~1,200W
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">涉及3接口、1项Apollo开关、9条用例（较49267更轻量）</p>
+
+    <div class="token-bar-wrap">
+      <div class="token-bar-label"><span>需求分析+用例生成</span><span>~250W</span></div>
+      <div class="token-bar"><div class="token-bar-fill" style="width:21%;"></div></div>
+    </div>
+    <div class="token-bar-wrap">
+      <div class="token-bar-label"><span>接口映射+参数组装</span><span>~150W</span></div>
+      <div class="token-bar"><div class="token-bar-fill" style="width:12%;"></div></div>
+    </div>
+    <div class="token-bar-wrap">
+      <div class="token-bar-label"><span>执行调度(9条用例)</span><span>~400W</span></div>
+      <div class="token-bar"><div class="token-bar-fill" style="width:33%;"></div></div>
+    </div>
+    <div class="token-bar-wrap">
+      <div class="token-bar-label"><span>SQL验证+日志查询</span><span>~250W</span></div>
+      <div class="token-bar"><div class="token-bar-fill" style="width:21%;"></div></div>
+    </div>
+    <div class="token-bar-wrap">
+      <div class="token-bar-label"><span>结果分析+报告</span><span>~150W</span></div>
+      <div class="token-bar"><div class="token-bar-fill" style="width:12%;"></div></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

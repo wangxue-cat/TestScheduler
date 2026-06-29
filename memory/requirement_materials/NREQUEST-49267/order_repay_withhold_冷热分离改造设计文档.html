@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>order_repay_withhold 冷热分离改造设计文档</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+            color: #1a1a1a;
+            background: #f5f6f8;
+            line-height: 1.7;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== 左侧目录栏 ===== */
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: #1e293b;
+            color: #cbd5e1;
+            padding: 32px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 16px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #f1f5f9;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-header .subtitle {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 6px;
+        }
+
+        .nav-section {
+            margin-bottom: 8px;
+        }
+
+        .nav-section-title {
+            padding: 8px 24px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 7px 24px 7px 32px;
+            font-size: 13px;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            color: #e2e8f0;
+            background: #334155;
+            border-left-color: #3b82f6;
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+            background: #334155;
+            border-left-color: #3b82f6;
+        }
+
+        .nav-item.sub {
+            padding-left: 48px;
+            font-size: 12px;
+        }
+
+        /* ===== 右侧正文 ===== */
+        .content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px 56px 80px;
+            max-width: 960px;
+        }
+
+        .doc-header {
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .doc-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .doc-meta-item {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .doc-meta-item span {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        /* ===== 章节 ===== */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 28px 0 14px;
+        }
+
+        .section h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #334155;
+            margin: 20px 0 10px;
+        }
+
+        .section p {
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+
+        .section ul, .section ol {
+            margin: 10px 0 16px 24px;
+            font-size: 14px;
+        }
+
+        .section li {
+            margin-bottom: 6px;
+        }
+
+        /* ===== 表格 ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px;
+            font-size: 13px;
+            background: #ffffff;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        thead th {
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 600;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #475569;
+            vertical-align: top;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ===== 代码块 ===== */
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px 24px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 14px 0 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", Consolas, monospace;
+        }
+
+        code {
+            font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", Consolas, monospace;
+            font-size: 13px;
+        }
+
+        .inline-code {
+            background: #f1f5f9;
+            color: #dc2626;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12.5px;
+        }
+
+        /* ===== 提示框 ===== */
+        .callout {
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin: 14px 0 20px;
+            font-size: 13.5px;
+        }
+
+        .callout-info {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            color: #1e40af;
+        }
+
+        .callout-warn {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .callout-success {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            color: #166534;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* ===== 架构图 ===== */
+        .diagram {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 14px 0 20px;
+            overflow-x: auto;
+        }
+
+        .diagram pre {
+            background: none;
+            color: #334155;
+            padding: 0;
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        /* ===== 标签 ===== */
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .tag-write { background: #fef3c7; color: #92400e; }
+        .tag-read { background: #dbeafe; color: #1e40af; }
+        .tag-new { background: #dcfce7; color: #166534; }
+        .tag-modify { background: #fce7f3; color: #9d174d; }
+
+        /* ===== 阶段流程 ===== */
+        .phase-flow {
+            display: flex;
+            gap: 16px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .phase-card {
+            flex: 1;
+            min-width: 240px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .phase-card h4 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            color: #1e293b;
+        }
+
+        .phase-card .phase-num {
+            display: inline-block;
+            background: #3b82f6;
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .phase-card p {
+            font-size: 13px;
+            color: #475569;
+            margin: 6px 0;
+        }
+
+        .phase-card .phase-label {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        /* ===== 步骤列表 ===== */
+        .step-list {
+            counter-reset: step;
+            list-style: none;
+            margin: 16px 0;
+            padding: 0;
+        }
+
+        .step-list li {
+            counter-increment: step;
+            padding: 10px 14px 10px 48px;
+            position: relative;
+            margin-bottom: 8px;
+            background: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            font-size: 13.5px;
+        }
+
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 14px;
+            top: 10px;
+            background: #3b82f6;
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* ===== 滚动条 ===== */
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 2px;
+        }
+
+        /* ===== 回到顶部 ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 40px;
+            height: 40px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.4);
+            transition: transform 0.2s;
+            z-index: 200;
+        }
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧目录栏 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>冷热分离改造设计</h2>
+                <div class="subtitle">order_repay_withhold 表</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">概览</div>
+                <a class="nav-item" href="#bg">1. 项目背景与问题</a>
+                <a class="nav-item" href="#code-analysis">2. 代码分析</a>
+                <a class="nav-item sub" href="#code-dao">2.1 DAO层读写路径</a>
+                <a class="nav-item sub" href="#code-key-findings">2.2 关键发现</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">架构设计</div>
+                <a class="nav-item" href="#architecture">3. 整体架构与阶段划分</a>
+                <a class="nav-item sub" href="#arch-diagram">3.1 架构图</a>
+                <a class="nav-item sub" href="#arch-phases">3.2 三阶段划分</a>
+                <a class="nav-item sub" href="#arch-apollo">3.3 Apollo开关设计</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">详细设计</div>
+                <a class="nav-item" href="#write-layer">4. 写入层改造</a>
+                <a class="nav-item sub" href="#write-routing">4.1 在现有ServiceImpl中内聚路由逻辑</a>
+                <a class="nav-item sub" href="#write-consistency">4.2 事务一致性保证</a>
+                <a class="nav-item sub" href="#write-ob-async">4.3 OB异步写入机制</a>
+                <a class="nav-item" href="#read-layer">5. 读取层改造</a>
+                <a class="nav-item sub" href="#read-routing">5.1 读取路由逻辑</a>
+                <a class="nav-item sub" href="#read-perf">5.2 OB查询性能考量</a>
+                <a class="nav-item" href="#migration">6. 数据迁移任务</a>
+                <a class="nav-item sub" href="#migration-design">6.1 迁移任务设计</a>
+                <a class="nav-item sub" href="#migration-consistency">6.2 迁移一致性保证</a>
+                <a class="nav-item sub" href="#migration-switch">6.3 迁移完成后切换流程</a>
+                <a class="nav-item sub" href="#migration-compare">6.4 抽样数据比对监控</a>
+                <a class="nav-item" href="#ob-infra">7. OceanBase接入与基础设施</a>
+                <a class="nav-item sub" href="#ob-datasource">7.1 OB数据源配置</a>
+                <a class="nav-item sub" href="#ob-dao">7.2 DAO/Mapper文件组织</a>
+                <a class="nav-item sub" href="#ob-table">7.3 表结构定义</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">实施</div>
+                <a class="nav-item" href="#file-list">8. 改造文件清单</a>
+                <a class="nav-item sub" href="#file-new">8.1 新增文件</a>
+                <a class="nav-item sub" href="#file-modify">8.2 修改文件</a>
+                <a class="nav-item" href="#deploy-steps">9. 上线步骤</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">风险</div>
+                <a class="nav-item" href="#risks">10. 已知问题与风险</a>
+                <a class="nav-item sub" href="#risk-old-table-scan">10.1 旧表时间范围查询效率</a>
+                <a class="nav-item sub" href="#risk-partition-pk">10.2 分区表主键必须包含分区键</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">评审</div>
+                <a class="nav-item" href="#review">11. 评审建议</a>
+            </div>
+        </nav>
+
+        <!-- 右侧正文 -->
+        <main class="content">
+            <div class="doc-header">
+                <h1>order_repay_withhold 表冷热分离改造设计文档</h1>
+                <div class="doc-meta">
+                    <div class="doc-meta-item"><span>项目：</span>APS (API Platform Server)</div>
+                    <div class="doc-meta-item"><span>日期：</span>2026-06-04</div>
+                    <div class="doc-meta-item"><span>版本：</span>v1.0</div>
+                    <div class="doc-meta-item"><span>状态：</span>已确认</div>
+                </div>
+            </div>
+
+            <!-- ===== 1. 项目背景与问题 ===== -->
+            <div class="section" id="bg">
+                <h2>1. 项目背景与问题</h2>
+
+                <p>APS 系统的 <code class="inline-code">order_repay_withhold</code> 表为 MySQL 5.6 表，当前面临严重的存储和性能问题：</p>
+
+                <table>
+                    <thead><tr><th>指标</th><th>当前值</th><th>影响</th></tr></thead>
+                    <tbody>
+                        <tr><td>存储空间</td><td>超过 800G</td><td>磁盘容量告警，影响整体数据库性能</td></tr>
+                        <tr><td>数据行数</td><td>2.8 亿</td><td>查询性能下降，定时任务扫描耗时长</td></tr>
+                        <tr><td>MySQL 版本</td><td>5.6</td><td>不支持分区表优化等新特性</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>改造目标</h3>
+                <ol>
+                    <li><strong>数据冷热分离</strong>：最近两个月的数据为热数据，存储在 MySQL 新表中；冷数据（全量）存储在 OceanBase 中</li>
+                    <li><strong>写入层面</strong>：前期三写（旧MySQL + 新MySQL + OB），迁移完成后改为双写（新MySQL + OB）</li>
+                    <li><strong>读取层面</strong>：迁移前查旧表，迁移后先查新热表，miss 则查 OB</li>
+                    <li><strong>数据迁移</strong>：将三写开启前的历史数据迁移到 OB，迁移过程中保持数据一致</li>
+                </ol>
+
+                <div class="callout callout-info">
+                    <strong>关键决策记录</strong>
+                    冷热边界按 <code class="inline-code">date_created</code> 划界 · 新热表与旧表同库同实例（共享DataSource，天然支持本地事务强一致）· OB首次接入APS · OB写入为事务提交后异步MQ · 迁移任务为APS内置定时任务 · 写入模式枚举开关（OLD_ONLY/TRIPLE/DUAL）+ 读取开关（readNew），共2个开关 · 路由逻辑内聚在现有ServiceImpl中，上层调用方零改动
+                </div>
+            </div>
+
+            <!-- ===== 2. 代码分析 ===== -->
+            <div class="section" id="code-analysis">
+                <h2>2. 代码分析</h2>
+
+                <h3 id="code-dao">2.1 DAO层读写路径汇总</h3>
+
+                <table>
+                    <thead>
+                        <tr><th>方法</th><th>类型</th><th>返回参数</th><th>查询条件</th><th>主要调用方</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="inline-code">insertSelective</code></td>
+                            <td><span class="tag tag-write">写</span></td>
+                            <td>int</td>
+                            <td>全字段动态插入</td>
+                            <td>DiDiOrderServiceProactivePay、XMeiTuanOrderServiceRepayPayApply、HaiErOrderServiceWithholdApply、YouQianHuaOrderServiceRepayPay、OrderRepayWithholdFlowService</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">updateRepayEntityByRepayTranNoAndState</code></td>
+                            <td><span class="tag tag-write">写</span></td>
+                            <td>int</td>
+                            <td>repayTranNo + withholdState（乐观锁）</td>
+                            <td>定时任务、MQ消费、各合作方代扣流程</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">selectByRepayTranNo</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>OrderRepayWithholdEntity</td>
+                            <td>repayTranNo</td>
+                            <td>TaskServiceImpl、DiDi/XMeiTuan/星选等合作方查询</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">selectByByMemberRequestNo</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>OrderRepayWithholdEntity</td>
+                            <td>memberRequestNo</td>
+                            <td>MQ消费通知、合作方代扣回调</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryRepayList</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>List&lt;OrderRepayWithholdEntity&gt;</td>
+                            <td>withholdState + id范围 + partnerCode + retryTime + maxQueryDate</td>
+                            <td><strong>定时任务核心查询</strong>（OrderRepayWithholdTask / OrderRepayWithholdQueryTask）</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryRepayByLoanTranNoAndTerm</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>OrderRepayWithholdEntity</td>
+                            <td>payType='3' + loanTranNo + term</td>
+                            <td>DiDiFacade（滴滴还款查询）</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryRepayByMemberRequestNoList</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>List&lt;OrderRepayWithholdEntity&gt;</td>
+                            <td>memberRequestNo IN 列表</td>
+                            <td>WithholdOrderServiceImpl（批量查询代扣详情）</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryByRepayTranNoAndPartnerCode</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>OrderRepayWithholdEntity</td>
+                            <td>repayTranNo + partnerCode</td>
+                            <td>HaiEr合作方代扣</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">selectMaxEntity</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>OrderRepayWithholdEntity</td>
+                            <td>id DESC LIMIT 1</td>
+                            <td>OrderRepayWithholdQueryTask（获取最大ID）</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">selectMaxIdEntityLessThanMinId</code></td>
+                            <td><span class="tag tag-read">读</span></td>
+                            <td>OrderRepayWithholdEntity</td>
+                            <td>id &lt; minId DESC LIMIT 1</td>
+                            <td>OrderRepayWithholdQueryTask（selectMaxIdLessThanMinDate）</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 id="code-key-findings">2.2 关键发现</h3>
+
+                <ol>
+                    <li><strong>写入场景集中在5个合作方</strong>：滴滴(DiDi)、新美团(XMeiTuan)、海尔(HaiEr)、星选(XingXuan)、有钱花(YouQianHua)，以及V3标准流程</li>
+                    <li><strong>定时任务重度依赖</strong>：<code class="inline-code">OrderRepayWithholdTask</code> 和 <code class="inline-code">OrderRepayWithholdQueryTask</code> 通过ID范围+状态扫描全表，是改造最复杂的部分</li>
+                    <li><strong>更新使用乐观锁</strong>：<code class="inline-code">updateRepayEntityByRepayTranNoAndState</code> 使用 <code class="inline-code">withholdState</code> 作为乐观锁条件，三写时需确保状态一致</li>
+                    <li><strong>MQ消费通知</strong>：<code class="inline-code">RepayWithholdResultNotifyHandler</code> 通过 <code class="inline-code">memberRequestNo</code> 查询后触发合作方回调</li>
+                    <li><strong>无V4直接调用</strong>：V4层不直接使用 <code class="inline-code">OrderRepayWithholdService</code>，只有 <code class="inline-code">PartnerUserRepayService</code> 引用了Entity类型（但已使用不同的表）</li>
+                </ol>
+            </div>
+
+            <!-- ===== 3. 整体架构与阶段划分 ===== -->
+            <div class="section" id="architecture">
+                <h2>3. 整体架构与阶段划分</h2>
+
+                <h3 id="arch-diagram">3.1 架构图</h3>
+
+                <div class="diagram">
+<pre>
+                         ┌─────────────────────────────────────┐
+                         │  上层调用方（无需改动）              │
+                         │  - 定时任务 (Task)                   │
+                         │  - MQ消费 (RepayWithholdResult...)   │
+                         │  - 合作方Service (DiDi/XMeiTuan/...) │
+                         │  - FlowService                       │
+                         └──────────────┬──────────────────────┘
+                                        │ 注入
+                         ┌──────────────▼──────────────────────┐
+                         │  OrderRepayWithholdServiceImpl       │  ← 现有Service，内聚路由逻辑
+                         │  (Apollo开关控制读写路由)            │
+                         └──┬──────────┬──────────┬────────────┘
+                            │          │          │
+               ┌────────────▼──┐  ┌───▼────────┐ ┌▼─────────────────┐
+               │ 旧MySQL DAO    │  │新MySQL DAO  │ │OB DAO (新数据源)  │
+               │(现有)          │  │(新增)       │ │(新增，异步写入)   │
+               └───────┬───────┘  └──────┬──────┘ └──────┬──────────┘
+                       │                 │                │
+               ┌───────▼───┐  ┌─────────▼──┐  ┌─────────▼──────────┐
+               │ 旧MySQL表   │  │新MySQL热表  │  │OB表 (新数据源)      │
+               │(同DataSource)│ │(同DataSource)│ │(OB DataSource)     │
+               └───────────┘  └────────────┘  └────────────────────┘
+</pre>
+                </div>
+
+                <div class="callout callout-success">
+                    <strong>关键设计：同库同实例强一致</strong>
+                    新热表与旧表在同一个 MySQL 实例的同一个库中，共享同一个 DataSource。Spring 的 @Transactional + PROPAGATION_REQUIRED 传播机制天然保证旧表和新热表在同一个本地事务中强一致。
+                </div>
+
+                <h3 id="arch-phases">3.2 三阶段划分</h3>
+
+                <div class="phase-flow">
+                    <div class="phase-card">
+                        <h4><span class="phase-num">1</span> 三写期</h4>
+                        <p><span class="phase-label">写入：</span>旧MySQL + 新MySQL（本地事务）+ OB（先同步写，失败走MQ）</p>
+                        <p><span class="phase-label">读取：</span>只查旧MySQL</p>
+                        <p><span class="phase-label">触发：</span>writeMode=TRIPLE, readNew=false</p>
+                    </div>
+                    <div class="phase-card">
+                        <h4><span class="phase-num">2</span> 迁移期</h4>
+                        <p><span class="phase-label">写入：</span>同三写期（旧MySQL + 新MySQL + OB）</p>
+                        <p><span class="phase-label">读取：</span>只查旧MySQL</p>
+                        <p><span class="phase-label">触发：</span>writeMode=TRIPLE, readNew=false</p>
+                    </div>
+                    <div class="phase-card">
+                        <h4><span class="phase-num">3</span> 切读期</h4>
+                        <p><span class="phase-label">写入：</span>同三写期（旧MySQL仍在写）</p>
+                        <p><span class="phase-label">读取：</span>先查新MySQL，miss则查OB</p>
+                        <p><span class="phase-label">触发：</span>writeMode=TRIPLE, readNew=true</p>
+                    </div>
+                    <div class="phase-card">
+                        <h4><span class="phase-num">4</span> 双写期</h4>
+                        <p><span class="phase-label">写入：</span>新MySQL + OB（先同步写，失败走MQ）</p>
+                        <p><span class="phase-label">读取：</span>先查新MySQL，miss则查OB</p>
+                        <p><span class="phase-label">触发：</span>writeMode=DUAL, readNew=true</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-warn">
+                    <strong>注意</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li>阶段一和阶段二在写入层面相同（三写），区别在于阶段二同时运行迁移任务</li>
+                        <li>阶段三（切读期）是关键过渡阶段：写入仍走三写（旧表仍在写），但读取切到新热表+OB。如果切读后发现问题，可以秒级回滚到读旧表（readNew=false），旧表数据仍在、写入仍在，回滚零风险</li>
+                        <li>切读期观察一周左右确认无问题后，再停写旧表进入双写期</li>
+                    </ul>
+                </div>
+
+                <h3 id="arch-apollo">3.3 Apollo开关设计</h3>
+
+                <p>用一个写入模式开关 + 一个读取开关 + 一个OB写入日志开关 + 一个OB读取日志开关，共4个开关覆盖所有场景：</p>
+
+                <table>
+                    <thead><tr><th>开关</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="inline-code">aps.apollo.config.repayWithholdWriteMode</code></td>
+                            <td>String</td>
+                            <td>OLD_ONLY</td>
+                            <td>写入模式：OLD_ONLY / TRIPLE / DUAL</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">aps.apollo.function.switch.repayWithholdReadNew</code></td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>读取路由开关，true=先查热表miss查OB</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">aps.apollo.function.switch.repayWithholdObWriteLog</code></td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>OB写入日志开关，true=打印OB同步写入/降级MQ的详细日志</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">aps.apollo.function.switch.repayWithholdObReadLog</code></td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>OB读取日志开关，true=打印查OB的OUTREQ/OUTRESP日志，用于观察穿透到OB层的查询量</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>写入模式枚举定义</h4>
+<pre>
+public enum RepayWithholdWriteModeEnum {
+    OLD_ONLY("OLD_ONLY", "只写旧MySQL表"),
+    TRIPLE("TRIPLE", "三写：旧MySQL + 新MySQL热表 + OB异步"),
+    DUAL("DUAL", "双写：新MySQL热表 + OB异步（停写旧表）");
+}
+</pre>
+
+                <h4>各模式对应的写入行为</h4>
+
+                <table>
+                    <thead><tr><th>writeMode</th><th>旧MySQL</th><th>新MySQL热表</th><th>OB（异步）</th><th>readNew</th><th>说明</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="inline-code">OLD_ONLY</code></td>
+                            <td>✅</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>false</td>
+                            <td>默认状态，代码上线后无任何行为变化</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">TRIPLE</code></td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>false</td>
+                            <td>三写：旧+新（本地事务强一致）+ OB异步</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">DUAL</code></td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>true</td>
+                            <td>双写：停写旧表，读写走新表+OB</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info">
+                    <strong>紧急回滚</strong>
+                    将 writeMode 从 TRIPLE/DUAL 切回 OLD_ONLY，readNew 切回 false，即可秒级回滚到只写旧表的状态。
+                </div>
+            </div>
+
+            <!-- ===== 4. 写入层改造 ===== -->
+            <div class="section" id="write-layer">
+                <h2>4. 写入层改造</h2>
+
+                <h3 id="write-routing">4.1 在现有ServiceImpl中内聚路由逻辑</h3>
+
+                <p>不新增路由层Service，直接在现有 <code class="inline-code">OrderRepayWithholdServiceImpl</code> 中增加路由逻辑。新增注入 HotDao 和 OB 异步写入组件，每个方法内部通过 Apollo 开关判断走哪条路径。<strong>所有上层调用方零改动</strong>，仍然注入 <code class="inline-code">orderRepayWithholdServiceImpl</code>。</p>
+
+                <div class="diagram">
+<pre>
+上层调用方（无需改动，仍然注入 orderRepayWithholdServiceImpl）
+  │
+  ▼
+OrderRepayWithholdServiceImpl  ← 在现有类中增加路由逻辑
+  ├── orderRepayWithholdDao         （旧MySQL，现有）
+  ├── orderRepayWithholdHotDao      （新MySQL热表，新增注入）
+  └── obWriteProducer               （OB异步写入MQ生产者，新增注入）
+</pre>
+                </div>
+
+                <div class="callout callout-success">
+                    <strong>核心优势</strong>
+                    改动集中在 OrderRepayWithholdServiceImpl 一个文件中，上层 20+ 个调用方（定时任务、MQ消费、合作方Service、FlowService）无需任何改动。不新增路由层Service，避免大量Bean名称修改。
+                </div>
+
+                <h4>插入操作改造</h4>
+<pre>
+// OrderRepayWithholdServiceImpl 中新增注入
+@Resource
+private OrderRepayWithholdHotDao orderRepayWithholdHotDao;
+@Resource
+private OrderRepayWithholdObDao orderRepayWithholdObDao;
+@Resource
+private ObWriteProducer obWriteProducer;
+
+// saveRepayInfo 改造
+@Override
+@Transactional(rollbackFor = Exception.class)
+public int saveRepayInfo(OrderRepayWithholdEntity entity,
+                         OrderRepayWithholdDetailEntity detailEntity) {
+    RepayWithholdWriteModeEnum writeMode = getWriteMode();
+    int countRepay = 0;
+    int countDetail = 0;
+
+    // 写旧表（OLD_ONLY / TRIPLE），insertSelective后MyBatis自动回填自增ID到entity.id
+    if (writeMode == OLD_ONLY || writeMode == TRIPLE) {
+        countRepay = orderRepayWithholdDao.insertSelective(entity);
+    }
+
+    // 写新热表 + 写OB（TRIPLE / DUAL）
+    if (writeMode == TRIPLE || writeMode == DUAL) {
+        // TRIPLE：entity.id已被旧表回填，热表insertSelective使用该id，三表id一致
+        // DUAL：旧表不写，由热表自增生成id并回填到entity.id
+        orderRepayWithholdHotDao.insertSelective(entity);
+        // OB写入：事务提交后先同步写OB，异常时降级为异步MQ
+        OrderRepayWithholdEntity entityForOb = cloneEntity(entity);
+        registerAfterCommitCallback(() -&gt;
+            writeObWithFallback(() -&gt;
+                orderRepayWithholdObDao.insertOrupdateByRepayTranNo(entityForOb),
+                () -&gt; obWriteProducer.sendInsertMessage(entityForOb),
+                "INSERT", entityForOb.getRepayTranNo()));
+    }
+
+    // detail表与withhold表同库同数据源，所有模式下都写入
+    countDetail = orderRepayWithholdDetailDao.insertSelective(detailEntity);
+
+    return countRepay &gt; 0 &amp;&amp; countDetail &gt; 0 ? 1 : 0;
+}
+
+// insertRepayEntity 改造
+@Override
+@Transactional(rollbackFor = Exception.class)
+public int insertRepayEntity(OrderRepayWithholdEntity entity) {
+    RepayWithholdWriteModeEnum writeMode = getWriteMode();
+    int result = 0;
+
+    // 写旧表（OLD_ONLY / TRIPLE），insertSelective后MyBatis自动回填自增ID到entity.id
+    if (writeMode == OLD_ONLY || writeMode == TRIPLE) {
+        result = orderRepayWithholdDao.insertSelective(entity);
+    }
+
+    // 写新热表 + 写OB（TRIPLE / DUAL）
+    if (writeMode == TRIPLE || writeMode == DUAL) {
+        // TRIPLE：entity.id已被旧表回填，热表insertSelective使用该id，三表id一致
+        // DUAL：旧表不写，由热表自增生成id并回填到entity.id
+        orderRepayWithholdHotDao.insertSelective(entity);
+        // OB写入：事务提交后先同步写OB，异常时降级为异步MQ
+        OrderRepayWithholdEntity entityForOb = cloneEntity(entity);
+        registerAfterCommitCallback(() -&gt;
+            writeObWithFallback(() -&gt;
+                orderRepayWithholdObDao.insertOrupdateByRepayTranNo(entityForOb),
+                () -&gt; obWriteProducer.sendInsertMessage(entityForOb),
+                "INSERT", entityForOb.getRepayTranNo()));
+    }
+
+    return result;
+}
+</pre>
+
+                <div class="callout callout-info">
+                    <strong>自增ID一致性保证</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li>MyBatis 的 <code class="inline-code">insertSelective</code> 配合 <code class="inline-code">useGeneratedKeys=true</code>，插入后自动将数据库自增ID回填到 Entity 的 <code class="inline-code">id</code> 字段</li>
+                        <li>TRIPLE 模式：旧表先插入 → id 回填到 entity → 热表插入时 entity 已有 id（热表 Mapper 的 <code class="inline-code">&lt;if test="id != null"&gt;</code> 使用传入 id）→ OB 异步写入时 entity 中已携带 id，三表 id 一致</li>
+                        <li>DUAL 模式：旧表不写入 → 热表插入 → id 回填到 entity → OB 异步写入时使用热表回填的 id</li>
+                        <li>热表 Mapper XML 中 <code class="inline-code">insertSelective</code> 的 <code class="inline-code">id</code> 字段需使用 <code class="inline-code">&lt;if test="id != null"&gt;</code> 动态判断：id 为 null 时由数据库自增（DUAL 模式），id 不为 null 时使用传入值（TRIPLE 模式下由旧表回填）</li>
+                    </ul>
+                </div>
+
+                <h4>更新操作改造</h4>
+<pre>
+@Override
+@Transactional(rollbackFor = Exception.class)
+public int updateRepayEntityByRepayTranNoAndState(
+        OrderRepayWithholdEntity entity, String oldState) {
+    RepayWithholdWriteModeEnum writeMode = getWriteMode();
+    int result = 0;
+
+    // 写旧表
+    if (writeMode == OLD_ONLY || writeMode == TRIPLE) {
+        result = orderRepayWithholdDao
+            .updateRepayEntityByRepayTranNoAndState(entity, oldState);
+    }
+    // 写新热表 + 写OB（TRIPLE / DUAL）
+    if (writeMode == TRIPLE || writeMode == DUAL) {
+        orderRepayWithholdHotDao
+            .updateRepayEntityByRepayTranNoAndState(entity, oldState);  // 同一事务强一致
+        // OB写入：事务提交后先同步写OB，异常时降级为异步MQ
+        OrderRepayWithholdEntity entityForOb = cloneEntity(entity);
+        registerAfterCommitCallback(() -&gt;
+            writeObWithFallback(() -&gt;
+                orderRepayWithholdObDao.updateByRepayTranNo(entityForOb),
+                () -&gt; obWriteProducer.sendUpdateMessage(entityForOb, oldState),
+                "UPDATE", entityForOb.getRepayTranNo()));
+    }
+
+    return result;
+}
+
+@Override
+@Transactional(rollbackFor = Exception.class)
+public int updateRepayEntityByRepayTranNo(OrderRepayWithholdEntity entity) {
+    // 不能委托给 updateRepayEntityByRepayTranNoAndState，同类内部调用会导致 @Transactional 不生效
+    RepayWithholdWriteModeEnum writeMode = getWriteMode();
+    int result = 0;
+
+    // 写旧表
+    if (writeMode == OLD_ONLY || writeMode == TRIPLE) {
+        result = orderRepayWithholdDao
+            .updateRepayEntityByRepayTranNoAndState(entity, null);
+    }
+    // 写新热表 + 写OB（TRIPLE / DUAL）
+    if (writeMode == TRIPLE || writeMode == DUAL) {
+        orderRepayWithholdHotDao
+            .updateRepayEntityByRepayTranNoAndState(entity, null);
+        // OB写入：事务提交后先同步写OB，异常时降级为异步MQ
+        OrderRepayWithholdEntity entityForOb = cloneEntity(entity);
+        registerAfterCommitCallback(() -&gt;
+            writeObWithFallback(() -&gt;
+                orderRepayWithholdObDao.updateByRepayTranNo(entityForOb),
+                () -&gt; obWriteProducer.sendUpdateMessage(entityForOb, null),
+                "UPDATE", entityForOb.getRepayTranNo()));
+    }
+
+    return result;
+}
+</pre>
+
+                <div class="callout callout-info">
+                    <strong>事务注解说明</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li>所有写入方法（<code class="inline-code">saveRepayInfo</code>、<code class="inline-code">insertRepayEntity</code>、<code class="inline-code">updateRepayEntityByRepayTranNoAndState</code>、<code class="inline-code">updateRepayEntityByRepayTranNo</code>）都加了 <code class="inline-code">@Transactional</code>，确保不管调用方是否有事务，旧表+热表都在同一事务中强一致</li>
+                        <li>调用方<b>有事务</b>时（如 <code class="inline-code">updateAndSaveRepayWithholdBill</code>）：Spring <code class="inline-code">PROPAGATION_REQUIRED</code>，加入调用方事务，不新建</li>
+                        <li>调用方<b>没有事务</b>时（如 <code class="inline-code">AbstractPartnerRepayWithholdProcessService</code>、<code class="inline-code">HaiErWithholdMockTask</code>）：自身事务生效，保证旧表+热表强一致</li>
+                        <li><code class="inline-code">updateRepayEntityByRepayTranNo</code> <b>不能</b>委托给 <code class="inline-code">updateRepayEntityByRepayTranNoAndState</code>，因为同类内部方法调用不经过 Spring AOP 代理，<code class="inline-code">@Transactional</code> 不生效。必须独立编写路由逻辑并加 <code class="inline-code">@Transactional</code></li>
+                    </ul>
+                </div>
+
+                <h4>Apollo开关读取方法</h4>
+<pre>
+private RepayWithholdWriteModeEnum getWriteMode() {
+    return ApsApolloConfiguration.getRepayWithholdWriteMode();
+    // 返回 OLD_ONLY / TRIPLE / DUAL
+}
+
+private boolean isReadNew() {
+    return ApsApolloFunctionSwitch.isRepayWithholdReadNew();
+}
+</pre>
+
+                <h3 id="write-consistency">4.2 事务一致性保证</h3>
+
+                <h4>强一致：旧MySQL + 新MySQL</h4>
+
+                <p>新热表与旧表在同一个 MySQL 实例的同一个库中，共享同一个 DataSource。Spring 的 <code class="inline-code">@Transactional</code> 基于 ThreadLocal 绑定 Connection，当方法有 <code class="inline-code">@Transactional</code> 时，旧表 DAO 和新热表 DAO 的操作使用同一个 Connection，天然属于同一个事务。</p>
+
+                <div class="diagram">
+<pre>
+调用链示例：
+OrderRepayWithholdFlowServiceImpl.updateAndSaveRepayWithholdBill()  ← @Transactional 开启事务
+  → orderRepayWithholdService.updateRepayEntityByRepayTranNoAndState()
+    → orderRepayWithholdDao.update(...)     ← 同一Connection（旧表）
+    → orderRepayWithholdHotDao.update(...)  ← 同一Connection（新热表）
+                                                               ↑ 全部成功才commit，任一失败则rollback
+</pre>
+                </div>
+
+                <h4>嵌套事务安全性</h4>
+
+                <p>改造后，写入方法自身都加了 <code class="inline-code">@Transactional</code>，而部分调用方也有 <code class="inline-code">@Transactional</code>，形成嵌套。Spring 默认 <code class="inline-code">PROPAGATION_REQUIRED</code> 的语义是"有事务就加入，没有就新建"，在<strong>同 DataSource</strong> 场景下：</p>
+
+                <table>
+                    <thead><tr><th>场景</th><th>行为</th><th>强一致</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>调用方有事务（如 <code class="inline-code">updateAndSaveRepayWithholdBill</code>）</td>
+                            <td>内层加入外层事务，共享同一个 Connection</td>
+                            <td>✅ 旧表+热表在同一事务中</td>
+                        </tr>
+                        <tr>
+                            <td>调用方没有事务（如 <code class="inline-code">AbstractPartnerRepayWithholdProcessService</code>）</td>
+                            <td>自身事务生效，新建独立事务</td>
+                            <td>✅ 旧表+热表在同一事务中</td>
+                        </tr>
+                        <tr>
+                            <td>多层嵌套（如 FlowService → ServiceImpl.saveRepayInfo）</td>
+                            <td>所有内层加入最外层事务，共享同一个 Connection</td>
+                            <td>✅ 全部操作在同一事务中</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>关键前提：旧表和热表在<strong>同一个 MySQL 实例同一个库</strong>，共享同一个 DataSource，因此同一个事务中操作两张表使用的是同一个 Connection，不存在跨数据源事务问题。</p>
+
+                <h3 id="write-ob-async">4.3 OB异步写入机制</h3>
+
+                <h4>事务提交后回调的触发时机</h4>
+
+                <p><code class="inline-code">registerAfterCommitCallback</code> 通过 <code class="inline-code">TransactionSynchronizationManager</code> 注册，回调绑定在<strong>当前活跃的物理事务</strong>上。当存在事务嵌套时（内层 <code class="inline-code">PROPAGATION_REQUIRED</code> 加入外层事务），回调在<strong>最外层事务提交后</strong>才触发。</p>
+
+                <div class="diagram">
+<pre>
+场景：OrderRepayWithholdFlowServiceImpl.updateAndSaveRepayWithholdBill()（外层事务）
+  → orderRepayWithholdService.updateRepayEntityByRepayTranNoAndState()（内层，加入外层事务）
+    → 旧表 update
+    → 热表 update
+    → registerAfterCommitCallback(OB写入)  ← 注册到外层事务上
+  → orderRepayWithholdBillService.insert()（bill表）
+  → 外层事务 commit  ← 此时触发 afterCommit，发送OB写入MQ
+
+OB写入在所有MySQL操作（withhold旧表 + withhold热表 + bill表）都成功提交后才执行
+</pre>
+                </div>
+
+                <p>这保证了 OB 异步写入的前提是<strong>所有 MySQL 写入都已持久化</strong>，不会出现 MySQL 写入回滚但 OB 已写入的不一致情况。</p>
+
+<pre>
+private void registerAfterCommitCallback(Runnable callback) {
+    if (TransactionSynchronizationManager.isSynchronizationActive()) {
+        TransactionSynchronizationManager.registerSynchronization(
+            new TransactionSynchronizationAdapter() {
+                @Override
+                public void afterCommit() {
+                    callback.run();
+                }
+            });
+    } else {
+        // 无事务上下文时直接执行
+        callback.run();
+    }
+}
+</pre>
+
+                <h4>MQ异步写入流程</h4>
+
+                <div class="diagram">
+<pre>
+本地事务（旧MySQL + 新MySQL）提交成功
+  → TransactionSynchronizationManager.afterCommit()
+    → 发送 RocketMQ 消息（topic: aps_ob_write_topic）
+      → OB 消费端执行写入
+        → 成功：ACK
+        → 失败：RocketMQ 自动重试（默认16次）
+          → 超过最大重试：进入死信队列，人工处理
+</pre>
+                </div>
+
+                <h4>MQ消息体结构</h4>
+<pre>
+{
+    "operationType": "INSERT | UPDATE",
+    "tableName": "order_repay_withhold",
+    "primaryKey": {"repayTranNo": "xxx"},
+    "entityJson": "{...}",           // 全量Entity JSON
+    "oldWithholdState": "xxx",       // 仅UPDATE时有值
+    "retryCount": 0
+}
+</pre>
+
+                <h4>关键设计决策</h4>
+                <ul>
+                    <li><strong>全量写入而非增量</strong>：OB 的更新操作使用全量 Entity 覆盖（<code class="inline-code">updateByRepayTranNo</code>，不带乐观锁条件），避免旧状态值在 OB 侧不一致导致更新失败</li>
+                    <li><strong>插入幂等</strong>：OB 的 insert 使用 <code class="inline-code">INSERT ON DUPLICATE KEY UPDATE</code>（OB 支持 MySQL 协议），保证重复消费不报错</li>
+                    <li><strong>无额外补偿表</strong>：OB 写入失败通过 RocketMQ 重试机制保证最终一致，超过重试次数进入死信队列人工处理</li>
+                </ul>
+            </div>
+
+            <!-- ===== 5. 读取层改造 ===== -->
+            <div class="section" id="read-layer">
+                <h2>5. 读取层改造</h2>
+
+                <h3 id="read-routing">5.1 读取路由逻辑</h3>
+
+                <p>读取路由逻辑同样内聚在 <code class="inline-code">OrderRepayWithholdServiceImpl</code> 中，通过 Apollo 开关判断查询目标：</p>
+
+<pre>
+@Override
+public OrderRepayWithholdEntity queryRepayByRepayTranNo(String repayTranNo) {
+    if (isReadNew()) {
+        // 阶段三：先查新热表，miss则查OB
+        OrderRepayWithholdEntity entity =
+            orderRepayWithholdHotDao.selectByRepayTranNo(repayTranNo);
+        if (entity != null) {
+            return entity;
+        }
+        return orderRepayWithholdObDao.selectByRepayTranNo(repayTranNo);
+    }
+    // 阶段一/二：查旧表
+    return orderRepayWithholdDao.selectByRepayTranNo(repayTranNo);
+}
+</pre>
+
+                <h4>各查询方法路由策略</h4>
+
+                <table>
+                    <thead><tr><th>查询方法</th><th>阶段一/二（迁移前）</th><th>阶段三（迁移后）</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code class="inline-code">queryRepayByRepayTranNo</code></td>
+                            <td>旧表</td>
+                            <td>热表 → OB</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryRepayByMemberRequestNo</code></td>
+                            <td>旧表</td>
+                            <td>热表 → OB</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryRepayList</code></td>
+                            <td>旧表</td>
+                            <td><strong>只查热表</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryRepayByLoanTranNoAndTerm</code></td>
+                            <td>旧表</td>
+                            <td>热表 → OB</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryRepayByMemberRequestNoList</code></td>
+                            <td>旧表</td>
+                            <td>热表 → OB</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">queryByRepayTranNoAndPartnerCode</code></td>
+                            <td>旧表</td>
+                            <td>热表 → OB</td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">selectMaxEntity</code></td>
+                            <td>旧表</td>
+                            <td><strong>只查热表</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code class="inline-code">selectMaxIdLessThanMinDate</code></td>
+                            <td>旧表</td>
+                            <td><strong>只查热表</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-info">
+                    <strong>定时任务查询说明</strong>
+                    <code class="inline-code">queryRepayList</code>、<code class="inline-code">selectMaxEntity</code>、<code class="inline-code">selectMaxIdLessThanMinDate</code> 三个方法用于定时任务，迁移后只查热表即可。因为热表保留最近2个月数据，而定时任务处理的是 WITHHOLD_INIT / WITHHOLD_REQ_SUCCESS 状态的代扣进行中数据，这些数据不会超过2个月。
+                </div>
+
+                <h3 id="read-perf">5.2 OB查询性能考量</h3>
+
+                <p>阶段三中，"热表 miss → 查 OB" 会增加一次远程调用延迟。优化策略：</p>
+
+                <ol>
+                    <li><strong>缓存层</strong>：对热点数据（如 WITHHOLD_INIT/WITHHOLD_REQ_SUCCESS 状态的记录），在 Redis 中缓存，减少穿透到 OB 的查询</li>
+                    <li><strong>OB 查询超时</strong>：设置 OB 查询超时时间（如 500ms），超时返回空，不阻塞主流程</li>
+                    <li><strong>监控</strong>：对 OB 查询的 QPS、延迟、miss 率做 Prometheus 指标监控</li>
+                </ol>
+            </div>
+
+            <!-- ===== 6. 数据迁移任务 ===== -->
+            <div class="section" id="migration">
+                <h2>6. 数据迁移任务</h2>
+
+                <h3 id="migration-design">6.1 迁移任务设计</h3>
+
+                <p>新增定时任务 <code class="inline-code">OrderRepayWithholdMigrationTask</code>，负责将三写开启前的历史数据从旧MySQL表迁移到OB表。</p>
+
+                <div class="callout callout-warn">
+                    <strong>迁移范围</strong>
+                    只迁移三写开启时间点之前 <code class="inline-code">date_created</code> 的数据。三写开启后的数据已通过三写机制写入OB，无需重复迁移。
+                </div>
+
+                <p>迁移策略：基于 ID 范围分批迁移，与现有 <code class="inline-code">OrderRepayWithholdQueryTask</code> 类似。</p>
+
+<pre>
+@Slf4j
+@Service("orderRepayWithholdMigrationTask")
+public class OrderRepayWithholdMigrationTask
+        extends AbstractCronTaskClientService {
+
+    @Resource
+    private OrderRepayWithholdDao orderRepayWithholdDao;                  // 旧表
+    @Resource
+    private OrderRepayWithholdObDao orderRepayWithholdObDao;              // OB表
+    @Resource
+    private OrderRepayWithholdMigrationRecordService migrationRecordService;
+
+    @Override
+    public List&lt;ExecuteItem&gt; selectTasks(TaskParam taskParam, String ownSign) {
+        // 1. 获取迁移起始ID（从迁移进度表读取）
+        Long startId = migrationRecordService.getLastMigratedId();
+
+        // 2. 获取三写开启时间点前最大的ID（迁移终点）
+        Long endId = orderRepayWithholdDao
+            .selectMaxIdBeforeTripleWriteTime();
+
+        // 3. 分批读取旧表数据并写入OB
+        long batchStartId = startId;
+        long batchSize = 10000;  // 每批1万条
+        while (batchStartId &lt;= endId) {
+            long batchEndId = batchStartId + batchSize;
+
+            List&lt;OrderRepayWithholdEntity&gt; batch =
+                orderRepayWithholdDao.queryByIdRange(batchStartId, batchEndId);
+
+            if (CollectionUtils.isNotEmpty(batch)) {
+                // 批量写入OB（INSERT ON DUPLICATE KEY UPDATE 保证幂等）
+                orderRepayWithholdObDao.batchInsert(batch);
+
+                // 更新迁移进度
+                long lastId = batch.get(batch.size() - 1).getId();
+                migrationRecordService.updateLastMigratedId(lastId);
+            }
+
+            batchStartId = batchEndId;
+            ThreadUtil.sleep(100);  // 批次间休眠，降低对旧表压力
+        }
+        return null;
+    }
+}
+</pre>
+
+                <h3 id="migration-consistency">6.2 迁移一致性保证</h3>
+
+                <p><strong>问题</strong>：操作时间线为"先开启三写 → 再启动迁移任务"。迁移任务只迁移三写开启前创建的数据（<code class="inline-code">date_created &lt;= migrationStartTime</code>），但这些数据在三写开启后可能被更新（代扣状态流转），如何保证迁移到 OB 的数据是最新的？</p>
+
+                <p><strong>方案：二次校验</strong>——全量迁移完成后，按 ID 范围扫描旧表中三写开启前创建的记录，逐条与 OB 中对应记录比对关键字段（withhold_state、withhold_amount、result_code、result_msg、date_updated 等），关键字段不一致时以旧表数据为准覆盖写入 OB。</p>
+
+                <div class="callout callout-info">
+                    <strong>为什么不按 date_updated 查询</strong>
+                    旧表无 <code class="inline-code">date_updated</code> 索引，按 <code class="inline-code">date_updated &gt;= migrationStartTime</code> 查询会全表扫描，2.8 亿行遍历效率极低。改为按 ID 范围扫描（走主键索引），逐条比对关键字段，性能可控。
+                </div>
+
+                <h4>二次校验实现</h4>
+
+                <p>全量迁移完成后，按 ID 范围分批扫描三写开启前的记录，逐条与 OB 比对关键字段，不一致时以旧表数据覆盖写入 OB：</p>
+
+<pre>
+// 二次校验：按ID范围扫描，逐条比对关键字段，不一致时以旧表为准覆盖OB
+Long maxIdBeforeMigration = orderRepayWithholdDao
+    .selectMaxIdBeforeTripleWriteTime(migrationStartTime);
+long batchSize = 10000;
+long startId = 0;
+int diffCount = 0;
+
+while (startId &lt;= maxIdBeforeMigration) {
+    long endId = startId + batchSize;
+
+    // 按ID范围查询旧表数据（走主键索引，性能可控）
+    List&lt;OrderRepayWithholdEntity&gt; batch =
+        orderRepayWithholdDao.queryByIdRangeAndCreatedBefore(
+            startId, endId, migrationStartTime);
+
+    if (CollectionUtils.isNotEmpty(batch)) {
+        for (OrderRepayWithholdEntity mysqlEntity : batch) {
+            // 查OB对应记录
+            OrderRepayWithholdEntity obEntity =
+                orderRepayWithholdObDao.selectByRepayTranNo(
+                    mysqlEntity.getRepayTranNo());
+
+            if (obEntity == null) {
+                // OB缺失，以旧表为准写入
+                orderRepayWithholdObDao.insertOrupdateByRepayTranNo(mysqlEntity);
+                diffCount++;
+                continue;
+            }
+
+            // 比对关键字段，不一致时以旧表为准覆盖
+            if (!Objects.equals(mysqlEntity.getWithholdState(), obEntity.getWithholdState())
+                    || !Objects.equals(mysqlEntity.getWithholdAmount(), obEntity.getWithholdAmount())
+                    || !Objects.equals(mysqlEntity.getResultCode(), obEntity.getResultCode())
+                    || !Objects.equals(mysqlEntity.getResultMsg(), obEntity.getResultMsg())
+                    || !DateUtils.truncatedEquals(mysqlEntity.getDateUpdated(),
+                            obEntity.getDateUpdated(), Calendar.SECOND)) {
+                orderRepayWithholdObDao.updateByRepayTranNo(mysqlEntity);
+                diffCount++;
+            }
+        }
+    }
+
+    startId = endId;
+}
+
+if (diffCount &gt; 0) {
+    log.info("PRO 二次校验 发现{}条关键字段不一致的记录，已以旧表数据覆盖写入OB", diffCount);
+} else {
+    log.info("PRO 二次校验 所有关键字段一致，数据一致");
+}
+</pre>
+
+                <h4>DAO 新增方法</h4>
+
+                <p>旧表 DAO 新增两个查询方法：</p>
+
+<pre>
+// OrderRepayWithholdDao.java 新增
+
+// 全量迁移：按ID范围 + 创建时间过滤
+List&lt;OrderRepayWithholdEntity&gt; queryByIdRangeAndCreatedBefore(
+    @Param("minId") Long minId,
+    @Param("maxId") Long maxId,
+    @Param("migrationStartTime") Date migrationStartTime);
+
+// 二次校验：获取三写开启前最大的ID（迁移终点）
+Long selectMaxIdBeforeTripleWriteTime(
+    @Param("migrationStartTime") Date migrationStartTime);
+</pre>
+
+                <p>对应 Mapper XML：</p>
+
+<pre>
+&lt;!-- 全量迁移查询 --&gt;
+&lt;select id="queryByIdRangeAndCreatedBefore" resultMap="BaseResultMap"&gt;
+    select &lt;include refid="Base_Column_List"/&gt;
+    from order_repay_withhold
+    where id &gt;= #{minId}
+    &lt;if test="maxId != null"&gt;
+        and id &lt;![CDATA[ &lt; ]]> #{maxId}
+    &lt;/if&gt;
+    and date_created &lt;= #{migrationStartTime}
+    order by id asc limit 10000
+&lt;/select&gt;
+
+&lt;!-- 二次校验：获取三写开启前最大的ID --&gt;
+&lt;select id="selectMaxIdBeforeTripleWriteTime" resultType="java.lang.Long"&gt;
+    select max(id) from order_repay_withhold
+    where date_created &lt;= #{migrationStartTime}
+&lt;/select&gt;
+</pre>
+</pre>
+
+                <h4>OB Mapper 新增批量写入方法</h4>
+
+<pre>
+&lt;!-- OrderRepayWithholdObMapper.xml --&gt;
+&lt;insert id="batchInsertOnDuplicateUpdate" parameterType="java.util.List"&gt;
+    insert into order_repay_withhold_backup
+    (id, order_no, repay_tran_no, partner_code, loan_tran_no,
+     repay_detail_id, user_no, cust_no, pay_type, repay_type,
+     repay_terms, repay_amount, member_request_no, member_request_time,
+     commit_pcs_count, member_no, withhold_state, channel_code,
+     channel_member_no, channel_order_no, channel_label, withhold_amount,
+     repay_time, return_time, result_code, result_msg, ext_info,
+     date_created, created_by, date_updated, updated_by)
+    values
+    &lt;foreach collection="list" item="item" separator=","&gt;
+        (#{item.id}, #{item.orderNo}, #{item.repayTranNo}, #{item.partnerCode},
+         #{item.loanTranNo}, #{item.repayDetailId}, #{item.userNo}, #{item.custNo},
+         #{item.payType}, #{item.repayType}, #{item.repayTerms}, #{item.repayAmount},
+         #{item.memberRequestNo}, #{item.memberRequestTime}, #{item.commitPcsCount},
+         #{item.memberNo}, #{item.withholdState}, #{item.channelCode},
+         #{item.channelMemberNo}, #{item.channelOrderNo}, #{item.channelLabel},
+         #{item.withholdAmount}, #{item.repayTime}, #{item.returnTime},
+         #{item.resultCode}, #{item.resultMsg}, #{item.extInfo},
+         #{item.dateCreated}, #{item.createdBy}, #{item.dateUpdated}, #{item.updatedBy})
+    &lt;/foreach&gt;
+    on duplicate key update
+        withhold_state = values(withhold_state),
+        withhold_amount = values(withhold_amount),
+        repay_time = values(repay_time),
+        return_time = values(return_time),
+        result_code = values(result_code),
+        result_msg = values(result_msg),
+        ext_info = values(ext_info),
+        commit_pcs_count = values(commit_pcs_count),
+        member_no = values(member_no),
+        member_request_no = values(member_request_no),
+        member_request_time = values(member_request_time),
+        channel_code = values(channel_code),
+        channel_member_no = values(channel_member_no),
+        channel_order_no = values(channel_order_no),
+        channel_label = values(channel_label),
+        date_updated = values(date_updated),
+        updated_by = values(updated_by)
+&lt;/insert&gt;
+</pre>
+
+                <div class="callout callout-info">
+                    <strong>二次校验逻辑说明</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li><strong>扫描范围</strong>：按 ID 范围扫描三写开启前创建的记录（<code class="inline-code">date_created &lt;= migrationStartTime</code>），走主键索引，避免全表扫描</li>
+                        <li><strong>比对方式</strong>：逐条与 OB 对应记录比对关键字段（withhold_state、withhold_amount、result_code、result_msg、date_updated），与抽样比对（6.4节）逻辑一致</li>
+                        <li><strong>不一致处理</strong>：关键字段不一致时，以旧 MySQL 表数据为准覆盖写入 OB（updateByRepayTranNo 全量覆盖）</li>
+                        <li><strong>OB 缺失处理</strong>：OB 中找不到对应记录时，以旧表数据为准写入 OB（insertOrupdateByRepayTranNo）</li>
+                        <li>三写开启后新创建的数据已通过三写机制写入 OB，不需要二次校验</li>
+                    </ul>
+                </div>
+
+                <h4>迁移进度表</h4>
+
+                <table>
+                    <thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
+                    <tbody>
+                        <tr><td>id</td><td>BIGINT PK</td><td>自增ID</td></tr>
+                        <tr><td>table_name</td><td>VARCHAR(64)</td><td>表名</td></tr>
+                        <tr><td>last_migrated_id</td><td>BIGINT</td><td>已迁移的最大ID</td></tr>
+                        <tr><td>migration_status</td><td>VARCHAR(32)</td><td>RUNNING / COMPLETED / FAILED</td></tr>
+                        <tr><td>triple_write_start_time</td><td>DATETIME</td><td>三写开启时间点</td></tr>
+                        <tr><td>date_created</td><td>DATETIME</td><td>创建时间</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 id="migration-switch">6.3 迁移完成后切换流程</h3>
+
+                <ol class="step-list">
+                    <li>确认迁移任务完成（<code class="inline-code">migration_status = COMPLETED</code>）</li>
+                    <li>验证数据一致性（抽样对比旧表和OB的数据）</li>
+                    <li>切换 Apollo 开关：<code class="inline-code">writeMode=DUAL, readNew=true</code></li>
+                    <li>观察运行一段时间，确认无问题</li>
+                    <li>关闭旧表写入（停止写旧表）</li>
+                    <li>后续清理：旧表数据归档/删除（不在本次改造范围内）</li>
+                </ol>
+
+                <h3 id="migration-compare">6.4 抽样数据比对监控</h3>
+
+                <p>迁移完成后，新增定时任务 <code class="inline-code">OrderRepayWithholdDataCompareTask</code>，按ID等间隔抽样比对 MySQL 旧表与 OceanBase 表的数据，发现差异时输出异常日志告警。</p>
+
+                <div class="callout callout-info">
+                    <strong>设计要点</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li><strong>抽样策略</strong>：从起始ID开始，每隔一定间隔（如每1000条）抽取1条数据进行比对，兼顾覆盖率与执行效率</li>
+                        <li><strong>比对维度</strong>：以 <code class="inline-code">id</code> 定位记录，对比关键字段（<code class="inline-code">withhold_state</code>、<code class="inline-code">withhold_amount</code>、<code class="inline-code">result_code</code>、<code class="inline-code">result_msg</code>、<code class="inline-code">date_updated</code> 等），不做全字段对比以减少内存占用</li>
+                        <li><strong>比对表</strong>：旧MySQL表 vs OB表，验证迁移和三写的数据一致性</li>
+                        <li><strong>触发条件</strong>：仅在迁移完成后（<code class="inline-code">migration_status = COMPLETED</code>）且写入模式为 TRIPLE 或 DUAL 时运行</li>
+                        <li><strong>异常处理</strong>：发现差异时输出 <code class="inline-code">WAN</code> 级别日志（业务告警），不抛异常、不阻断主流程</li>
+                    </ul>
+                </div>
+
+                <h4>任务实现</h4>
+<pre>
+@Slf4j
+@Service("orderRepayWithholdDataCompareTask")
+public class OrderRepayWithholdDataCompareTask
+        extends AbstractApsExecuteScheduledService {
+
+    private static final int SAMPLE_INTERVAL = 1000;  // 每隔1000条抽1条
+
+    @Resource
+    private OrderRepayWithholdDao orderRepayWithholdDao;              // 旧MySQL
+    @Resource
+    private OrderRepayWithholdObDao orderRepayWithholdObDao;          // OB
+    @Resource
+    private OrderRepayWithholdMigrationRecordService migrationRecordService;
+
+    @Override
+    public List&lt;ExecuteItem&gt; selectTasks(TaskParam taskParam, String ownSign) {
+        // 前置条件：迁移未完成 或 非三写/双写模式，不执行
+        if (!migrationRecordService.isMigrationCompleted()
+                || getWriteMode() == OLD_ONLY) {
+            log.info("PRO 抽样数据比对 前置条件不满足，跳过执行");
+            return null;
+        }
+
+        // 获取旧表ID范围
+        Long minId = orderRepayWithholdDao.selectMinId();
+        Long maxId = orderRepayWithholdDao.selectMaxId();
+        if (minId == null || maxId == null) {
+            log.info("PRO 抽样数据比对 旧表无数据");
+            return null;
+        }
+
+        log.info("PRO 抽样数据比对 开始 minId={} maxId={} interval={}", minId, maxId, SAMPLE_INTERVAL);
+
+        // 按间隔抽样比对
+        int diffCount = 0;
+        int sampleCount = 0;
+        for (long id = minId; id &lt;= maxId; id += SAMPLE_INTERVAL) {
+            sampleCount++;
+
+            // 查旧MySQL
+            OrderRepayWithholdEntity mysqlEntity =
+                orderRepayWithholdDao.queryById(id);
+            if (mysqlEntity == null) {
+                continue;  // 该ID不存在，跳过
+            }
+
+            // 查OB
+            OrderRepayWithholdEntity obEntity =
+                orderRepayWithholdObDao.selectByRepayTranNo(mysqlEntity.getRepayTranNo());
+
+            if (obEntity == null) {
+                log.warn("WAN 抽样数据比对 OB缺失 id={} repayTranNo={} withholdState={}",
+                    id, mysqlEntity.getRepayTranNo(), mysqlEntity.getWithholdState());
+                diffCount++;
+                continue;
+            }
+
+            // 比对关键字段
+            if (!Objects.equals(mysqlEntity.getWithholdState(), obEntity.getWithholdState())
+                    || !Objects.equals(mysqlEntity.getWithholdAmount(), obEntity.getWithholdAmount())
+                    || !Objects.equals(mysqlEntity.getResultCode(), obEntity.getResultCode())
+                    || !Objects.equals(mysqlEntity.getResultMsg(), obEntity.getResultMsg())
+                    || !DateUtils.truncatedEquals(mysqlEntity.getDateUpdated(),
+                            obEntity.getDateUpdated(), Calendar.SECOND)) {
+                log.warn("WAN 抽样数据比对 字段不一致 id={} repayTranNo={} " +
+                    "mysql[state={},amount={},resultCode={},dateUpdated={}] " +
+                    "ob[state={},amount={},resultCode={},dateUpdated={}]",
+                    id, mysqlEntity.getRepayTranNo(),
+                    mysqlEntity.getWithholdState(), mysqlEntity.getWithholdAmount(),
+                    mysqlEntity.getResultCode(), mysqlEntity.getDateUpdated(),
+                    obEntity.getWithholdState(), obEntity.getWithholdAmount(),
+                    obEntity.getResultCode(), obEntity.getDateUpdated());
+                diffCount++;
+            }
+        }
+
+        log.info("PRO 抽样数据比对 完成 sampleCount={} diffCount={}", sampleCount, diffCount);
+        return null;
+    }
+}
+</pre>
+
+                <h4>新增 DAO 方法</h4>
+
+                <p>旧表 DAO 新增方法：</p>
+<pre>
+// OrderRepayWithholdDao.java 新增
+
+// 获取最小ID
+Long selectMinId();
+
+// 获取最大ID
+Long selectMaxId();
+</pre>
+
+                <p>对应 Mapper XML：</p>
+<pre>
+&lt;!-- 获取最小ID --&gt;
+&lt;select id="selectMinId" resultType="java.lang.Long"&gt;
+    select min(id) from order_repay_withhold
+&lt;/select&gt;
+
+&lt;!-- 获取最大ID --&gt;
+&lt;select id="selectMaxId" resultType="java.lang.Long"&gt;
+    select max(id) from order_repay_withhold
+&lt;/select&gt;
+</pre>
+
+                <div class="callout callout-warn">
+                    <strong>注意事项</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li>该任务仅在迁移完成后启动，作为数据一致性的持续监控手段</li>
+                        <li>按ID等间隔抽样而非按时间范围全量查询，避免旧表无 <code class="inline-code">date_updated</code> 索引导致全表扫描效率极低</li>
+                        <li>抽样间隔（<code class="inline-code">SAMPLE_INTERVAL</code>）可根据数据量和执行频率调整，间隔越小覆盖率越高但执行时间越长</li>
+                        <li>发现差异时仅输出 <code class="inline-code">WAN</code> 日志告警，不自动修复，需人工确认并处理</li>
+                        <li>切换到 DUAL 模式稳定运行后，可考虑关闭此任务</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ===== 7. OceanBase接入 ===== -->
+            <div class="section" id="ob-infra">
+                <h2>7. OceanBase接入与基础设施</h2>
+
+                <p>APS 首次接入 OceanBase，需要新增 OB 数据源配置及相关基础设施。</p>
+
+                <h3 id="ob-datasource">7.1 OB数据源配置</h3>
+
+                <h4>新增配置文件：spring-mybatis-ob.xml</h4>
+
+<pre>
+&lt;!-- OB DataSource --&gt;
+&lt;bean id="obDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+      init-method="init" destroy-method="close"&gt;
+    &lt;property name="url" value="${ob.jdbc.url}"/&gt;
+    &lt;property name="username" value="${ob.jdbc.username}"/&gt;
+    &lt;property name="password" value="${ob.jdbc.password}"/&gt;
+    &lt;property name="driverClassName" value="com.oceanbase.jdbc.Driver"/&gt;
+    &lt;property name="initialSize" value="5"/&gt;
+    &lt;property name="minIdle" value="5"/&gt;
+    &lt;property name="maxActive" value="20"/&gt;
+    &lt;property name="maxWait" value="60000"/&gt;
+    &lt;property name="connectionInitSqls" value="set names utf8mb4"/&gt;
+&lt;/bean&gt;
+
+&lt;!-- OB SqlSessionFactory --&gt;
+&lt;bean id="obSqlSessionFactory"
+      class="org.mybatis.spring.SqlSessionFactoryBean"&gt;
+    &lt;property name="dataSource" ref="obDataSource"/&gt;
+    &lt;property name="mapperLocations"
+              value="classpath*:mybatis/mappings/ob/**/*.xml"/&gt;
+    &lt;property name="configLocation"
+              value="classpath:mybatis/mybatis-config.xml"/&gt;
+&lt;/bean&gt;
+
+&lt;!-- OB MapperScanner --&gt;
+&lt;bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"&gt;
+    &lt;property name="basePackage"
+              value="com.qihoo.finance.aps.modules.order.dao.ob"/&gt;
+    &lt;property name="sqlSessionFactoryBeanName"
+              value="obSqlSessionFactory"/&gt;
+&lt;/bean&gt;
+
+&lt;!-- OB TransactionManager --&gt;
+&lt;bean id="obTransactionManager"
+      class="org.springframework.jdbc.datasource.DataSourceTransactionManager"&gt;
+    &lt;property name="dataSource" ref="obDataSource"/&gt;
+&lt;/bean&gt;
+</pre>
+
+                <h4>新增 properties 配置</h4>
+
+<pre>
+# datasource.properties 中增加
+ob.jdbc.url=jdbc:oceanbase://ob-host:port/aps_ob
+ob.jdbc.username=aps_ob_user
+ob.jdbc.password=encrypted_password
+</pre>
+
+                <h3 id="ob-dao">7.2 DAO/Mapper文件组织</h3>
+
+                <p>遵循项目规范，OB 相关文件放在独立目录下：</p>
+
+<pre>
+aps-app/src/main/java/com/qihoo/finance/aps/modules/order/dao/ob/
+├── OrderRepayWithholdObDao.java
+
+aps-app/src/main/resources/mybatis/mappings/ob/
+├── OrderRepayWithholdObMapper.xml
+</pre>
+
+                <h3 id="ob-table">7.3 表结构定义</h3>
+
+                <h4>7.3.1 MySQL 热表：order_repay_withhold_hot</h4>
+
+                <p>新热表与旧表字段完全一致，表名为 <code class="inline-code">order_repay_withhold_hot</code>，按 <code class="inline-code">date_created</code> 做范围分区（RANGE，使用 UNIX_TIMESTAMP 函数），每月一个分区，便于过期数据清理：</p>
+
+<pre>
+CREATE TABLE `order_repay_withhold_hot` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_no` varchar(64) NOT NULL DEFAULT '' COMMENT '订单号',
+  `repay_tran_no` varchar(64) NOT NULL DEFAULT '' COMMENT '还款交易流水号（对应合作方的还款ID）',
+  `partner_code` varchar(64) NOT NULL DEFAULT '' COMMENT '合作方代码',
+  `loan_tran_no` varchar(64) NOT NULL DEFAULT '' COMMENT '借款交易流水号（对应合作方的贷款ID）',
+  `repay_detail_id` varchar(64) NOT NULL DEFAULT '' COMMENT '还款详情Id',
+  `user_no` varchar(64) NOT NULL DEFAULT '' COMMENT '用户号',
+  `cust_no` varchar(64) NOT NULL DEFAULT '' COMMENT '客户号',
+  `pay_type` char(2) NOT NULL DEFAULT '' COMMENT '还款支付方式：1 用户主动还款 2 aps发起代扣还款；3 合作方发起代扣还款；',
+  `repay_type` char(2) NOT NULL DEFAULT '' COMMENT '还款类型(A-提前还款 O-逾期还款 C-正常还款 T-其它)；',
+  `repay_terms` varchar(128) NOT NULL DEFAULT '' COMMENT '还款期数：多期还款时还款期数之间通过英文逗号,隔开',
+  `repay_amount` decimal(18, 2) NOT NULL DEFAULT '0.00' COMMENT '实还总金额(元)',
+  `member_request_no` varchar(64) NOT NULL DEFAULT '' COMMENT 'APS请求PCS还款商户流水号',
+  `member_request_time` datetime DEFAULT NULL COMMENT 'APS请求PCS还款时间',
+  `commit_pcs_count` int(4) unsigned NOT NULL DEFAULT '0' COMMENT '提交到pcs尝试次数',
+  `member_no` varchar(64) NOT NULL DEFAULT '' COMMENT 'APS请求PCS还款商户号',
+  `withhold_state` varchar(16) NOT NULL DEFAULT '' COMMENT '代扣状态,WH_INIT:代扣初始状态,WH_REQUESTING:代扣请求中,WH_REQ_SUC:代扣请求成功,WH_REQ_SUC:代扣请求失败,WH_SUC:代扣成功,WH_SUC:代扣失败',
+  `channel_code` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道编码',
+  `channel_member_no` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道商户号',
+  `channel_order_no` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道订单号',
+  `channel_label` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道标签',
+  `withhold_amount` decimal(18, 2) NOT NULL DEFAULT '0.00' COMMENT '代扣金额',
+  `repay_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '还款时间，合作方请求还款时间',
+  `return_time` datetime DEFAULT NULL COMMENT '回盘时间',
+  `result_code` varchar(64) NOT NULL DEFAULT '' COMMENT '返回码',
+  `result_msg` varchar(512) NOT NULL DEFAULT '' COMMENT '返回信息',
+  `ext_info` text COMMENT '扩展字段json体',
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `created_by` varchar(100) NOT NULL DEFAULT 'sys' COMMENT '创建者',
+  `date_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `updated_by` varchar(100) NOT NULL DEFAULT 'sys' COMMENT '更新者',
+  PRIMARY KEY (`id`, `date_created`),
+  UNIQUE KEY `idx_repay_tran_no` (`repay_tran_no`, `date_created`),
+  KEY `idx_order_loan_tran_no` (`order_no`, `loan_tran_no`),
+  KEY `idx_request_no` (`member_request_no`),
+  KEY `idx_repay_detail_id` (`repay_detail_id`),
+  KEY `idx_loan_tran_no` (`loan_tran_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=504045323 DEFAULT CHARSET=utf8 COMMENT='还款代扣申请表'
+PARTITION BY RANGE (UNIX_TIMESTAMP(date_created)) (
+    PARTITION p202605 VALUES LESS THAN (UNIX_TIMESTAMP('2026-06-01 00:00:00')),
+    PARTITION p202606 VALUES LESS THAN (UNIX_TIMESTAMP('2026-07-01 00:00:00')),
+    PARTITION p202607 VALUES LESS THAN (UNIX_TIMESTAMP('2026-08-01 00:00:00')),
+    PARTITION p202608 VALUES LESS THAN (UNIX_TIMESTAMP('2026-09-01 00:00:00')),
+    PARTITION p202609 VALUES LESS THAN (UNIX_TIMESTAMP('2026-10-01 00:00:00')),
+    PARTITION p202610 VALUES LESS THAN (UNIX_TIMESTAMP('2026-11-01 00:00:00')),
+    PARTITION p202611 VALUES LESS THAN (UNIX_TIMESTAMP('2026-12-01 00:00:00')),
+    PARTITION p202612 VALUES LESS THAN (UNIX_TIMESTAMP('2027-01-01 00:00:00')),
+    PARTITION p202701 VALUES LESS THAN (UNIX_TIMESTAMP('2027-02-01 00:00:00')),
+    PARTITION p202702 VALUES LESS THAN (UNIX_TIMESTAMP('2027-03-01 00:00:00')),
+    PARTITION p202703 VALUES LESS THAN (UNIX_TIMESTAMP('2027-04-01 00:00:00')),
+    PARTITION p_max VALUES LESS THAN MAXVALUE
+);
+</pre>
+
+                <div class="callout callout-info">
+                    <strong>分区表说明</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li>主键为 <code class="inline-code">(id, date_created)</code>：分区键 <code class="inline-code">date_created</code> 必须包含在主键中，满足 MySQL 分区表要求</li>
+                        <li><code class="inline-code">id</code> 保留 AUTO_INCREMENT，初始值设为 <code class="inline-code">504045323</code>（大于旧表当前最大 id），确保 TRIPLE 模式下热表自增序列不会与旧表回填的 id 冲突</li>
+                        <li>唯一键 <code class="inline-code">idx_repay_tran_no</code> 包含 <code class="inline-code">date_created</code>，满足分区表唯一键必须包含分区键的要求</li>
+                        <li>分区方式为 <code class="inline-code">RANGE (UNIX_TIMESTAMP(date_created))</code>，使用整数范围分区而非 RANGE COLUMNS，兼容性更好，分区裁剪同样有效</li>
+                        <li>按月分区，过期分区可通过 <code class="inline-code">ALTER TABLE ... DROP PARTITION</code> 快速清理，避免 DELETE 大量数据产生 binlog 和锁</li>
+                        <li><code class="inline-code">p_max</code> 分区兜底 MAXVALUE，防止数据写入失败；需定期新增分区并回收 p_max</li>
+                        <li>初始建表时预建到当前月之后约10个月的分区，后续通过定时任务或脚本按月新增</li>
+                        <li>字段类型与旧表保持一致：<code class="inline-code">date_created</code> 和 <code class="inline-code">date_updated</code> 使用 <code class="inline-code">timestamp</code> 类型（含 DEFAULT CURRENT_TIMESTAMP 和 ON UPDATE CURRENT_TIMESTAMP），<code class="inline-code">withhold_state</code> 为 <code class="inline-code">varchar(16)</code>，<code class="inline-code">result_msg</code> 为 <code class="inline-code">varchar(512)</code>，<code class="inline-code">repay_amount</code> 和 <code class="inline-code">withhold_amount</code> 为 <code class="inline-code">decimal(18,2)</code></li>
+                    </ul>
+                </div>
+
+                <h4>7.3.2 OceanBase 备份表：order_repay_withhold_backup</h4>
+
+                <p>OB 表存储全量冷数据，表名为 <code class="inline-code">order_repay_withhold_backup</code>，表结构与热表 <code class="inline-code">order_repay_withhold_hot</code> 保持一致（MySQL兼容模式），同样按 <code class="inline-code">date_created</code> 做按月分区：</p>
+
+<pre>
+CREATE TABLE `order_repay_withhold_backup` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_no` varchar(64) NOT NULL DEFAULT '' COMMENT '订单号',
+  `repay_tran_no` varchar(64) NOT NULL DEFAULT '' COMMENT '还款交易流水号（对应合作方的还款ID）',
+  `partner_code` varchar(64) NOT NULL DEFAULT '' COMMENT '合作方代码',
+  `loan_tran_no` varchar(64) NOT NULL DEFAULT '' COMMENT '借款交易流水号（对应合作方的贷款ID）',
+  `repay_detail_id` varchar(64) NOT NULL DEFAULT '' COMMENT '还款详情Id',
+  `user_no` varchar(64) NOT NULL DEFAULT '' COMMENT '用户号',
+  `cust_no` varchar(64) NOT NULL DEFAULT '' COMMENT '客户号',
+  `pay_type` char(2) NOT NULL DEFAULT '' COMMENT '还款支付方式：1 用户主动还款 2 aps发起代扣还款；3 合作方发起代扣还款；',
+  `repay_type` char(2) NOT NULL DEFAULT '' COMMENT '还款类型(A-提前还款 O-逾期还款 C-正常还款 T-其它)；',
+  `repay_terms` varchar(128) NOT NULL DEFAULT '' COMMENT '还款期数：多期还款时还款期数之间通过英文逗号,隔开',
+  `repay_amount` decimal(18, 2) NOT NULL DEFAULT '0.00' COMMENT '实还总金额(元)',
+  `member_request_no` varchar(64) NOT NULL DEFAULT '' COMMENT 'APS请求PCS还款商户流水号',
+  `member_request_time` datetime DEFAULT NULL COMMENT 'APS请求PCS还款时间',
+  `commit_pcs_count` int(4) unsigned NOT NULL DEFAULT '0' COMMENT '提交到pcs尝试次数',
+  `member_no` varchar(64) NOT NULL DEFAULT '' COMMENT 'APS请求PCS还款商户号',
+  `withhold_state` varchar(16) NOT NULL DEFAULT '' COMMENT '代扣状态,WH_INIT:代扣初始状态,WH_REQUESTING:代扣请求中,WH_REQ_SUC:代扣请求成功,WH_REQ_SUC:代扣请求失败,WH_SUC:代扣成功,WH_SUC:代扣失败',
+  `channel_code` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道编码',
+  `channel_member_no` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道商户号',
+  `channel_order_no` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道订单号',
+  `channel_label` varchar(64) NOT NULL DEFAULT '' COMMENT '渠道标签',
+  `withhold_amount` decimal(18, 2) NOT NULL DEFAULT '0.00' COMMENT '代扣金额',
+  `repay_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '还款时间，合作方请求还款时间',
+  `return_time` datetime DEFAULT NULL COMMENT '回盘时间',
+  `result_code` varchar(64) NOT NULL DEFAULT '' COMMENT '返回码',
+  `result_msg` varchar(512) NOT NULL DEFAULT '' COMMENT '返回信息',
+  `ext_info` text COMMENT '扩展字段json体',
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `created_by` varchar(100) NOT NULL DEFAULT 'sys' COMMENT '创建者',
+  `date_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `updated_by` varchar(100) NOT NULL DEFAULT 'sys' COMMENT '更新者',
+  PRIMARY KEY (`id`, `date_created`),
+  UNIQUE KEY `idx_repay_tran_no` (`repay_tran_no`, `date_created`),
+  KEY `idx_order_loan_tran_no` (`order_no`, `loan_tran_no`),
+  KEY `idx_request_no` (`member_request_no`),
+  KEY `idx_repay_detail_id` (`repay_detail_id`),
+  KEY `idx_loan_tran_no` (`loan_tran_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='还款代扣申请备份表(OceanBase)'
+PARTITION BY RANGE (UNIX_TIMESTAMP(date_created)) (
+    PARTITION p202605 VALUES LESS THAN (UNIX_TIMESTAMP('2026-06-01 00:00:00')),
+    PARTITION p202606 VALUES LESS THAN (UNIX_TIMESTAMP('2026-07-01 00:00:00')),
+    PARTITION p202607 VALUES LESS THAN (UNIX_TIMESTAMP('2026-08-01 00:00:00')),
+    PARTITION p202608 VALUES LESS THAN (UNIX_TIMESTAMP('2026-09-01 00:00:00')),
+    PARTITION p202609 VALUES LESS THAN (UNIX_TIMESTAMP('2026-10-01 00:00:00')),
+    PARTITION p202610 VALUES LESS THAN (UNIX_TIMESTAMP('2026-11-01 00:00:00')),
+    PARTITION p202611 VALUES LESS THAN (UNIX_TIMESTAMP('2026-12-01 00:00:00')),
+    PARTITION p202612 VALUES LESS THAN (UNIX_TIMESTAMP('2027-01-01 00:00:00')),
+    PARTITION p202701 VALUES LESS THAN (UNIX_TIMESTAMP('2027-02-01 00:00:00')),
+    PARTITION p202702 VALUES LESS THAN (UNIX_TIMESTAMP('2027-03-01 00:00:00')),
+    PARTITION p202703 VALUES LESS THAN (UNIX_TIMESTAMP('2027-04-01 00:00:00')),
+    PARTITION p_max VALUES LESS THAN MAXVALUE
+);
+</pre>
+
+                <div class="callout callout-info">
+                    <strong>OB备份表与热表的关系</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li>OB 备份表与热表表结构完全一致（字段、类型、索引均相同），便于数据迁移和比对任务统一处理</li>
+                        <li>OB 备份表同样按月分区，查询时可利用分区裁剪（Partition Pruning）提升按时间范围查询的性能</li>
+                        <li>OB 备份表存储全量数据（包含热数据），分区不做清理，与热表（仅保留近2个月）的清理策略不同</li>
+                        <li>OB 备份表无需指定 <code class="inline-code">AUTO_INCREMENT</code> 初始值，id 由迁移数据和MQ写入数据决定</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ===== 8. 改造文件清单 ===== -->
+            <div class="section" id="file-list">
+                <h2>8. 改造文件清单</h2>
+
+                <h3 id="file-new">8.1 新增文件</h3>
+
+                <table>
+                    <thead><tr><th>文件</th><th>包路径</th><th>说明</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="tag tag-new">新增</span> RepayWithholdWriteModeEnum.java</td><td>v3/codeenum/withhold/</td><td>写入模式枚举（OLD_ONLY/TRIPLE/DUAL）</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdHotDao.java</td><td>modules/order/dao/</td><td>新热表 DAO（同数据源，表名不同）</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdHotMapper.xml</td><td>mybatis/mappings/order/</td><td>新热表 Mapper XML</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdObDao.java</td><td>modules/order/dao/ob/</td><td>OB DAO</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdObMapper.xml</td><td>mybatis/mappings/ob/</td><td>OB Mapper XML</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> ObWriteProducer.java</td><td>modules/mq/rocketmq/</td><td>OB 写入 MQ 生产者</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> ObWriteConsumer.java</td><td>modules/mq/rocketmq/</td><td>OB 写入 MQ 消费者</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> ApsObWriteMessage.java</td><td>modules/mq/domain/</td><td>OB 写入消息体</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdMigrationTask.java</td><td>task/</td><td>数据迁移定时任务</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdDataCompareTask.java</td><td>task/</td><td>增量数据比对监控定时任务</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdMigrationRecordDao.java</td><td>modules/order/dao/</td><td>迁移进度 DAO</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> OrderRepayWithholdMigrationRecordMapper.xml</td><td>mybatis/mappings/order/</td><td>迁移进度 Mapper XML</td></tr>
+                        <tr><td><span class="tag tag-new">新增</span> spring-mybatis-ob.xml</td><td>spring/</td><td>OB 数据源配置</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 id="file-modify">8.2 修改文件</h3>
+
+                <table>
+                    <thead><tr><th>文件</th><th>修改内容</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="tag tag-modify">修改</span> spring-mybatis.xml</td><td>引入 <code class="inline-code">spring-mybatis-ob.xml</code></td></tr>
+                        <tr><td><span class="tag tag-modify">修改</span> datasource.properties</td><td>增加 OB 连接参数</td></tr>
+                        <tr><td><span class="tag tag-modify">修改</span> ApsApolloConfiguration.java</td><td>增加 writeMode 配置项（String类型，值域 OLD_ONLY/TRIPLE/DUAL）</td></tr>
+                        <tr><td><span class="tag tag-modify">修改</span> OrderRepayWithholdServiceImpl.java</td><td><strong>核心修改</strong>：新增注入 HotDao/ObDao/ObWriteProducer，每个方法内增加 writeMode 开关判断的读写路由逻辑</td></tr>
+                        <tr><td><span class="tag tag-modify">修改</span> OrderRepayWithholdDao.java</td><td>新增 <code class="inline-code">selectMinId</code>、<code class="inline-code">selectMaxId</code> 方法（抽样比对查询）</td></tr>
+                        <tr><td><span class="tag tag-modify">修改</span> OrderRepayWithholdMapper.xml</td><td>新增 <code class="inline-code">selectMinId</code>、<code class="inline-code">selectMaxId</code> SQL</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ===== 9. 上线步骤 ===== -->
+            <div class="section" id="deploy-steps">
+                <h2>9. 上线步骤</h2>
+
+                <ol class="step-list">
+                    <li><strong>部署代码</strong>（所有 Apollo 开关默认关闭）— 验证系统正常运行，ServiceImpl 走旧逻辑</li>
+                    <li><strong>创建新热表</strong> <code class="inline-code">order_repay_withhold_hot</code>（同库）— 验证表结构正确</li>
+                    <li><strong>创建 OB 表</strong> — 验证 OB 连接和表结构</li>
+                    <li><strong>配置 OB 数据源</strong>，重启应用 — 验证 OB 连接池正常</li>
+                    <li><strong>开启三写</strong> <code class="inline-code">writeMode=TRIPLE</code> — 三写开始，验证旧表+新热表+OB数据一致</li>
+                    <li><strong>启动迁移任务</strong> — 监控迁移进度，确保数据完整迁移到OB</li>
+                    <li><strong>迁移完成</strong>，验证数据一致性 — 抽样对比旧表和OB数据</li>
+                    <li><strong>切换读取路由</strong> <code class="inline-code">readNew=true</code>（writeMode 保持 TRIPLE）— 切读期开始，读取走新热表+OB，写入仍走三写</li>
+                    <li><strong>切读期观察</strong> 1周左右 — 监控OB查询延迟、miss率、新热表数据正确性，如发现问题可秒级回滚（readNew=false）</li>
+                    <li><strong>停写旧表</strong> <code class="inline-code">writeMode=DUAL</code> — 双写期开始，旧表不再写入</li>
+                    <li><strong>启动抽样比对监控任务</strong> <code class="inline-code">OrderRepayWithholdDataCompareTask</code> — 定期按ID等间隔抽样比对旧表与OB数据，确认无差异告警</li>
+                    <li><strong>后续清理</strong>：旧表数据归档/删除 — 不在本次改造范围内</li>
+                </ol>
+            </div>
+
+            <!-- ===== 10. 已知问题与风险 ===== -->
+            <div class="section" id="risks">
+                <h2>10. 已知问题与风险</h2>
+
+                <h3 id="risk-old-table-scan">10.1 旧表时间范围查询效率</h3>
+
+                <p>MySQL 旧表 <code class="inline-code">order_repay_withhold</code> 当前无 <code class="inline-code">date_updated</code> 索引，按 <code class="inline-code">date_updated</code> 时间范围扫描旧表会导致全表扫描，效率极低。本改造已通过以下方式规避该问题：</p>
+
+                <h4>规避方案</h4>
+                <table>
+                    <thead><tr><th>场景</th><th>原方案（全表扫描）</th><th>现方案（走主键索引）</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>抽样比对监控（6.4节）</td>
+                            <td>按 <code class="inline-code">date_updated</code> 时间范围查全量</td>
+                            <td>按 ID 等间隔抽样，通过 <code class="inline-code">queryById</code> 点查</td>
+                        </tr>
+                        <tr>
+                            <td>二次校验（6.2节）</td>
+                            <td>按 <code class="inline-code">date_created &lt;= ? AND date_updated &gt;= ?</code> 查全量</td>
+                            <td>按 ID 范围分批扫描，逐条比对 <code class="inline-code">date_updated</code> 内存过滤</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout callout-success">
+                    <strong>结论</strong>
+                    二次校验和抽样比对均已改为按 ID 扫描方案，走主键索引，性能可控。当前改造<strong>不需要</strong>在旧表上新增 <code class="inline-code">date_updated</code> 索引。如果未来有其他场景需要按 <code class="inline-code">date_updated</code> 高效查询，再考虑使用 <code class="inline-code">pt-online-schema-change</code> 在线加索引。
+                </div>
+
+                <h3 id="risk-partition-pk">10.2 分区表主键必须包含分区键</h3>
+
+                <p>MySQL 分区表要求<strong>主键（及所有唯一键）必须包含分区键</strong>。当前设计中热表 <code class="inline-code">order_repay_withhold_hot</code> 按 <code class="inline-code">date_created</code> 做 RANGE COLUMNS 分区，因此主键必须包含 <code class="inline-code">date_created</code>，这带来了以下影响：</p>
+
+                <h4>当前设计中的主键调整</h4>
+
+                <table>
+                    <thead><tr><th>项目</th><th>旧表（非分区）</th><th>新热表（分区）</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>主键定义</td>
+                            <td><code class="inline-code">PRIMARY KEY (id)</code></td>
+                            <td><code class="inline-code">PRIMARY KEY (date_created, id)</code></td>
+                        </tr>
+                        <tr>
+                            <td>id 列属性</td>
+                            <td>AUTO_INCREMENT + PRIMARY KEY</td>
+                            <td>AUTO_INCREMENT（非主键成员在前），通过 <code class="inline-code">idx_id</code> 二级索引保证按 id 查询性能</td>
+                        </tr>
+                        <tr>
+                            <td>唯一键</td>
+                            <td><code class="inline-code">UNIQUE KEY (repay_tran_no)</code></td>
+                            <td><code class="inline-code">UNIQUE KEY (repay_tran_no, date_created)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>带来的影响</h4>
+
+                <ol>
+                    <li><strong>id 不再是独立主键</strong>：<code class="inline-code">id</code> 保留 AUTO_INCREMENT 但不再是 PRIMARY KEY 的前缀列，按 <code class="inline-code">id</code> 的点查需走二级索引 <code class="inline-code">idx_id</code> 回表，比直接走主键多一次回表开销</li>
+                    <li><strong>唯一键需追加分区键</strong>：<code class="inline-code">uk_repay_tran_no</code> 必须变为 <code class="inline-code">(repay_tran_no, date_created)</code>，这意味着同一条 <code class="inline-code">repay_tran_no</code> 在不同日期可以存在多条记录（理论上不应出现，但约束变弱）</li>
+                    <li><strong>所有二级索引均需包含 <code class="inline-code">date_created</code></strong>：MySQL 5.6 分区表的二级索引自动包含分区键，索引体积增大，写入性能略有下降</li>
+                    <li><strong>TRIPLE 模式下 id 一致性</strong>：旧表 <code class="inline-code">id</code> 为自增主键，热表 <code class="inline-code">id</code> 为非主键自增列。热表 <code class="inline-code">insertSelective</code> 在 TRIPLE 模式下使用旧表回填的 id 值插入，需确保热表 AUTO_INCREMENT 起始值大于旧表当前最大 id，避免自增序列冲突</li>
+                </ol>
+
+                <div class="callout callout-warn">
+                    <strong>应对措施</strong>
+                    <ul style="margin:4px 0 0 16px;">
+                        <li>热表建表后，执行 <code class="inline-code">ALTER TABLE order_repay_withhold_hot AUTO_INCREMENT = {旧表当前最大id + 1}</code>，确保 TRIPLE 模式下热表自增序列不会与旧表回填的 id 冲突</li>
+                        <li>按 <code class="inline-code">id</code> 查询的场景（如迁移任务基于 ID 范围扫描）走 <code class="inline-code">idx_id</code> 二级索引，性能可接受</li>
+                        <li>业务上 <code class="inline-code">repay_tran_no</code> 全局唯一，<code class="inline-code">(repay_tran_no, date_created)</code> 联合唯一键在实际业务中不会出现同号不同日的数据，约束变弱仅是理论风险</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ===== 11. 评审建议 ===== -->
+            <div class="section" id="review">
+                <h2>11. 评审建议</h2>
+
+                <p>以下为评审过程中提出的建议项，需在设计实现和上线过程中遵循：</p>
+
+                <table>
+                    <thead><tr><th>序号</th><th>建议内容</th><th>涉及章节</th><th>说明</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>先切读，持续一周左右，再停写旧MySQL表</strong></td>
+                            <td><a href="#arch-phases">3.2 三阶段划分</a>、<a href="#migration-switch">6.3 迁移完成后切换流程</a></td>
+                            <td>迁移完成后先切换读取路由（<code class="inline-code">readNew=true</code>），观察一周左右，确认新热表+OB读取无问题后，再停写旧表（<code class="inline-code">writeMode=DUAL</code>）。这样在切读后如果发现新表数据有问题，可以秒级回滚到读旧表，旧表数据仍在、写入仍在，回滚零风险</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>先写OB，OB写失败以后才走MQ；读OB时输出日志并加开关</strong></td>
+                            <td><a href="#write-ob-async">4.3 OB写入机制</a>、<a href="#read-layer">5. 读取层改造</a>、<a href="#arch-apollo">3.3 Apollo开关设计</a></td>
+                            <td>
+                                <p><strong>写入侧</strong>：事务提交后优先同步写OB，成功则无需MQ；异常时降级为异步MQ兜底，减少消费延迟、提升OB数据时效性</p>
+                                <p><strong>读取侧</strong>：查OB时输出 <code class="inline-code">OUTREQ</code>/<code class="inline-code">OUTRESP</code> 日志，目的是观察有多少查询穿透到了OB层，评估热表命中率；通过 Apollo 开关 <code class="inline-code">repayWithholdObReadLog</code> 控制是否输出，避免高QPS下日志量过大</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>OB表建分区表</strong></td>
+                            <td><a href="#ob-table">7.3.2 OB备份表</a></td>
+                            <td>OB 备份表按 <code class="inline-code">date_created</code> 做按月分区，便于过期冷数据的清理和管理，与热表保持一致的分区策略</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>新建的MySQL表按月分区</strong></td>
+                            <td><a href="#ob-table">7.3.1 MySQL热表</a></td>
+                            <td>新热表 <code class="inline-code">order_repay_withhold_hot</code> 按 <code class="inline-code">date_created</code> 做按月 RANGE COLUMNS 分区，当前设计已采纳（见7.3.1）</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>新分区创建监控</strong></td>
+                            <td><a href="#ob-table">7.3 表结构定义</a></td>
+                            <td>每个月月初定时检查热表和OB表下个月的分区是否已预建，若未预建则输出 <code class="inline-code">WAN</code> 告警日志，提醒人工创建分区，防止分区缺失导致写入失败</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><strong>分区数据清理监控</strong></td>
+                            <td><a href="#ob-table">7.3 表结构定义</a></td>
+                            <td>定时检查热表当前分区数量，当分区数超过6个时输出 <code class="inline-code">WAN</code> 告警日志，提醒清理过期分区（<code class="inline-code">ALTER TABLE ... DROP PARTITION</code>），防止热表数据膨胀</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><strong>抽样比对：按起始ID等间隔抽取，比对旧MySQL表与OB表</strong></td>
+                            <td><a href="#migration-compare">6.4 增量数据比对监控</a></td>
+                            <td>比对任务根据起始ID，每隔一定间隔（如每1000条抽1条）抽取一行数据，比对旧MySQL表和OB表的对应记录，发现字段不一致时输出 <code class="inline-code">WAN</code> 告警日志。抽样而非全量比对，兼顾覆盖率与执行效率</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><strong>三写持续两三天后开始迁移，迁移按ID从小到大</strong></td>
+                            <td><a href="#arch-phases">3.2 三阶段划分</a>、<a href="#migration-design">6.1 迁移任务设计</a></td>
+                            <td>三写开启后持续两三天，确保增量数据已稳定写入新热表和OB，再启动迁移任务。迁移按ID从小到大进行，先迁移早期数据（数据量少、变更频率低），逐步验证OB写入正常后再扩大范围，降低大批量迁移风险</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        // 目录高亮 + 滚动监听
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section, .doc-header');
+
+        function updateActiveNav() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.id;
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === '#' + current) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // 回到顶部按钮
+        const backToTop = document.getElementById('backToTop');
+        function updateBackToTop() {
+            backToTop.style.display = window.scrollY > 400 ? 'flex' : 'none';
+        }
+
+        window.addEventListener('scroll', () => {
+            updateActiveNav();
+            updateBackToTop();
+        });
+
+        // 平滑滚动
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = item.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 初始化
+        updateActiveNav();
+    </script>
+</body>
+</html>

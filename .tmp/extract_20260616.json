@@ -1,0 +1,1 @@
+{"facts":["agent-tools upgraded from 0.2.70a3 to 0.2.74a3 to fix plugin_version validation error on session upload"],"preferences":[],"projects":["TestScheduler: AI daily recap upload requires plugin_version; agent-tools >= 0.2.74a3 is compatible"],"constraints":["agent-tools must be >= 0.2.74a3 for session upload with SPHINX_AGENT_SESSION_UPLOAD_MIN_PLUGIN_VERSION"],"todo":[]}

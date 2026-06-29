@@ -1,0 +1,27 @@
+{
+  "workflow_id": "wf-{requirement_id}",
+  "workflow_type": "full_pipeline",
+  "state": "running",
+  "current_step": 0,
+  "total_steps": 6,
+  "steps": [
+    { "seq": 1, "agent": "requirement-collector", "label": "需求采集", "status": "pending", "output": null, "started_at": null, "completed_at": null },
+    { "seq": 2, "agent": "testcase-writer", "label": "用例编写", "status": "pending", "output": null, "started_at": null, "completed_at": null },
+    { "seq": 3, "agent": "test-mapper", "label": "测试映射", "status": "pending", "output": null, "started_at": null, "completed_at": null },
+    { "seq": 4, "agent": "test-runner", "label": "测试执行", "status": "pending", "output": null, "started_at": null, "completed_at": null },
+    { "seq": 5, "agent": "result-analyst", "label": "结果分析+报告", "status": "pending", "output": null, "started_at": null, "completed_at": null },
+    { "seq": 6, "agent": "knowledge-curator", "label": "知识沉淀", "status": "pending", "output": null, "started_at": null, "completed_at": null }
+  ],
+  "context": {
+    "requirement_id": "{requirement_id}",
+    "channel": null,
+    "excel_path": null,
+    "execution_plan_path": null,
+    "execution_results_path": null,
+    "report_path": null,
+    "env": "STG1",
+    "user_confirmed_at": {}
+  },
+  "created_at": "{timestamp}",
+  "updated_at": "{timestamp}"
+}

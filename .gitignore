@@ -1,0 +1,26 @@
+# TestScheduler
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Excel temp files
+~$*.xlsx
+~$*.xls
+
+# Test outputs (keep in git but gitignore certain patterns)
+memory/test_results/cache/*.json
+!memory/test_results/cache/.gitkeep
+
+# Workflow states (runtime artifacts)
+memory/workflow_states/wf-*.json
+!memory/workflow_states/.gitkeep
