@@ -5,6 +5,7 @@ TestScheduler 知识库索引。
 ## Facts
 
 - [testmind-facade-gateway-enforcement](testmind-facade-gateway-enforcement.md) — 所有 testmind skill 必须通过门面调用，严禁绕过
+- [code-fix-boundary](code-fix-boundary.md) — 测试人员角色边界：只验证开发修复，不直接改业务代码
 
 ## Agents
 

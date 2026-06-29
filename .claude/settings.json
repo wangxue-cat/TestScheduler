@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Read(//d/project/aps/**)",
-      "Edit(/.claude/skills/testmind-facade/**)"
+      "Edit(/.claude/skills/testmind-facade/**)",
+      "Bash(rm -rf \"d:/TestScheduler/.claude/skills/ai-daily\")",
+      "Bash(cp \"d:/TestScheduler/.claude/skills/testmind-facade/refs/experience-template.md\" \"d:/TestScheduler/.claude/skills/testmind-facade/experience/auto-interface-list.md\" && echo \"stub created\")",
+      "Bash(if [ ! -f \"d:/TestScheduler/.claude/skills/testmind-facade/experience/auto-testcase-exec.md\" ]; then cp \"d:/TestScheduler/.claude/skills/testmind-facade/refs/experience-template.md\" \"d:/TestScheduler/.claude/skills/testmind-facade/experience/auto-testcase-exec.md\" && echo \"stub created\"; else echo \"exists\"; fi)",
+      "Read(//d/project/**)",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -match \"git|vim|nano|code\" } | Select-Object Id, ProcessName, MainWindowTitle | Format-Table -AutoSize)",
+      "PowerShell(Stop-Process -Id 4272, 22504 -Force)",
+      "Bash(rm -f .git/COMMIT_EDITMSG && echo \"COMMIT_EDITMSG removed\")"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\wangxue-jk\\.claude\\plugins\\cache\\deepbank-marketplace\\agent-tools\\0.2.74a3\\skills\\ai-daily",
+      "d:\\TestScheduler\\.claude\\skills\\testmind-facade\\experience",
+      "D:\\TestScheduler\\.git"
     ]
   }
 }

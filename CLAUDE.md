@@ -120,6 +120,7 @@ Requirement Collector / Test Case Writer / Result Analyst → Code Analyzer
 | "整理改动" / "整理改动点" / "按条目整理代码" | `Agent(code-analyzer)` |
 | "验证修复" / "验证Bug修复" / "Bug修复验证" | `Agent(code-analyzer)` |
 | "拉代码" / "准备仓库" / "setup repo" | `Agent(code-analyzer)` |
+| "调用自动化平台的{渠道}{接口}" / "调用自动化平台的{渠道}{用例}" / "直接调自动化平台" | **主会话直调**（执行「自动化平台直调协议」，不走 Agent） |
 
 ### 全流程指令（主会话按序列逐步调度）
 
@@ -140,6 +141,37 @@ Requirement Collector / Test Case Writer / Result Analyst → Code Analyzer
 2. **中断恢复**：任一步骤失败，暂停并告知用户。支持"继续"/"跳过"/"放弃"
 3. **状态持久化**：全流程状态写入 `memory/workflow_states/wf-{req_id}.json`
 4. **环境传递**：环境信息（STG1/STG2）在每个 Agent 间传递，首次执行时询问用户确认
+
+---
+
+## 自动化平台直调协议
+
+> 当用户指令匹配"调用自动化平台的{渠道}{接口/用例}"时，执行此三步协议，**不走 Agent**。
+
+### Step 1: MATCH — 语义匹配
+
+1. **解析用户输入**：提取渠道名（携程/星选/头条/...）和接口类型关键词（授信/借款/还款/...）
+2. **判断类型**：用户说「用例」→ 查 `Skill(testmind-facade)` → `testmind:auto-testcase-list`；说「接口」→ 查 `testmind:auto-interface-list`
+3. **模糊匹配**：用渠道名作为 name 参数搜索，再从结果中按接口类型关键词筛选，匹配到多条时列出让用户选择
+
+### Step 2: READ RULES — 读渠道规则
+
+1. 读 `memory/api_channels_rules/{partner_code}.md`（如果存在）
+2. 读 `memory/api_channels_rules/common_rules.md`
+3. 提取：参数取值规则、默认值、注意事项
+
+### Step 3: EXEC — 直接执行
+
+1. 用例：`Skill(testmind-facade)` → `testmind:auto-testcase-exec`
+2. 接口：`Skill(testmind-facade)` → `testmind:auto-interface-exec`
+3. 传入环境（默认 STG1）+ 参数（用户指定覆盖默认值）
+
+### 关键约束
+
+- 🚫 **禁止走 Agent**：不调度 test-runner / testcase-writer / test-mapper
+- 📖 **必须先读规则**：执行前检查 api_channels_rules/ 目录
+- 🔍 **渠道名用搜索**：不维护硬编码映射表，用 auto-interface-list 的 name 模糊匹配
+- ✍️ **与"写用例"区分**：用户说"**调用**平台用例"=直调执行，"**写**用例"=走 testcase-writer Agent
 
 ---
 

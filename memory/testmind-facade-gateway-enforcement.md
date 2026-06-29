@@ -37,8 +37,31 @@ metadata:
 - CLAUDE.md 已将规则从"先读经验文件"升级为"必须通过门面"
 - 违反此规则会导致经验无法积累、路由可能错误（如跳过 sql-execute wrapper）
 
+## 调用链规则（2026-06-29 强化）
+
+**唯一正确路径**：
+
+```
+主会话（编排路由） → Agent（执行） → Skill(testmind-facade) → Skill(testmind:xxx) → Bash
+```
+
+- 主会话只做编排：识别用户意图 → 匹配路由规则 → 调度 Agent
+- Agent 负责执行：Agent 内部走门面 → skill → Bash
+- **主会话禁止直接跑 Bash**，即使 skill 加载到主会话上下文中也不行
+- 主会话跑 Bash = 执行者角色错位，架构上主会话是编排者不是执行者
+
+### 禁止行为
+
+- ❌ 直接 Bash 调 `story_manage.py` / `bug_manage.py` / `execute_sql.py` 等
+- ❌ 直接 `Skill(testmind:bug-manage)` 跳过门面
+- ❌ 在门面加载后，后续操作直接跑 Bash（"反正已经知道路由了"）
+
 ## 违规记录
 
-- **2026-06-25 #2**: 查询 bug 走了门面（正确），但后续 5 次状态流转全部绕过门面直接调 Bash。用户当场指出。**教训**：一次会话中完成门面 Phase 1-2 后，不能因为"已经知道路由"就跳过门面直接调 Bash——每次独立的 testmind 操作都需要走完整的 5-Phase 门面协议。把经验写进 bug-manage.md 更是本末倒置——绕过门面就不会读经验文件。
+- **2026-06-29 #4**: Skill 加载到主会话后，主会话自己跑了 Bash（bug_manage.py transition）。用户当场指出：主会话是编排者不是执行者，Bash 应该由 Agent 在内部执行，不是主会话直接跑。正确架构：`主会话 → Agent → 门面 → Skill → Bash`，主会话只做路由。
+
+- **2026-06-29 #3**: 整个会话中多次绕过门面直接跑 Bash：SQL 查询（execute_sql.py）、Bug 创建（bug_manage.py create）、Bug 流转（bug_manage.py transition）、接口执行（requests.post）。用户当场纠正：必须严格走 `Skill(testmind-facade)` → `Skill(testmind:xxx)` 路径。
+
+- **2026-06-25 #2**: 查询 bug 走了门面（正确），但后续 5 次状态流转全部绕过门面直接调 Bash。用户当场指出。**教训**：一次会话中完成门面 Phase 1-2 后，不能因为"已经知道路由"就跳过门面直接调 Bash——每次独立的 testmind 操作都需要走完整的 5-Phase 门面协议。
 
 - **2026-06-25 #1**: 批量 bug 状态流转时，直接调用 `Skill(testmind:bug-manage)` 而非 `Skill(testmind-facade)`。

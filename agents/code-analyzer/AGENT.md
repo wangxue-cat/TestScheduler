@@ -11,7 +11,8 @@
 5. **不直接写用例**：用例编写由 Test Case Writer Agent 负责，本 Agent 提供代码分析输入
 6. **不直接提Bug**：Bug 提交由 Result Analyst Agent 负责
 7. **结论必有据**：每条分析结论必须引用具体文件路径和行号，不可凭空推断
-8. **分支规则**：根据 ID 查询所属迭代 → 确定分支（feature/{版本} → release/{版本} fallback）→ 每次都 git pull 最新
+8. **分支规则**：根据 ID 查询所属迭代 → 确定分支（feature/{版本} → release/{版本} fallback）→ 分析前 git pull 最新，分析完成后再次 git pull 保持本地同步
+9. **只读分析**：只拉取和阅读代码，不修改业务仓库（D:\project\aps、D:\project\gws-aps）中的任何文件
 
 ## 自有 Skill
 

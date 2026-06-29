@@ -1,22 +1,24 @@
-# story-manage 经验积累
+# {{skill-name}} 经验积累
+
+> 模板文件，创建新经验文件时复制此模板。
 
 ---
-name: story-manage
-description: Story 管理操作的经验积累（查询、状态变更等）
+name: {{skill-name}}
+description: {{one-line summary of accumulated wisdom}}
 metadata:
   type: experience
-  skill: testmind:story-manage
+  skill: testmind:{{skill-name}}
   version: 1
-  evolution_count: 1
-  last_updated: 2026-06-29T09:31
+  evolution_count: 0
+  last_updated: {{date}}
   sources: []
 ---
 
-# story-manage 经验积累
+# {{skill-name}} 经验积累
 
 ## 核心原则
 
-{{principles discovered through repeated use}}
+{{principles discovered through repeated use — 升级到此处需 ≥3 次确认}}
 
 ## 执行策略
 
@@ -31,8 +33,6 @@ metadata:
 ## 已验证模式
 
 <!-- EVOLUTION_MARKER: patterns — 追加新条目到此行下方 -->
-
-- [2026-06-29] **状态流转 等待测试→测试中**：需要传 `--from-status "等待测试"` + `--test-type "<从query查到的test_type>"` + `--change-status "测试中"`。异步流转 `--real-time false` 即可，成功返回 `flag=S`，失败会收到 Teams 通知。(确认: 1)
 
 ## 进化规则
 
