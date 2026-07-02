@@ -8,8 +8,8 @@
 
 | testmind 技能 | 本地 wrapper | wrapper 逻辑 |
 |--------------|-------------|-------------|
-| `sql-execute` | `agents/test-runner/skills/sql-execute/` | 环境解析 → 数据库路由 → SQL 安全组装 → execute_sql.py → 编码修复 → sharding 回退 |
-| `common-tool-execute` | `agents/test-runner/skills/execute-tool/` | Token 管理 → 目录匹配 → HTTP 参数组装 |
+| `sql-execute` | `agents/test-runner/skills/sql-execute/` (Phase A 解析) → `Skill(testmind:sql-execute)` (Phase B 执行) | Phase A: wrapper 做环境解析+库路由+SQL组装 → Phase B: 主会话调 Skill(testmind:sql-execute) 执行(QOA追踪) → Phase C: 编码修复+sharding回退 |
+| `common-tool-execute` | `agents/test-runner/skills/execute-tool/` (Phase A 解析) → `Skill(testmind:common-tool-execute)` (Phase B 执行) | Phase A: wrapper 做 Token管理+工具匹配+参数组装 → Phase B: 主会话调 Skill(testmind:common-tool-execute) 执行(QOA追踪) |
 
 > ⚠️ **委托规则**：这些 wrapper 是唯一合法调用路径，禁止绕过门面直接调 wrapper，也禁止门面绕过 wrapper 直接调 testmind。
 

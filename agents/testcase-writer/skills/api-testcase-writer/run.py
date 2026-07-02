@@ -18,7 +18,7 @@ from typing import Any, Dict, List, Optional
 
 import openpyxl
 
-# ── 路径常量（TestScheduler 独立资源，不共享 ClaudeMind） ──
+# ── 路径常量（TestScheduler 独立资源） ──
 SKILL_DIR = os.path.dirname(os.path.abspath(__file__))
 TESTCASE_DIR = "D:/TestScheduler/memory/testcases"
 REPORT_DIR = "D:/TestScheduler/memory/test_results/reports"
@@ -27,7 +27,7 @@ CHANNELS_DIR = "D:/TestScheduler/memory/api_channels"
 CHANNEL_RULES_DIR = "D:/TestScheduler/memory/api_channels_rules"
 REQUIREMENT_MATERIALS_DIR = "D:/TestScheduler/memory/requirement_materials"
 INTERFACE_DOCS_DIR = "D:/接口文档合集"
-# 接口文档 MD 缓存目录（TestScheduler 独立管理，与 ClaudeMind 隔离）
+# 接口文档 MD 缓存目录（TestScheduler 独立管理）
 INTERFACE_DOC_CACHE_DIR = "D:/TestScheduler/memory/interface_docs"
 CACHE_INDEX_FILE = os.path.join(INTERFACE_DOC_CACHE_DIR, "_cache_index.json")
 

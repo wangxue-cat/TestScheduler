@@ -63,4 +63,4 @@ tools: Read, Write, Edit, Glob, Grep, Bash, Skill, Agent, AskUserQuestion
 
 ## 工作目录
 
-所有产出写入 `d:\TestScheduler\memory\`，禁止写入 `D:\ClaudeMind\memory\`。
+所有产出写入 `d:\TestScheduler\memory\`。

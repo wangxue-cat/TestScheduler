@@ -5,9 +5,9 @@ metadata:
   type: experience
   skill: testmind:testcase-execute
   version: 1
-  evolution_count: 1
-  last_updated: 2026-06-24
-  sources: [testmind:testcase-execute, testmind:testcase-query, batch_execute API]
+  evolution_count: 2
+  last_updated: 2026-06-30
+  sources: [testmind:testcase-execute, testmind:testcase-query, testmind:testcase-record, testmind:testcase-statistics, batch_execute API]
 ---
 
 # testcase-execute 经验积累
@@ -27,6 +27,12 @@ _（尚未达到升级阈值，≥3 次确认后升级至此区）_
 ## 已知踩坑
 
 <!-- EVOLUTION_MARKER: pitfalls — 追加新条目到此行下方 -->
+
+### P6: 登记后统计表 / 查询接口看不到结果或时长
+- **现象**：`case-execute` 返回 flag=S 后，`cm_case_execute_statistics`（case-exec 统计）pass 数不变，仍是旧值；`normal-query`/`case-record` 均不返回每条用例的执行时长
+- **根因**：统计表是定时任务重算的派生快照，非实时；只读查询接口不暴露 execute_time 字段
+- **确认次数**：1
+- **规避**：核验**状态**用 `normal-query --filter-result P`（实时，可见 case_executor 填充）；核验**时长**只能等统计表刷新或直查 STG2 qoa_testcase DB
 
 ### P1: execute 报「开始时间和结束时间不能为空」
 - **现象**：`POST /cm/api/batchexecute/` 返回 `用例执行的开始时间和结束时间不能为空`
@@ -75,6 +81,17 @@ POST /cm/api/queryrecords/resetCaseExecuteTime/ 重置时长（可选）
 ```
 - **确认次数**：1（本次 64 条用例分 4 story 全通过）
 - **适用场景**：需要批量标记用例已执行时
+
+### M2: case-execute 子命令直接登记通过（小批量）
+```
+存 normal-query 结果到文件 → 脚本按 id 筛 7 条 → batch.json
+testcase_execute.py case-execute --sprint "..." --result P \
+  --batch-data-json "$(cat batch.json)" --time-type separate --time-hours 8
+→ {"flag":"S","msg":"用例执行成功","count":7}
+```
+- **确认次数**：1（7 条 N→P，单 story JYSG-149999）
+- **要点**：7 条规模命令行 JSON 未超长（参见 P5，17 条才超）；`case-execute` 脚本封装了 start/end，无需手动走 M1 的 start→end 流程；`--time-type separate --time-hours 8` 提交合计 8h 平摊
+- **遗留**：separate 是否=总时长按条数平摊，尚未经 DB 回读证实，待下次直查 qoa_testcase 确认
 
 ## 进化规则
 

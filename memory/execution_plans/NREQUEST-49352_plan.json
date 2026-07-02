@@ -1,0 +1,1866 @@
+{
+  "requirement_id": "NREQUEST-49352",
+  "story_id": "JYSG-149999",
+  "requirement_title": "API流量IT巡检202606 + 线程池配置隔离",
+  "channel": "API流量巡检",
+  "description": "IT巡检类用例：线程池配置隔离（28条）+ 日常巡视问题验证（9+条）。此类用例为基础设施测试，不涉及渠道API接口，主要使用Apollo配置、定时任务调度、DB验证、日志查询等测试基础设施技能。",
+  "app": "aps-app",
+  "env": "STG1",
+  "iteration": "20260702",
+  "generated_at": "2026-07-02",
+  "generated_by": "test-mapper agent",
+  "source_file": "D:\\TestScheduler\\memory\\testcases\\NREQUEST-49352_it巡检_优化版.xlsx",
+  "parsing_note": "Excel文件为二进制格式无法直接读取，用例步骤基于tester_notes.md中的详细描述和需求文档重建。步骤类型需人工确认。",
+  "matching_summary": {
+    "total_cases": 37,
+    "approach": "infrastructure_test",
+    "match_source": "testmind skill registry (skill-registry.md) + experience files",
+    "note": "此需求为基础设施/配置测试，不涉及渠道API接口（如星选还款通知等）。步骤映射到testmind基础设施技能。",
+    "skills_used": [
+      {
+        "skill": "testmind:apollo-config",
+        "role": "Apollo配置查询/修改",
+        "description": "管理Apollo开关和配置项的值，支持查询、修改、回滚"
+      },
+      {
+        "skill": "testmind:lingxi-scheduler",
+        "role": "定时任务调度触发",
+        "description": "灵犀定时任务调度，手动触发JSS任务执行"
+      },
+      {
+        "skill": "testmind:schedule",
+        "role": "调度/任务管理",
+        "description": "通用调度和任务管理"
+      },
+      {
+        "skill": "testmind:sql-execute",
+        "role": "数据库验证",
+        "description": "通过本地sql-execute wrapper执行SQL验证DB状态",
+        "wrapper": "agents/test-runner/skills/sql-execute/"
+      },
+      {
+        "skill": "testmind:query-log",
+        "role": "日志关键字验证",
+        "description": "查询aps-app应用日志，验证关键行为"
+      }
+    ],
+    "unmatched_steps": 9,
+    "unmatched_reason": "IT巡检日常巡视用例（OCR识别、代偿凭证、微众银行、imgp通知、快手还款、头条调额、合同下载等）需通过对应渠道的API接口触发，这些接口未注册到平台auto-interface-list，需通过Platform Manager录入。"
+  },
+  "apollo_configs": [
+    {
+      "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+      "type": "boolean",
+      "default": false,
+      "options": [true, false],
+      "description": "优化路径总开关，控制是否启用'先投递、异步内抢锁'"
+    },
+    {
+      "key": "aps.apollo.function.switch.taskScheduleParamPoolSwitch",
+      "type": "boolean",
+      "default": false,
+      "options": [true, false],
+      "description": "参数池开关，控制JSS参数taskPoolName是否允许覆盖执行池"
+    },
+    {
+      "key": "aps.apollo.config.taskScheduleAllowedPoolNames",
+      "type": "JSON Array",
+      "default": "[\"aps_task_execute_pool\",\"aps_task_long_pool\"]",
+      "options": "JSON数组，可配置的允许池名列表",
+      "description": "白名单，限制参数和映射不能把任务导入非预期业务池"
+    },
+    {
+      "key": "aps.apollo.config.taskSchedulePoolNameMap",
+      "type": "JSON Object",
+      "default": "{}",
+      "options": "JSON对象，key=任务名, value=池名",
+      "description": "按任务名→池名的兜底映射（优先级2）"
+    },
+    {
+      "key": "aps.apollo.config.taskScheduleDefaultPoolName",
+      "type": "string",
+      "default": "aps_task_execute_pool",
+      "options": "有效的线程池名",
+      "description": "默认调度任务池（优先级4）"
+    },
+    {
+      "key": "aps.apollo.config.threadPoolInfoServiceModule",
+      "type": "string",
+      "default": "APS",
+      "options": ["APS", "PPS"],
+      "description": "MSF线程池配置读取module，必要时可临时回PPS"
+    }
+  ],
+  "db_tables": [
+    {
+      "table": "thread_pool",
+      "database": "aps",
+      "subsystem": "aps-app",
+      "role": "线程池配置表，按module区分APS/PPS",
+      "key_field": "poor_code",
+      "verify_sql": "SELECT poor_code, core_size, max_size, queue_size FROM thread_pool WHERE module = 'APS' ORDER BY poor_code",
+      "expected_records": 21
+    }
+  ],
+  "io_bindings": {
+    "dependency_chain": {
+      "apollo_config_set": {
+        "produces": ["config_value", "effective_timestamp"],
+        "source": "配置修改成功确认"
+      },
+      "task_schedule_trigger": {
+        "consumes": ["task_name", "task_params"],
+        "produces": ["task_execution_id", "task_log_context"],
+        "source": "lingxi-scheduler 或 schedule 触发"
+      },
+      "db_verification": {
+        "consumes": ["task_execution_id", "pool_name", "module"],
+        "source": "从任务执行日志中提取"
+      },
+      "log_verification": {
+        "consumes": ["task_log_context", "keyword"],
+        "source": "从任务执行中提取"
+      }
+    },
+    "pending_data": [
+      {
+        "field": "task_name",
+        "description": "用于测试的JSS任务名，需从lingxi-scheduler获取或手动指定",
+        "source": "external"
+      },
+      {
+        "field": "test_pool_name",
+        "description": "测试用线程池名，需确认thread_pool表中实际存在",
+        "source": "db_lookup",
+        "lookup_sql": "SELECT poor_code FROM thread_pool WHERE module = 'APS' LIMIT 1"
+      },
+      {
+        "field": "jss_task_params",
+        "description": "JSS任务参数（taskName/taskPoolName/分片参数等），需根据实际JSS配置组装",
+        "source": "external"
+      }
+    ]
+  },
+  "log_verification": {
+    "app": "aps-app",
+    "keywords": {
+      "pool_resolve": "ScheduledTaskExecutorResolver.resolvePoolName",
+      "whitelist_reject": "scheduled task pool rejected",
+      "whitelist_reject_warn": "WARN",
+      "lock_acquired": "task lock acquired",
+      "lock_acquired_detail": "getInstanceWithTry",
+      "lock_failed": "task lock failed",
+      "lock_failed_skip": "skip",
+      "fallback_default": "fallback to task_default_pool",
+      "module_load": "threadPoolInfoServiceModule",
+      "module_load_aps": "APS",
+      "old_path_lock": "before submit to pool",
+      "new_path_lock": "after submit to pool",
+      "handle_exception": "handle exception",
+      "lock_release": "lock released",
+      "submit_failed": "submit failed"
+    }
+  },
+  "execution_notes": {
+    "param_assembly": "task_name需从lingxi-scheduler获取可用的JSS任务列表；test_pool_name需从thread_pool表查询确认存在",
+    "apollo_changes": "所有Apollo配置修改后等待2秒确保生效；切换开关测试前后需恢复原值",
+    "task_trigger": "使用testmind:lingxi-scheduler手动触发JSS任务，观察调度和执行行为",
+    "log_verification": "使用testmind:query-log按关键字搜索aps-app日志，验证线程池选择、锁行为、异常处理",
+    "db_verification": "使用testmind:sql-execute（通过本地sql-execute wrapper）验证thread_pool表数据",
+    "unmatched_cases": "IT巡检日常巡视用例（OCR识别、代偿凭证等）需要对应渠道的API接口触发，这些接口尚未注册到平台auto-interface-list。需通过Platform Manager录入后方可执行。",
+    "skill_routing": "所有testmind技能调用必须通过testmind-facade门面；sql-execute委托给本地wrapper"
+  },
+  "cases": [
+    {
+      "case_name": "优化开关-关闭走旧路径",
+      "group": "一、优化开关控制",
+      "row_estimate": 2,
+      "priority": "P0",
+      "tags": "开关控制,旧路径,optimizeSwitch=false",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "config",
+          "description": "确认Apollo配置：optimizeSwitch=false",
+          "skill": "testmind:apollo-config",
+          "action": "query",
+          "params": {
+            "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "开关值为false"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "flow",
+          "description": "触发一个JSS定时任务（如文件下载任务）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "task_type": "JSS",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务被提交到task_default_pool"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "tool",
+          "description": "查询aps-app日志，确认走了旧路径：提交前拿锁，提交到task_default_pool",
+          "skill": "testmind:query-log",
+          "action": "query",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["before submit to pool", "task_default_pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示旧路径行为：提交前拿锁 → task_default_pool"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "优化开关-开启走新路径",
+      "group": "一、优化开关控制",
+      "row_estimate": 3,
+      "priority": "P0",
+      "tags": "开关控制,新路径,optimizeSwitch=true,Resolver选池",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "config",
+          "description": "确认Apollo配置：optimizeSwitch=true",
+          "skill": "testmind:apollo-config",
+          "action": "query",
+          "params": {
+            "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "开关值为true"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "flow",
+          "description": "触发JSS定时任务",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "expected": {
+            "type": "field",
+            "raw_text": "任务通过ScheduledTaskExecutorResolver选池 → 提交 → 异步线程内拿锁"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "tool",
+          "description": "查询aps-app日志，确认走了新路径：Resolver选池 → 提交后异步拿锁",
+          "skill": "testmind:query-log",
+          "action": "query",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["ScheduledTaskExecutorResolver.resolvePoolName", "after submit to pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示新路径行为：Resolver选池 → 提交后异步拿锁"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "优先级1-参数池指定taskPoolName生效",
+      "group": "二、线程池选择四级优先级",
+      "row_estimate": 4,
+      "priority": "P0",
+      "tags": "四级优先级,参数池,priority1,paramPoolSwitch",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleParamPoolSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskScheduleAllowedPoolNames",
+          "value": "[\"aps_task_execute_pool\",\"aps_task_long_pool\",\"${test_pool_name}\"]"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "通过JSS参数传入taskPoolName=${test_pool_name}触发任务",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskPoolName": "${test_pool_name}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务被提交到${test_pool_name}指定的池"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认resolvePoolName返回${test_pool_name}",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "resolvePoolName",
+            "positive_keywords": ["${test_pool_name}"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示resolvePoolName = ${test_pool_name}"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "优先级1-白名单拒绝非法池名",
+      "group": "二、线程池选择四级优先级",
+      "row_estimate": 5,
+      "priority": "P0",
+      "tags": "四级优先级,白名单,reject,WARN",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleParamPoolSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskScheduleAllowedPoolNames",
+          "value": "[\"aps_task_execute_pool\",\"aps_task_long_pool\"]"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "通过JSS参数传入非白名单池名taskPoolName=illegal_pool",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskPoolName": "illegal_pool",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "白名单拒绝，降级到下一优先级"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认pool rejected WARN日志+继续降级",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["scheduled task pool rejected", "WARN", "illegal_pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示WARN级别拒绝 + 继续降级选择"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "优先级2-PoolNameMap按taskName映射",
+      "group": "二、线程池选择四级优先级",
+      "row_estimate": 6,
+      "priority": "P1",
+      "tags": "四级优先级,PoolNameMap,priority2,映射",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskSchedulePoolNameMap",
+          "value": "{\"${test_task_name}\": \"${test_pool_name}\"}"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskScheduleAllowedPoolNames",
+          "value": "[\"aps_task_execute_pool\",\"aps_task_long_pool\",\"${test_pool_name}\"]"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发taskName=${test_task_name}的任务（不传taskPoolName参数）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "${test_task_name}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务通过PoolNameMap映射到${test_pool_name}"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认PoolNameMap映射生效",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "resolvePoolName",
+            "positive_keywords": ["${test_pool_name}", "poolNameMap"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示通过PoolNameMap映射到${test_pool_name}"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "优先级3-内置映射partnerFileDownload→aps_task_long_pool",
+      "group": "二、线程池选择四级优先级",
+      "row_estimate": 7,
+      "priority": "P0",
+      "tags": "四级优先级,内置映射,priority3,partnerFileDownload,长任务池",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskSchedulePoolNameMap",
+          "value": "{}"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发partnerFileDownloadTask文件下载任务",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "partnerFileDownloadTask",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务通过内置映射提交到aps_task_long_pool"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认内置映射生效→aps_task_long_pool",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "resolvePoolName",
+            "positive_keywords": ["aps_task_long_pool", "built-in"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示内置映射: partnerFileDownloadTask → aps_task_long_pool"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "优先级4-Apollo默认池taskScheduleDefaultPoolName",
+      "group": "二、线程池选择四级优先级",
+      "row_estimate": 8,
+      "priority": "P1",
+      "tags": "四级优先级,默认池,priority4,DefaultPoolName",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskScheduleDefaultPoolName",
+          "value": "aps_task_execute_pool"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskSchedulePoolNameMap",
+          "value": "{}"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发一个无特殊映射的普通任务（不传taskPoolName，不在PoolNameMap中，不在内置映射中）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "${ordinary_task_name}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务提交到Apollo默认池aps_task_execute_pool"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认使用默认池",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "resolvePoolName",
+            "positive_keywords": ["aps_task_execute_pool", "default"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示使用Apollo默认池aps_task_execute_pool"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "最终兜底task_default_pool",
+      "group": "二、线程池选择四级优先级",
+      "row_estimate": 9,
+      "priority": "P0",
+      "tags": "四级优先级,最终兜底,task_default_pool,fallback",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskScheduleDefaultPoolName",
+          "value": "invalid_pool_that_does_not_exist"
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskSchedulePoolNameMap",
+          "value": "{}"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发任务（四级全未命中，默认池也不存在）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "${ordinary_task_name}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务最终降级到task_default_pool"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认fallback到task_default_pool",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["fallback to task_default_pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示fallback to task_default_pool"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "JSS-LegacyCron-name字段兼容",
+      "group": "三、JSS参数兼容性",
+      "row_estimate": 10,
+      "priority": "P1",
+      "tags": "JSS,LegacyCron,name字段,参数兼容",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "使用Legacy Cron格式JSS参数触发任务（用name字段而非taskName）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "format": "LegacyCron",
+            "name": "${task_name}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务正常调度，使用name字段识别任务名"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认任务名正确识别",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["taskName", "name"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示Legacy Cron格式的任务名正确解析"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "JSS-APSExecute-taskName字段兼容",
+      "group": "三、JSS参数兼容性",
+      "row_estimate": 11,
+      "priority": "P1",
+      "tags": "JSS,APSExecute,taskName字段,参数兼容",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "使用APS Execute格式JSS参数触发任务（用taskName字段）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "format": "APSExecute",
+            "taskName": "${task_name}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务正常调度，使用taskName字段识别任务名"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认taskName正确解析",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["taskName"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示APS Execute格式的taskName正确解析"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "JSS-paramPoolSwitch=false参数池不生效",
+      "group": "三、JSS参数兼容性",
+      "row_estimate": 12,
+      "priority": "P1",
+      "tags": "JSS,paramPoolSwitch,false,参数不生效",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleParamPoolSwitch",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "在paramPoolSwitch=false时通过JSS参数传入taskPoolName",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskPoolName": "${test_pool_name}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "taskPoolName参数被忽略，继续按降级逻辑选池"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认参数池被忽略",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "negative_keywords": ["${test_pool_name}", "paramPoolSwitch enabled"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示taskPoolName参数被忽略，未使用参数指定的池"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "锁行为-旧路径先锁后提交到线程池",
+      "group": "四、锁行为变更",
+      "row_estimate": 13,
+      "priority": "P0",
+      "tags": "锁行为,旧路径,先锁后提交,lock_before_submit",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "在开关关闭时触发任务",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "expected": {
+            "type": "field",
+            "raw_text": "旧路径行为：先获取分布式锁 → 再提交到线程池"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认锁获取顺序：锁在提交前",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["task lock acquired", "before submit to pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示锁获取在提交线程池之前"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "锁行为-新路径异步内抢锁失败跳过执行",
+      "group": "四、锁行为变更",
+      "row_estimate": 14,
+      "priority": "P0",
+      "tags": "锁行为,新路径,抢锁失败,skip,execute",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "同时触发两个同名任务（第二个会在异步线程内抢锁失败）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger_concurrent",
+          "params": {
+            "concurrent_count": 2,
+            "same_task": true,
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "第一个抢锁成功执行，第二个抢锁失败跳过（不执行selectTasks/execute）"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认第二个任务抢锁失败skip",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["task lock failed", "skip"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示task lock failed → skip，不执行selectTasks/execute"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "锁行为-任务锁自动续期",
+      "group": "四、锁行为变更",
+      "row_estimate": 15,
+      "priority": "P1",
+      "tags": "锁行为,自动续期,long_running",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发一个长时间运行的任务（如文件下载）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "partnerFileDownloadTask",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "执行期间锁自动续期，不因超时释放"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认锁续期行为",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "partnerFileDownloadTask",
+            "positive_keywords": ["lock", "renew", "extend"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示锁在长时间执行期间自动续期，未超时释放"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "资源隔离-不同任务池相互隔离",
+      "group": "五、线程池资源与隔离",
+      "row_estimate": 16,
+      "priority": "P0",
+      "tags": "资源隔离,不同池,隔离",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发任务A→pool_a, 任务B→pool_b，验证各自在独立池中执行",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger_multi",
+          "params": {
+            "tasks": [
+              {"name": "${task_a}", "pool": "${pool_a}"},
+              {"name": "${task_b}", "pool": "${pool_b}"}
+            ],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务A和B在各自的池中执行，互不影响"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认不同poolName",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "resolvePoolName",
+            "positive_keywords": ["${pool_a}", "${pool_b}"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示两个任务使用不同的线程池执行"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "资源隔离-长任务不阻塞短任务",
+      "group": "五、线程池资源与隔离",
+      "row_estimate": 17,
+      "priority": "P1",
+      "tags": "资源隔离,长任务,短任务,不阻塞",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "长任务提交到aps_task_long_pool，短任务提交到aps_task_execute_pool，同时触发",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger_concurrent",
+          "params": {
+            "tasks": [
+              {"name": "partnerFileDownloadTask", "expected_pool": "aps_task_long_pool"},
+              {"name": "${short_task_name}", "expected_pool": "aps_task_execute_pool"}
+            ],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "长任务在long_pool执行不阻塞短任务在execute_pool执行"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认短任务及时完成（不被长任务阻塞）",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${short_task_name}",
+            "positive_keywords": ["completed", "aps_task_execute_pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "短任务在长任务运行期间正常完成，未被阻塞"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "资源隔离-21个池seed数据完整性校验",
+      "group": "五、线程池资源与隔离",
+      "row_estimate": 18,
+      "priority": "P0",
+      "tags": "资源隔离,seed数据,thread_pool,APS,21池",
+      "precondition": [],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "db",
+          "description": "查询APS模块21个线程池配置数据",
+          "skill": "testmind:sql-execute",
+          "action": "query",
+          "params": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "sql": "SELECT poor_code, core_size, max_size, queue_size FROM thread_pool WHERE module = 'APS' ORDER BY poor_code"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "查询返回21条记录，池配置完整"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "check",
+          "description": "验证每个池的core_size、max_size、queue_size字段非空且合理",
+          "check": {
+            "type": "field_validation",
+            "table": "thread_pool",
+            "filter": "module='APS'",
+            "validations": [
+              "core_size > 0",
+              "max_size >= core_size",
+              "queue_size > 0",
+              "poor_code NOT NULL"
+            ]
+          },
+          "expected": {
+            "type": "check",
+            "raw_text": "所有21个池配置字段完整且合理"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "资源隔离-module加载APS正确",
+      "group": "五、线程池资源与隔离",
+      "row_estimate": 19,
+      "priority": "P1",
+      "tags": "资源隔离,module,threadPoolInfoServiceModule,APS",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.threadPoolInfoServiceModule",
+          "value": "APS"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发任意定时任务，验证系统加载APS模块线程池",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "系统使用APS模块的线程池配置"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认threadPoolInfoServiceModule=APS",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "threadPoolInfoServiceModule",
+            "positive_keywords": ["APS"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示threadPoolInfoServiceModule=APS"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "db",
+          "description": "确认thread_pool表APS module数据被正确加载",
+          "skill": "testmind:sql-execute",
+          "action": "query",
+          "params": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "sql": "SELECT COUNT(*) as cnt FROM thread_pool WHERE module = 'APS'"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "返回21"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "异常-新路径handle异常finally释放锁",
+      "group": "六、异常与兜底",
+      "row_estimate": 20,
+      "priority": "P0",
+      "tags": "异常,handle,finally,锁释放",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发一个在执行阶段会抛异常的任务",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "${error_prone_task}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "异常发生后锁在finally中正确释放"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认handle异常+finally释放锁",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["handle exception", "lock released", "finally"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示异常处理后锁被正确释放"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "异常-旧路径提交失败锁释放",
+      "group": "六、异常与兜底",
+      "row_estimate": 21,
+      "priority": "P1",
+      "tags": "异常,旧路径,提交失败,锁释放",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发任务（旧路径），模拟线程池提交失败",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "提交失败后锁被释放"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认提交失败+锁释放",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["submit failed", "lock released"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示提交失败后锁被释放"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "异常-池不存在时报错",
+      "group": "六、异常与兜底",
+      "row_estimate": 22,
+      "priority": "P1",
+      "tags": "异常,池不存在,error",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "尝试将任务导向不存在的线程池（通过PoolNameMap指向不存在池名）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "系统报错，任务未提交到不存在池"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认池不存在错误",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["pool", "not found", "does not exist", "ERROR"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示ERROR级别，池不存在"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "动态配置-开关false→true实时生效",
+      "group": "七、动态配置生效",
+      "row_estimate": 23,
+      "priority": "P1",
+      "tags": "动态配置,开关切换,false→true,实时生效",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "config",
+          "description": "Apollo修改：optimizeSwitch=false→true",
+          "skill": "testmind:apollo-config",
+          "action": "update",
+          "params": {
+            "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+            "value": true,
+            "env": "STG1",
+            "wait_after_seconds": 2
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "配置修改成功"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "flow",
+          "description": "立即触发任务（无需重启）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "expected": {
+            "type": "field",
+            "raw_text": "任务走新路径（Resolver选池+异步锁）"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "tool",
+          "description": "查询日志确认新路径生效",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["resolvePoolName", "after submit"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "开关修改后立即生效，任务走新路径"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "动态配置-PoolNameMap动态修改生效",
+      "group": "七、动态配置生效",
+      "row_estimate": 24,
+      "priority": "P1",
+      "tags": "动态配置,PoolNameMap,实时生效",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        },
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.taskSchedulePoolNameMap",
+          "value": "{}"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "config",
+          "description": "Apollo修改PoolNameMap：添加${test_task}→${pool_a}",
+          "skill": "testmind:apollo-config",
+          "action": "update",
+          "params": {
+            "key": "aps.apollo.config.taskSchedulePoolNameMap",
+            "value": "{\"${test_task}\": \"${pool_a}\"}",
+            "env": "STG1",
+            "wait_after_seconds": 2
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "PoolNameMap修改成功"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "flow",
+          "description": "触发${test_task}，验证映射到${pool_a}",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "${test_task}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务使用新PoolNameMap映射"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "config",
+          "description": "Apollo修改PoolNameMap：改为${test_task}→${pool_b}",
+          "skill": "testmind:apollo-config",
+          "action": "update",
+          "params": {
+            "key": "aps.apollo.config.taskSchedulePoolNameMap",
+            "value": "{\"${test_task}\": \"${pool_b}\"}",
+            "env": "STG1",
+            "wait_after_seconds": 2
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "PoolNameMap再次修改成功"
+          }
+        },
+        {
+          "seq": 4,
+          "type": "flow",
+          "description": "再次触发${test_task}，验证映射到${pool_b}",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "taskName": "${test_task}",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "任务使用新映射，无需重启"
+          }
+        },
+        {
+          "seq": 5,
+          "type": "tool",
+          "description": "查询日志确认两次映射变化",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "resolvePoolName",
+            "positive_keywords": ["${pool_a}", "${pool_b}"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示PoolNameMap动态修改后实时生效"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "多线程-外层+分片统一池",
+      "group": "八、多线程任务",
+      "row_estimate": 25,
+      "priority": "P1",
+      "tags": "多线程,外层,分片,统一池",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发多分片任务，外层调度和分片执行使用统一线程池",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "shard_count": 3,
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "外层和所有分片在同一线程池中执行"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认外层+分片使用同一池",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["shard", "pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示外层和分片使用统一线程池"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "多线程-首分片内联执行",
+      "group": "八、多线程任务",
+      "row_estimate": 26,
+      "priority": "P1",
+      "tags": "多线程,首分片,内联,inline",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发多分片任务，观察首分片是否在当前线程内联执行",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "params": {
+            "shard_count": 2,
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "首分片在当前线程内联执行，其他分片异步提交"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认首分片内联行为",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["shard", "inline", "current thread"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示首分片在当前线程内联执行"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "多线程-分片取消机制",
+      "group": "八、多线程任务",
+      "row_estimate": 27,
+      "priority": "P2",
+      "tags": "多线程,分片取消,cancel",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": true
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "触发分片任务过程中取消执行",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger_then_cancel",
+          "params": {
+            "shard_count": 5,
+            "cancel_after_seconds": 2,
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "field",
+            "raw_text": "未执行的分片被取消，已执行的分片完成"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认分片取消",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["cancel", "shard", "interrupted"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示分片被取消"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "历史兼容-module回退PPS",
+      "group": "九、历史遗留兼容",
+      "row_estimate": 28,
+      "priority": "P1",
+      "tags": "历史兼容,PPS,module回退,兼容",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.config.threadPoolInfoServiceModule",
+          "value": "PPS"
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "db",
+          "description": "确认PPS模块线程池数据存在",
+          "skill": "testmind:sql-execute",
+          "action": "query",
+          "params": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "sql": "SELECT poor_code, core_size, max_size FROM thread_pool WHERE module = 'PPS' ORDER BY poor_code"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "PPS模块线程池数据存在"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "flow",
+          "description": "触发任务，验证系统加载PPS模块线程池",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "expected": {
+            "type": "field",
+            "raw_text": "任务使用PPS模块线程池，功能正常"
+          }
+        },
+        {
+          "seq": 3,
+          "type": "tool",
+          "description": "查询日志确认加载PPS module",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "threadPoolInfoServiceModule",
+            "positive_keywords": ["PPS"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示加载PPS模块线程池，功能正常"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "历史兼容-task_default_pool向后兼容",
+      "group": "九、历史遗留兼容",
+      "row_estimate": 29,
+      "priority": "P0",
+      "tags": "历史兼容,task_default_pool,向后兼容",
+      "precondition": [
+        {
+          "type": "apollo",
+          "key": "aps.apollo.function.switch.taskScheduleExecuteOptimizeSwitch",
+          "value": false
+        }
+      ],
+      "steps": [
+        {
+          "seq": 1,
+          "type": "flow",
+          "description": "开关关闭时触发任务（走旧路径=task_default_pool）",
+          "skill": "testmind:lingxi-scheduler",
+          "action": "trigger",
+          "expected": {
+            "type": "field",
+            "raw_text": "旧路径任务提交到task_default_pool，正常执行"
+          }
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询日志确认task_default_pool兼容",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "${task_name}",
+            "positive_keywords": ["task_default_pool"],
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "日志显示旧路径task_default_pool正常执行"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-OCR识别失败记录具体原因",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 30,
+      "priority": "P1",
+      "tags": "IT巡检,OCR,识别失败,虚拟号段,NP异常",
+      "status": "unmatched",
+      "unmatched_reason": "OCR识别接口未注册到平台auto-interface-list。需要对应的渠道API接口（如OCR识别接口）触发后查询日志验证。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "触发OCR识别（使用虚拟号段），验证返回具体失败原因而非统一大类",
+          "status": "unmatched",
+          "recommended_action": "通过Platform Manager注册OCR识别相关接口到auto-interface-list"
+        },
+        {
+          "seq": 2,
+          "type": "unmatched",
+          "raw_text": "虚拟号段半流程拉取协议时，验证直接拒绝（不再出现NP异常）",
+          "status": "unmatched"
+        },
+        {
+          "seq": 3,
+          "type": "unmatched",
+          "raw_text": "V4授信上送过程中身份证OCR识别过期，验证返回正确的过期错误码",
+          "status": "unmatched"
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-代偿凭证仅OK文件无目录无业务影响",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 31,
+      "priority": "P1",
+      "tags": "IT巡检,代偿凭证,放款凭证,yyyymmdd.ok,错误日志",
+      "status": "unmatched",
+      "unmatched_reason": "代偿/放款凭证处理接口未注册到平台auto-interface-list。需要对应的文件处理接口触发后验证。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "模拟合作方只上传yyyymmdd.ok文件（无yyyymmdd目录）",
+          "status": "unmatched"
+        },
+        {
+          "seq": 2,
+          "type": "tool",
+          "description": "查询应用日志确认有错误日志但业务无影响",
+          "skill": "testmind:query-log",
+          "params": {
+            "app": "aps-app",
+            "keyword": "yyyymmdd.ok",
+            "env": "STG1"
+          },
+          "expected": {
+            "type": "log",
+            "raw_text": "有错误日志，但业务不受影响"
+          }
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-微众银行终态借据不通知",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 32,
+      "priority": "P1",
+      "tags": "IT巡检,微众银行,订单推送,终态,不通知",
+      "status": "unmatched",
+      "unmatched_reason": "微众银行订单推送接口未注册到平台auto-interface-list。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "构造借据终态数据，触发微众银行订单状态推送，验证不再通知",
+          "status": "unmatched"
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-imgp通知bizNo为空不失败",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 33,
+      "priority": "P1",
+      "tags": "IT巡检,imgp,通知,bizNo,空值",
+      "status": "unmatched",
+      "unmatched_reason": "imgp通知接口未注册到平台auto-interface-list。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "构造bizNo为空的场景，触发imgp通知，验证通知不失败",
+          "status": "unmatched"
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-快手还款order_repay不存在返回RECORD_NOT_EXISTS",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 34,
+      "priority": "P1",
+      "tags": "IT巡检,快手,还款,order_repay,RECORD_NOT_EXISTS",
+      "status": "unmatched",
+      "unmatched_reason": "快手还款结果拉取接口未注册到平台auto-interface-list。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "构造order_repay不存在的场景，调用快手还款结果拉取接口，验证返回RECORD_NOT_EXISTS（非BUSINESS_FAIL）",
+          "status": "unmatched"
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-third_repay_withhold去重",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 35,
+      "priority": "P1",
+      "tags": "IT巡检,third_repay_withhold,去重,重复数据",
+      "status": "unmatched",
+      "unmatched_reason": "third_repay_withhold表数据接口未注册到平台auto-interface-list。可通过DB直查验证。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "db",
+          "description": "查询third_repay_withhold表确认无重复数据",
+          "skill": "testmind:sql-execute",
+          "action": "query",
+          "params": {
+            "subsystem": "aps-app",
+            "database": "aps",
+            "sql": "SELECT key_fields, COUNT(*) as cnt FROM third_repay_withhold GROUP BY key_fields HAVING cnt > 1"
+          },
+          "expected": {
+            "type": "db",
+            "raw_text": "无重复数据"
+          },
+          "platform_id": null,
+          "matched": "partial",
+          "note": "此用例可通过DB直查验证部分结果，但完整验证需要触发对应业务流程"
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-头条调额不产生多笔订单",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 36,
+      "priority": "P1",
+      "tags": "IT巡检,头条,调额,多笔订单",
+      "status": "unmatched",
+      "unmatched_reason": "头条调额接口未注册到平台auto-interface-list。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "触发头条调额流程，验证同一条流水只产生一笔订单",
+          "status": "unmatched"
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-合同下载D日无文件不告警",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 37,
+      "priority": "P1",
+      "tags": "IT巡检,合同下载,告警,华兴银行,D日",
+      "status": "unmatched",
+      "unmatched_reason": "合同下载接口未注册到平台auto-interface-list。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "D日只有.ok文件无合同文件，验证当日不触发合同下载告警",
+          "status": "unmatched"
+        }
+      ]
+    },
+    {
+      "case_name": "IT巡检-半流程拉取协议空指针修复",
+      "group": "IT巡检-日常巡视",
+      "row_estimate": 38,
+      "priority": "P1",
+      "tags": "IT巡检,半流程,协议,空指针,NPE",
+      "status": "unmatched",
+      "unmatched_reason": "半流程拉取协议接口未注册到平台auto-interface-list。",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "unmatched",
+          "raw_text": "半流程场景下拉取协议，验证不再出现空指针异常",
+          "status": "unmatched"
+        }
+      ]
+    }
+  ]
+}

@@ -4,11 +4,15 @@
 
 所有 SQL 执行必须通过此 skill，**禁止以下行为**：
 
-- ❌ 绕过此 skill 直接调用 `testmind:sql-execute`
+- ❌ 直接 subprocess 调用 `execute_sql.py`（绕过 QOA 追踪）
 - ❌ 使用 curl 直接调用 HTTP API
 - ❌ 使用 innovateTools DB 执行工具
 - ❌ 直接 SQL 连接
-- ❌ Skill 异步调用（拿不到同步返回结果）
+
+**正确方式**：
+1. Phase A: wrapper 解析参数（`run.py --resolve-only`）
+2. Phase B: `Skill(testmind:sql-execute, args)` 执行（QOA 追踪）
+3. Phase C: 编码修复 + sharding 回退
 
 ## 2. 环境获取
 
@@ -99,20 +103,19 @@ except:
     fixed_value = original_value  # ASCII 字段无需修复
 ```
 
-## 6. 脚本执行参数
+## 6. 执行方式
 
-唯一执行方式：通过 `execute_sql.py` 脚本调用：
+**新架构（QOA 追踪）**：
 
-```bash
-CLAUDE_PLUGIN_ROOT="c:/Users/wangxue-jk/.claude/plugins/cache/quality-cc-marketplace/testmind/1.0.34"
-python "$CLAUDE_PLUGIN_ROOT/skills/common_sql_execute/scripts/execute_sql.py" \
-  --env {环境} \
-  --db-name {数据库名} \
-  --sql "{SQL语句}" \
-  --page-size {条数} \
-  --format markdown
+```
+# Phase A: 本地解析
+python run.py --resolve-only --env STG1 --system aps --table order_info --sql "SELECT ..."
+
+# Phase B: Skill 执行（QOA 追踪）
+Skill(testmind:sql-execute, "{skill_args}")
+
+# Phase C: 后处理
+编码修复 + sharding 回退
 ```
 
-- `--format` 支持 `json` 和 `markdown`，推荐 `markdown`
-- `--page` / `--page-size` 可选，默认 page=1, page_size=10
-- 脚本内部自动处理 token 获取和刷新
+> 🚫 **禁止**直接 subprocess 调用 execute_sql.py。执行必须通过 `Skill(testmind:sql-execute)` 确保 QOA 追踪。

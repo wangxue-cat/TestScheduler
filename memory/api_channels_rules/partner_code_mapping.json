@@ -1,0 +1,162 @@
+{
+  "updated": "2026-07-01",
+  "source": "aps.partner_info STG1",
+  "total": 31,
+  "mappings": [
+    {
+      "partner_code": "TouTiao",
+      "partner_desc": "头条智选平台",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "XingXuan",
+      "partner_desc": "头条星选",
+      "business_status": "OFFLINE"
+    },
+    {
+      "partner_code": "XCtrip",
+      "partner_desc": "新携程金融",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "Ctrip",
+      "partner_desc": "携程",
+      "business_status": "OFFLINE"
+    },
+    {
+      "partner_code": "HuaWei",
+      "partner_desc": "华为",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "XKuaiShou",
+      "partner_desc": "快手",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "DeWu",
+      "partner_desc": "得物API",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "XDiDi",
+      "partner_desc": "滴滴2.0",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "HuanBei",
+      "partner_desc": "新还呗",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "JdJieQian",
+      "partner_desc": "京东借钱",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "JdJinTiao",
+      "partner_desc": "京东金条",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "PingAnPh",
+      "partner_desc": "平安普惠",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "XMeiTuan",
+      "partner_desc": "新美团",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "EleMe",
+      "partner_desc": "饿了么",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "XEleMe",
+      "partner_desc": "新饿了么",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "Vips",
+      "partner_desc": "唯品会",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "DianXin",
+      "partner_desc": "电信翼支付",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "TianCheng",
+      "partner_desc": "电信甜橙",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "LianTong",
+      "partner_desc": "联通沃易贷",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "HaiEr",
+      "partner_desc": "海尔消金",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "BaiXin",
+      "partner_desc": "云闪付百信",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "NingYinXJ",
+      "partner_desc": "宁银消金",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "JinCheng",
+      "partner_desc": "金城银行",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "JiangSuBk",
+      "partner_desc": "江苏银行",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "SuShangBK",
+      "partner_desc": "苏商银行",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "BoHaiXiaoWei",
+      "partner_desc": "渤海小微",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "BoHaiBk",
+      "partner_desc": "渤海星选",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "FxjPingAn",
+      "partner_desc": "放心借-平安",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "Sykcfc",
+      "partner_desc": "苏银凯基",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "RongYao",
+      "partner_desc": "荣耀",
+      "business_status": "ONLINE"
+    },
+    {
+      "partner_code": "GaoDe",
+      "partner_desc": "高德渠道",
+      "business_status": "ONLINE"
+    }
+  ]
+}

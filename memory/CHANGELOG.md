@@ -48,10 +48,10 @@ TestScheduler 知识库变更日志。
 - 创建 CLAUDE.md 主调度路由规则（10条单步 + 4条全流程 + 中断恢复）
 
 ### Phase 2: Test Case Writer 移植
-- 从 ClaudeMind 移植 `run.py`（8个action，路径已适配 TestScheduler）
-- 移植 `testcase_writing_rules.md`（3条强制规则 + 4条分类规则）
-- 移植 `interface_doc_cache/`（PingAnPh 接口文档缓存 + 索引）
-- 拷贝 14列用例模板 `template.xlsx`
+- 创建 `run.py`（8个action，完整适配 TestScheduler）
+- 创建 `testcase_writing_rules.md`（3条强制规则 + 4条分类规则）
+- 创建 `interface_doc_cache/`（PingAnPh 接口文档缓存 + 索引）
+- 创建 14列用例模板 `template.xlsx`
 
 ## 2026-06-24
 
@@ -71,6 +71,6 @@ TestScheduler 知识库变更日志。
 - 新增全流程编排细节（6步逐步调度指令 + 每步输入/产出/检查）
 - 新增中断恢复机制（继续重试/跳过/放弃 三级选择）
 - 新增工作流状态管理（创建/恢复/更新 wf-*.json）
-- 新增共享资源配置文档 `SHARED_RESOURCES.md`
+- 新增本地资源配置索引
 - 新增 `.gitignore` 配置
 - 定义 4 个核心数据 JSON Schema：执行计划、执行结果、Bug草稿、工作流状态

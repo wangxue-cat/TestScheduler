@@ -22,17 +22,37 @@ argument-hint: "[环境] [系统名.表名] [SQL]"
 | db_ref | string | 是 | `系统名.表名` 格式，如 `aps.order_info` |
 | sql | string | 是 | SQL 语句 |
 
-## 执行流程
+## 执行流程（新架构）
 
 ```
-用户需求 → Step1解析环境 → Step2解析数据库 → Step3组装SQL → Step4执行 → Step5处理结果
+用户需求 → Phase A: 本地解析 → Phase B: Skill执行(QOA追踪) → Phase C: 后处理
+```
+
+### Phase A: 本地解析（wrapper）
+
+```bash
+python run.py --resolve-only --env STG1 --system aps --table t --sql "SELECT ..."
 ```
 
 1. **解析环境** — 用户指定优先，否则查当前迭代默认环境
-2. **解析数据库** — `系统名.表名` → `db_info_processed.json` 匹配 `db_name`，支持 sharding 回退
+2. **解析数据库** — `系统名.表名` → `db_info_processed.json` 匹配 `db_name`
 3. **组装 SQL** — 无 WHERE/LIMIT/ORDER BY 的数据查询自动追加 `ORDER BY id DESC LIMIT 1`
-4. **执行** — 通过 `execute_sql.py` 脚本调用 `testmind:sql-execute`
-5. **处理结果** — 编码修复（mojibake）+ sharding 回退
+4. **危险检测** — DELETE / 大批量 UPDATE 标记 `needs_confirm`
+
+输出 JSON，包含 `skill_args` 字段（可直接传给 Skill 的参数）。
+
+### Phase B: 执行（通过 Skill，QOA 追踪）
+
+```
+Skill(testmind:sql-execute, "{skill_args}")
+```
+
+> 🚫 **禁止在此阶段直接 subprocess 调用 execute_sql.py**，必须走 `Skill(testmind:xxx)` 确保 QOA 追踪。
+
+### Phase C: 后处理
+
+5. **编码修复** — `fix_mojibake()` 修复 UTF-8 双重编码
+6. **Sharding 回退** — 普通库无数据时自动回退同 subsystem 的 sharding 库
 
 ## 输出
 

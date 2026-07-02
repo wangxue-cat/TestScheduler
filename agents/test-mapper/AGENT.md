@@ -18,16 +18,25 @@
 | Skill | 描述 |
 |-------|------|
 | `parse-case-steps` | 解析用例 Excel，提取每个 case 的步骤文本，分类为 interface/flow/tool/db |
+| `verify-executability` | 可执行性检查：在接口匹配前逐条检查每个步骤和验证点是否可执行，产出 pass/warn/block 报告 |
 | `match-platform-interface` | 通过 testmind:auto-interface-list 从平台接口列表中匹配每个步骤对应的平台接口 |
 | `generate-execution-plan` | 将匹配结果组装为完整执行计划 JSON，含 io_bindings 依赖链和参数占位符 |
 
 ## 匹配流程
 
-1. 调用 `testmind:auto-interface-list` 获取平台上已注册的接口列表（按渠道名/接口名搜索）
-2. 对每个用例步骤文本做模糊匹配 → 确定平台接口 ID + method 名称
-3. 从平台接口的 `interface_params.bodys` 中解析实际调用参数（method、appId、params 等）
-4. 解析接口间的 io_bindings 依赖（如 repayNotify.repay_order_id → pullRepayNotify.repay_order_id）
-5. 生成执行计划 JSON，标记每个步骤的：platform_id、method、appId、param_placeholders、io_bindings_sources
+```
+parse-case-steps → verify-executability → match-platform-interface → generate-execution-plan
+```
+
+1. **parse-case-steps**：解析用例 Excel，将文本步骤分类为 interface/flow/tool/db/config
+2. **verify-executability**：逐条检查每个步骤和验证点是否可执行（10 维度），产出 pass/warn/block 报告；block 项需用户确认后继续
+3. **match-platform-interface**：调用 `testmind:auto-interface-list` 从平台接口列表匹配每个步骤对应的平台接口
+4. **generate-execution-plan**：从平台接口的 `interface_params.bodys` 中解析调用参数，组装执行计划 JSON
+
+## 硬性规则（补充）
+
+7. **可执行性检查必须通过**：有 block 项时暂停流程，用户解决后重新运行 `verify-executability`
+8. **渠道映射禁止猜测**：partner_code 必须从 `partner_code_mapping.json` 查找
 
 ## testmind 技能调用
 

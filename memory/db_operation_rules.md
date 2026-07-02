@@ -9,50 +9,40 @@ metadata:
 
 ## SQL 执行强制路由
 
-**⚠️ 最高优先级规则：所有 SQL 执行必须通过 Test Runner Agent 的 `sql-execute` skill 执行。**
+**⚠️ 最高优先级规则：所有 SQL 执行必须通过 Test Runner Agent 的 `sql-execute` skill，且执行阶段必须走 `Skill(testmind:sql-execute)`（QOA 追踪）。**
 
 | 调用场景 | 正确方式 | ❌ 禁止方式 |
 |----------|----------|------------|
-| 主会话中用户要求查数据 | `Agent(test-runner, "执行SQL: ...")` | 直接调 `testmind:sql-execute` skill |
+| 主会话中用户要求查数据 | Phase A: `python run.py --resolve-only ...` → Phase B: `Skill(testmind:sql-execute, args)` | 直接 subprocess 调 `execute_sql.py` |
 | 其他 Agent 需要查数据 | 委托 Test Runner Agent 执行 | 自己调 `testmind:sql-execute` |
 | 用例执行中需要查数据 | Test Runner 自有的 `sql-execute` skill | innovateTools DB 执行工具 |
 | 落库校验 | `db-validation` skill（内部调 sql-execute） | 直接构造 SQL 查询 |
 
-**Why:** 主会话或其他 Agent 直接调 `testmind:sql-execute` 绕过了 Test Runner Agent 的统一入口，导致：① 缺少环境/库路由逻辑 ② 缺少 sharding 回退 ③ 缺少安全校验 ④ 缺少活动日志记录 ⑤ 违反职责边界（SQL 执行是 Test Runner 的专属职责）。
+**Why:** 直接 subprocess 调 `execute_sql.py` 绕过 QOA 的 `testmind:schedule` 追踪，导致执行次数无法统计。
 
-**How to apply:** 任何需要执行 SQL 的场景，先判断当前是否在 Test Runner Agent 内：
-- **在 Test Runner 内** → 直接调自有的 `sql-execute` skill
-- **不在 Test Runner 内**（主会话/其他 Agent）→ 必须通过 `Agent(test-runner, ...)` 委托执行
+**How to apply:** 任何需要执行 SQL 的场景：
+1. 先通过 wrapper 解析参数（`run.py --resolve-only`）
+2. 再通过 `Skill(testmind:sql-execute, args)` 执行（QOA 追踪）
 
 ## SQL 执行方式
 
-所有数据库操作**必须**通过 `sql-execute` skill（test-runner agent 自有 skill）执行，禁止使用其他方式。
+所有数据库操作**必须**通过 `sql-execute` skill（test-runner agent 自有 skill）执行。
 
-### 推荐执行方式：通过 sql-execute skill
+### 新架构（推荐，QOA 追踪）
 
 ```bash
-# AI 调用方式：通过 test-runner agent 的 sql-execute skill
-# skill 内部会自动：环境获取 → 数据库路由 → SQL组装 → 安全校验 → 调用testmind:sql-execute → 编码修复 → sharding回退
-
-# CLI 直接调用（调试用）：
+# Phase A: 本地解析（纯本地，无网络调用）
 python "D:/TestScheduler/agents/test-runner/skills/sql-execute/run.py" \
+  --resolve-only \
   --env {环境} \
   --system {系统名} \
   --table {表名} \
-  --sql "{SQL语句}" \
-  --page-size {条数}
-```
+  --sql "{SQL语句}"
 
-### 底层执行（skill 内部调用，用户不可直接使用）
+# Phase B: 执行（通过 Skill，QOA 追踪）
+Skill(testmind:sql-execute, "{skill_args}")
 
-skill 内部通过 `testmind:sql-execute` 的 `execute_sql.py` 脚本执行：
-
-```bash
-python "C:/Users/wangxue-jk/.claude/plugins/cache/quality-cc-marketplace/testmind/1.0.34/skills/common_sql_execute/scripts/execute_sql.py" \
-  --env {环境} \
-  --db-name {数据库名} \
-  --sql "{SQL语句}" \
-  --format markdown
+# Phase C: 后处理（编码修复 + sharding 回退）
 ```
 
 ## 三参数获取规则
@@ -64,7 +54,7 @@ python "C:/Users/wangxue-jk/.claude/plugins/cache/quality-cc-marketplace/testmin
 | 条件 | 取值 |
 |------|------|
 | 用户显式给出环境 | 使用用户给出的环境（如 STG1、STG2、STG3） |
-| 用户未给出环境 | 调用 `testmind:get-current-week-sprint-env` 获取当前迭代默认环境 |
+| 用户未给出环境 | 调用 `Skill(testmind:get-current-week-sprint-env)` 获取当前迭代默认环境 |
 | testmind 获取失败 | 使用最近一次使用过的环境 |
 | 均无历史记录 | 提示用户先初始化环境信息（如运行 `testmind:init` 或手动指定） |
 

@@ -57,12 +57,20 @@ python "${CLAUDE_PLUGIN_ROOT}/skills/common_sql_execute/scripts/execute_sql.py" 
 
 ### Step 4: 执行
 
-通过 `execute_sql.py` 脚本调用，**禁止使用 curl、Skill 异步调用、innovateTools 等方式**。
+> 🚫 **禁止直接 subprocess 调用 execute_sql.py**。必须通过 `Skill(testmind:sql-execute)` 执行，确保 QOA 平台的 `testmind:schedule` 能追踪到 skill 执行次数。
 
-参数：
-- `--format` 支持 `json` 和 `markdown`，推荐 `markdown`
-- `--page` / `--page-size` 可选，默认 page=1, page_size=10
-- 脚本内部自动处理 token 获取和刷新
+**Phase B 执行协议**：
+
+1. 从 Phase A (`run.py --resolve-only`) 获取 `skill_args` 字段
+2. 调用 `Skill(testmind:sql-execute, "{skill_args}")`
+3. Skill 内部会运行 `execute_sql.py` 脚本发起 HTTP 请求
+4. 获取返回的 JSON 结果（`flag`、`msg`、`results`）
+
+**Skill 参数格式**：`"<env> <db_name> <sql>"`，如 `"STG1 aps_stg1 SELECT * FROM t WHERE id=1;"`
+
+**注意**：
+- Skill 内部自动处理 token 获取和刷新
+- 返回格式为 JSON，包含 `flag`、`msg`、`results`
 
 ### Step 5: 处理结果
 

@@ -5,9 +5,9 @@ metadata:
   type: experience
   skill: testmind:query-log
   version: 1
-  evolution_count: 7
-  last_updated: 2026-06-24
-  sources: [main-session, STG3, APS]
+  evolution_count: 9
+  last_updated: 2026-06-29
+  sources: [main-session, STG1, STG3, APS]
 ---
 
 # query-log 经验积累
@@ -30,6 +30,7 @@ metadata:
 | 关键字/错误日志 | **实时日志** `--pattern` | 已知应用+日志路径，实时无延迟 |
 | 最新业务日志 | **实时日志** `--mode tail` | 看最新 N 行，快速 |
 | 时间范围排查 | **定时日志** `--log-start-time/--log-end-time` | 按时间段检索 |
+| 定时任务执行日志 | **定时日志** → taskName 搜 req_no → req_no 追踪详情 | 任务名→流水号→全链路追踪 |
 | 实时日志报 `invalid logfile path` | **立即降级定时日志** | 不反复尝试不同路径 |
 
 ## 系统→应用映射
@@ -54,6 +55,14 @@ metadata:
 - **教训**: STG3 APS 的实时日志路径不可用，流水号查询直接用定时日志
 - **来源**: main-session, 2026-06-24
 
+### 坑5: STG1 aps-app 实时日志同样无法获取IP
+- **日期**: 2026-07-01
+- **现象**: 实时日志查 aps-app 报 `未获取到应用的ip信息` (flag=F)，非路径问题而是部署集群信息查询失败
+- **原因**: 实时日志 API 内部调用部署集群接口时 JSON 解析失败
+- **解决**: 降级定时日志成功，使用 `--log-levels` / `--message-like` 按关键字过滤
+- **教训**: STG1/STG3 的 aps-app 实时日志均不可靠，查 aps-app 日志优先考虑定时日志
+- **来源**: main-session, 2026-07-01
+
 ### 坑2: 流水号查询会跨应用
 - **日期**: 2026-06-24
 - **现象**: 用户说"APS系统"，实际日志分布在 `gws-aps-web` 和 `aps-app` 两个应用
@@ -61,6 +70,14 @@ metadata:
 - **解决**: 定时日志自动发现关联应用，比手动指定更可靠
 - **教训**: 不要假设系统只对应一个 package_name
 - **来源**: main-session, 2026-06-24
+
+### 坑4: 定时任务执行时间确认 — 勿混淆其他操作的 timestamp
+- **日期**: 2026-06-29
+- **现象**: 查询定时任务日志时，误用了携程用例执行的 activity log 时间（16:07）作为任务触发时间，导致反复搜索无结果
+- **原因**: 会话中多个操作（用例执行、任务触发）的 timestamp 容易混淆，未确认任务的实际触发时间就盲目搜索
+- **解决**: 先向用户确认任务的实际触发时间（实际为 16:42），再用正确时间窗口搜索
+- **教训**: 查询定时任务日志前，必须先确认任务的实际执行时间，不要依赖其他操作的 timestamp
+- **来源**: main-session, 2026-06-29
 
 ### 坑3: service-query 的 log_path 不可直接使用
 - **日期**: 2026-06-24
@@ -79,6 +96,21 @@ metadata:
 - **发现**: 用 `--req-nos` 查流水号 `597c370610e3488f83e83f98fb22fe54`，定时日志瞬间返回完整请求链路（gws-aps-web → aps-app）
 - **确认次数**: 1
 - **来源**: main-session, STG3
+
+### 模式3: 定时任务日志查询 — taskName → req_no → 详细日志
+- **日期**: 2026-06-29
+- **发现**: 查询定时任务日志的正确流程：
+  1. 先确认任务实际执行时间（向用户确认，不依赖会话中其他操作的 timestamp）
+  2. 用**完整任务名**（如 `APS_LOAN_CERT_sykcfcPartnerFileDownloadTask`）+ 正确时间窗口搜定时日志
+  3. 从结果中提取 `req_no`（流水号）
+  4. 用 `req_no` 追踪完整执行链路（调度入口 → RunnableTask → 实际业务类 → 完成）
+- **关键细节**：
+  - `RunnableTask:58` 是 Dubbo 调度入口，不反映真实执行线程池
+  - 线程池信息在**实际业务执行日志**中（如 `SykcfcFileDownloadBizService:154`），不在入口层
+  - `taskPoolName: null` 不代表没有线程池，框架使用默认池 `aps_task_execute_pool`
+  - 定时任务的默认线程池是 `aps_task_execute_pool`
+- **确认次数**: 1
+- **来源**: main-session, STG1, 2026-06-29
 
 ### 模式2: 实时日志→定时日志降级
 - **日期**: 2026-06-24

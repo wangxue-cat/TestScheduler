@@ -4,11 +4,9 @@ description: 上传用例Excel到QOA平台并关联Story
 argument-hint: "<excel_path> <requirement_id>"
 ---
 
-# upload-testcases ★ 移植自 ClaudeMind
+# upload-testcases
 
-> **来源**: `D:\ClaudeMind\.claude\agents\testcase-writer\skills\upload-testcases\SKILL.md`
-> 
-> 本文件为移植占位。将测试用例 Excel 上传到 QOA 平台并关联对应 Story。
+将测试用例 Excel 上传到 QOA 平台并关联对应 Story。
 
 ## 输入
 

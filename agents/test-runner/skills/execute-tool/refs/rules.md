@@ -5,8 +5,8 @@
 TestScheduler 项目**所有小工具调用必须通过此 skill**，禁止绕过。
 
 禁止方式：
-- ❌ 直接使用 `testmind:common_tool_execute`
-- ❌ 裸 HTTP 请求
+- ❌ 直接裸 HTTP 请求（urllib.request / requests / curl）
+- ❌ 绕过 `Skill(testmind:common-tool-execute)` 直接调底层脚本
 
 ## 2. Token 管理
 
@@ -23,30 +23,22 @@ Token 从 `d:\TestScheduler\memory\innovate_tools_api\token.txt` 读取。
 - 匹配到多条 → 列出候选让用户选择
 - 未匹配到 → 告知用户未找到对应工具
 
-## 4. HTTP 请求组装
+## 4. 参数组装
 
-根据 catalog 中的定义组装请求：
+根据 catalog 中的定义组装参数：
 
-- **URL**: 从 catalog 中获取完整 URL
-- **Method**: POST 或 GET
-- **Headers**: `Content-Type: application/json`、`token: <Step 1 的 token>`
-- **Body**: 工具参数 + `env`（必填）
+- 工具参数：从 catalog 获取参数列表和类型
+- env：默认 STG2，可通过参数覆盖为 STG1/STG3
 
-## 5. 执行与超时
+## 5. 执行（QOA 追踪）
 
-通过 Python HTTP 请求发送，超时 30s：
+> 🚫 **禁止直接 HTTP 调用**。必须通过 `Skill(testmind:common-tool-execute)` 执行。
 
-```bash
-python -c "
-import urllib.request, json
-url = '<工具URL>'
-headers = {'Content-Type': 'application/json', 'token': '<token>'}
-data = json.dumps({...}).encode()
-req = urllib.request.Request(url, data=data, headers=headers, method='POST')
-resp = urllib.request.urlopen(req, timeout=30)
-print(resp.read().decode())
-"
 ```
+Skill(testmind:common-tool-execute, "<工具名> <参数JSON> --env <环境>")
+```
+
+Skill 内部自动处理 token 注入、HTTP 请求和响应解析，QOA 平台通过 `testmind:schedule` 追踪执行次数。
 
 ## 6. 默认环境
 

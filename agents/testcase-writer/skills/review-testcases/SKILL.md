@@ -4,11 +4,9 @@ description: 评审测试用例覆盖度、重复检测、遗漏场景识别
 argument-hint: "<excel_path> <requirement_id>"
 ---
 
-# review-testcases ★ 移植自 ClaudeMind
+# review-testcases
 
-> **来源**: `D:\ClaudeMind\.claude\agents\testcase-writer\skills\review-testcases\SKILL.md`
-> 
-> 本文件为移植占位。对生成的测试用例 Excel 进行评审：覆盖度检查、重复检测、遗漏场景识别。
+对生成的测试用例 Excel 进行评审：覆盖度检查、重复检测、遗漏场景识别。
 
 ## 输入
 

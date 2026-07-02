@@ -3,6 +3,25 @@
 Script skill: sql-execute (TestScheduler)
 
 统一SQL执行入口：环境获取 + 数据库路由 + SQL组装 + 安全校验 + 执行 + 编码修复 + sharding回退
+
+## 新架构（推荐，QOA 追踪）
+
+  # Phase A: 本地解析（纯本地，无网络调用）
+  python run.py --resolve-only --env STG1 --system aps --table t --sql "SELECT ..."
+  → 输出 JSON {env, db_name, sql, skill_args, ...}
+
+  # Phase B: 执行（通过 Skill，QOA 追踪）
+  Skill(testmind:sql-execute, "{skill_args}")
+
+  # Phase C: 后处理
+  编码修复 + sharding 回退
+
+  **环境获取**: 若用户未指定环境，主会话先调用 Skill(testmind:get-current-week-sprint-env)
+
+## 旧模式（已废弃，仅向后兼容）
+
+  python run.py --sql "..." --system aps --sprint-name "..."
+  → 完整执行流程（含 subprocess），不走 Skill 追踪
 """
 from __future__ import annotations
 
@@ -13,9 +32,25 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+
 # ── 路径配置 ──────────────────────────────────────────────
-PLUGIN_ROOT = Path("c:/Users/wangxue-jk/.claude/plugins/cache/quality-cc-marketplace/testmind/1.0.34")
-EXECUTE_SQL_SCRIPT = PLUGIN_ROOT / "skills" / "common_sql_execute" / "scripts" / "execute_sql.py"
+def _find_latest_plugin_root() -> Path:
+    """自动发现 testmind 插件最新版本目录"""
+    base = Path("c:/Users/wangxue-jk/.claude/plugins/cache/quality-cc-marketplace/testmind")
+    if not base.exists():
+        raise FileNotFoundError(f"testmind 插件目录不存在: {base}")
+    versions = sorted(
+        (d for d in base.iterdir() if d.is_dir()),
+        key=lambda p: tuple(int(x) for x in p.name.split(".")),
+        reverse=True,
+    )
+    if not versions:
+        raise FileNotFoundError(f"testmind 插件目录下未找到版本子目录: {base}")
+    return versions[0]
+
+
+PLUGIN_ROOT = _find_latest_plugin_root()
+EXECUTE_SQL_SCRIPT = PLUGIN_ROOT / "skills" / "sql-execute" / "scripts" / "execute_sql.py"
 
 # TestScheduler 本地路径
 DB_INFO_PATH = Path("D:/TestScheduler/memory/db_info_processed.json")
@@ -23,16 +58,26 @@ SHARDING_CACHE_PATH = Path("D:/TestScheduler/memory/sharding_table_cache.json")
 
 
 # ── Step 1: 环境获取 ─────────────────────────────────────
-def resolve_env(env: str = "", sprint_name: str = "") -> str:
-    """解析环境：用户指定 > 调用testmind获取当前迭代默认环境"""
+def resolve_env(env: str = "") -> str:
+    """
+    解析环境（新架构）：仅做规范化，不发起任何网络/subprocess 调用。
+
+    主会话责任：若 env 为空，主会话必须先调用 Skill(testmind:get-current-week-sprint-env)
+    获取当前迭代默认环境后再传入。若仍为空，返回空字符串。
+    """
+    return (env or "").strip().upper()
+
+
+def _resolve_env_legacy(env: str = "", sprint_name: str = "") -> str:
+    """
+    [已废弃] 旧架构的环境解析（含 subprocess 调 execute_sql.py 查 sprint 环境）。
+    仅用于旧 run() 路径的向后兼容，新架构禁止使用。
+    """
     env = (env or "").strip().upper()
     if env:
         return env
 
-    # 调用 testmind:get-current-week-sprint-env 获取默认环境
-    # 需要当前迭代版本名
     if not sprint_name:
-        # 尝试从环境变量或默认获取
         sprint_name = os.environ.get("CURRENT_SPRINT_NAME", "")
 
     if sprint_name:
@@ -41,7 +86,8 @@ def resolve_env(env: str = "", sprint_name: str = "") -> str:
             cmd = [
                 sys.executable, str(EXECUTE_SQL_SCRIPT),
                 "--env", "STG2", "--db-name", "qoa", "--page-size", "1",
-                "--sql", f"select env from sprint_env_relation where sprint_name='{sprint_name}' and is_deleted=0 limit 1;"
+                "--sql", f"select env from sprint_env_relation where sprint_name='{sprint_name}'"
+                        f" and is_deleted=0 limit 1;"
             ]
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=15)
             data = json.loads(result.stdout)
@@ -52,7 +98,6 @@ def resolve_env(env: str = "", sprint_name: str = "") -> str:
         except Exception:
             pass
 
-    # 最终兜底
     return "STG2"
 
 
@@ -85,11 +130,9 @@ def resolve_db_name(env: str, system: str, table: str = "") -> Tuple[str, bool]:
     db_info = _load_db_info()
     system_lower = system.lower().strip()
 
-    # 检查用户是否显式指定 sharding
     is_sharding_requested = "-sharding" in system_lower
     lookup_system = system_lower.replace("-sharding", "")
 
-    # 匹配同 env + system 的所有库
     matches = [
         r for r in db_info
         if r.get("env", "").upper() == env.upper()
@@ -97,7 +140,6 @@ def resolve_db_name(env: str, system: str, table: str = "") -> Tuple[str, bool]:
     ]
 
     if not matches:
-        # 尝试 subsystem_name 匹配
         matches = [
             r for r in db_info
             if r.get("env", "").upper() == env.upper()
@@ -107,23 +149,19 @@ def resolve_db_name(env: str, system: str, table: str = "") -> Tuple[str, bool]:
     if not matches:
         return ("", False)
 
-    # 分离普通库和 sharding 库
     normal = [r for r in matches if "-sharding" not in r.get("system", "")]
     sharding = [r for r in matches if "-sharding" in r.get("system", "")]
 
-    # 检查 sharding 缓存
     cache_key = f"{system}.{table}" if table else ""
     sharding_cache = _load_sharding_cache()
     if cache_key and cache_key in sharding_cache:
         if sharding:
             return (sharding[0]["db_name"], True)
 
-    # 用户显式指定 sharding
     if is_sharding_requested:
         if sharding:
             return (sharding[0]["db_name"], True)
 
-    # 优先普通库
     if normal:
         return (normal[0]["db_name"], False)
     if sharding:
@@ -135,13 +173,11 @@ def resolve_db_name(env: str, system: str, table: str = "") -> Tuple[str, bool]:
 def try_sharding_fallback(env: str, system: str, table: str, db_name_used: str) -> Optional[str]:
     """普通库查不到时，回退到 sharding 库"""
     db_info = _load_db_info()
-    # 找到当前库的 subsystem
     current = next((r for r in db_info if r.get("db_name") == db_name_used), None)
     if not current:
         return None
 
     subsystem = current.get("subsystem_name", "")
-    # 找同 subsystem 的 sharding 库
     sharding = next(
         (r for r in db_info
          if r.get("env", "").upper() == env.upper()
@@ -150,7 +186,6 @@ def try_sharding_fallback(env: str, system: str, table: str, db_name_used: str) 
         None
     )
     if sharding:
-        # 写入缓存
         cache = _load_sharding_cache()
         cache_key = f"{system}.{table}" if table else ""
         if cache_key:
@@ -173,30 +208,124 @@ def assemble_sql(sql: str, user_wants_all: bool = False) -> Tuple[str, bool]:
     needs_confirm = False
     sql_upper = sql.upper().strip()
 
-    # 检测 DELETE
     if sql_upper.startswith("DELETE"):
         needs_confirm = True
 
-    # 检测大批量 UPDATE（无 LIMIT 或 LIMIT > 20）
     if sql_upper.startswith("UPDATE"):
         limit_match = re.search(r'LIMIT\s+(\d+)', sql_upper)
         if not limit_match or int(limit_match.group(1)) > 20:
             needs_confirm = True
 
-    # 追加 ORDER BY id DESC LIMIT 1（条件同时满足）
     if not user_wants_all:
         has_limit = "LIMIT" in sql_upper
         has_order = "ORDER BY" in sql_upper
         if not has_limit and not has_order:
-            # 去掉末尾分号追加
             sql = sql.rstrip(";") + " ORDER BY id DESC LIMIT 1;"
 
     return (sql, needs_confirm)
 
 
-# ── Step 4: 执行 SQL ─────────────────────────────────────
+# ── 解析器（新架构核心）──────────────────────────────────
+def resolve(params: dict) -> dict:
+    """
+    仅解析，不执行。返回结构化解析结果，供主会话传给 Skill(testmind:sql-execute)。
+
+    参数：
+      - env: 环境（必填，主会话应已通过 Skill(testmind:get-current-week-sprint-env) 解析）
+      - system: 系统名（如 aps、lcs）
+      - table: 表名（可选）
+      - sql: SQL 语句
+      - page_size: 返回条数（默认10）
+      - user_wants_all: 是否查全量（默认False）
+      - confirm_dangerous: 是否已确认危险操作（默认False）
+
+    返回 dict:
+      - ok: bool
+      - env: 解析后的环境
+      - db_name: 解析后的数据库名
+      - system: 系统名
+      - table: 表名
+      - sql: 组装后的 SQL
+      - page_size: int
+      - is_sharding: bool
+      - needs_confirm: bool
+      - error: str（仅 ok=False 时）
+      - skill_args: str（可直接传给 Skill(testmind:sql-execute) 的参数字符串）
+    """
+    env = params.get("env", "")
+    system = params.get("system", "")
+    table = params.get("table", "")
+    sql = params.get("sql", "")
+    page_size = int(params.get("page_size", 10))
+    user_wants_all = params.get("user_wants_all", False)
+    confirm_dangerous = params.get("confirm_dangerous", False)
+
+    if not sql:
+        return {"ok": False, "error": "缺少 SQL 语句"}
+
+    # Step 1: 解析环境（仅规范化，不发起网络调用）
+    resolved_env = resolve_env(env)
+    if not resolved_env:
+        return {
+            "ok": False,
+            "error": "未指定环境",
+            "hint": "请先调用 Skill(testmind:get-current-week-sprint-env) 获取当前迭代默认环境，"
+                    "或手动指定 --env STG1/STG2/STG3"
+        }
+
+    # Step 2: 解析数据库
+    db_name = ""
+    is_sharding = False
+    if system:
+        db_name, is_sharding = resolve_db_name(resolved_env, system, table)
+        if not db_name:
+            return {
+                "ok": False,
+                "error": f"未找到系统 '{system}' 在环境 '{resolved_env}' 下的数据库映射",
+                "hint": "请检查系统名是否正确，或查看 db_info_processed.json"
+            }
+
+    # Step 3: 组装 SQL
+    final_sql, needs_confirm = assemble_sql(sql, user_wants_all)
+    if needs_confirm and not confirm_dangerous:
+        return {
+            "ok": False,
+            "error": "危险操作需要用户确认",
+            "needs_confirm": True,
+            "sql": final_sql,
+            "hint": "请在主会话中确认后重试"
+        }
+
+    if not db_name:
+        return {
+            "ok": False,
+            "error": "缺少系统名，无法路由到数据库",
+            "hint": "请提供 system 参数（如 aps、lcs）或使用 '系统名.表名' 格式"
+        }
+
+    # 构建可直接传给 Skill(testmind:sql-execute) 的参数
+    skill_args = f"{resolved_env} {db_name} {final_sql}"
+
+    return {
+        "ok": True,
+        "env": resolved_env,
+        "db_name": db_name,
+        "system": system,
+        "table": table,
+        "sql": final_sql,
+        "page_size": page_size,
+        "is_sharding": is_sharding,
+        "needs_confirm": False,
+        "skill_args": skill_args
+    }
+
+
+# ── Step 4: 执行 SQL（仅旧模式使用）──────────────────────
 def execute_sql(env: str, db_name: str, sql: str, page_size: int = 10, fmt: str = "json") -> Dict[str, Any]:
-    """调用 testmind:sql-execute 的 execute_sql.py 脚本执行"""
+    """
+    [已废弃] 直接 subprocess 调用 execute_sql.py，绕过 QOA 追踪。
+    新架构请用：resolve() → Skill(testmind:sql-execute)
+    """
     import subprocess
     cmd = [
         sys.executable, str(EXECUTE_SQL_SCRIPT),
@@ -225,7 +354,6 @@ def fix_mojibake(value: str) -> str:
         return value
     try:
         fixed = value.encode('latin1').decode('utf-8')
-        # 验证修复后是否包含中文字符
         if any('一' <= c <= '鿿' for c in fixed):
             return fixed
     except Exception:
@@ -233,7 +361,7 @@ def fix_mojibake(value: str) -> str:
     return value
 
 
-def fix_result_encoding(data: Dict[str, Any]) -> Dict[str, Any]:
+def fix_result_encoding(data: Any) -> Any:
     """递归修复结果中的 mojibake"""
     if isinstance(data, dict):
         return {k: fix_result_encoding(v) for k, v in data.items()}
@@ -244,20 +372,13 @@ def fix_result_encoding(data: Dict[str, Any]) -> Dict[str, Any]:
     return data
 
 
-# ── 主入口 ───────────────────────────────────────────────
+# ── 旧模式主入口（向后兼容，已废弃）──────────────────────
 def run(params: dict) -> str:
     """
-    统一SQL执行入口
-
-    参数：
-      - env: 环境（可选，不传则自动获取）
-      - system: 系统名（如 aps、lcs、lcs-sharding）
-      - table: 表名（可选）
-      - sql: SQL语句
-      - page_size: 返回条数（默认10）
-      - sprint_name: 当前迭代版本名（可选，用于获取默认环境）
-      - user_wants_all: 用户是否要查全量（默认False）
-      - confirm_dangerous: 用户是否已确认危险操作（默认False）
+    [已废弃] 完整执行流程（含 subprocess 调用），不走 QOA 追踪。
+    请使用新架构：
+      1. python run.py --resolve-only --env STG1 ...  → 解析参数
+      2. Skill(testmind:sql-execute, args)             → 执行（QOA 追踪）
     """
     env = params.get("env", "")
     system = params.get("system", "")
@@ -271,10 +392,9 @@ def run(params: dict) -> str:
     if not sql:
         return json.dumps({"ok": False, "error": "缺少 SQL 语句"}, ensure_ascii=False)
 
-    # Step 1: 解析环境
-    resolved_env = resolve_env(env, sprint_name)
+    # 旧架构：用 legacy 环境解析（含 subprocess 查 sprint 环境）
+    resolved_env = _resolve_env_legacy(env, sprint_name)
 
-    # Step 2: 解析数据库
     db_name = ""
     is_sharding = False
     if system:
@@ -286,7 +406,6 @@ def run(params: dict) -> str:
                 "hint": "请检查系统名是否正确，或查看 db_info_processed.json"
             }, ensure_ascii=False)
 
-    # Step 3: 组装 SQL
     final_sql, needs_confirm = assemble_sql(sql, user_wants_all)
     if needs_confirm and not confirm_dangerous:
         return json.dumps({
@@ -304,13 +423,13 @@ def run(params: dict) -> str:
             "hint": "请提供 system 参数（如 aps、lcs）或使用 '系统名.表名' 格式"
         }, ensure_ascii=False)
 
-    # Step 4: 执行 SQL
+    # Step 4: 执行 SQL（subprocess — 已废弃，不走 QOA 追踪）
     result = execute_sql(resolved_env, db_name, final_sql, page_size)
 
     # Step 5: 编码修复
     result = fix_result_encoding(result)
 
-    # 检查是否需要 sharding 回退
+    # sharding 回退
     results = result.get("results", [])
     is_empty = not results
     is_table_not_exist = "不存在" in result.get("msg", "") or "doesn't exist" in result.get("msg", "").lower()
@@ -318,7 +437,6 @@ def run(params: dict) -> str:
     if (is_empty or is_table_not_exist) and not is_sharding and system and table:
         sharding_db = try_sharding_fallback(resolved_env, system, table, db_name)
         if sharding_db:
-            # 回退到 sharding 库重查
             sharding_result = execute_sql(resolved_env, sharding_db, final_sql, page_size)
             sharding_result = fix_result_encoding(sharding_result)
             sharding_results = sharding_result.get("results", [])
@@ -337,7 +455,6 @@ def run(params: dict) -> str:
                     "data": sharding_result
                 }, ensure_ascii=False)
 
-    # 返回结果
     flag = result.get("flag", "")
     return json.dumps({
         "ok": flag in ("S", "T", True),
@@ -349,8 +466,8 @@ def run(params: dict) -> str:
     }, ensure_ascii=False)
 
 
+# ── CLI ──────────────────────────────────────────────────
 if __name__ == "__main__":
-    # CLI 模式：从命令行参数执行
     import argparse
     parser = argparse.ArgumentParser(description="统一SQL执行入口 (TestScheduler)")
     parser.add_argument("--env", default="", help="环境（STG1/STG2/STG3）")
@@ -358,9 +475,11 @@ if __name__ == "__main__":
     parser.add_argument("--table", default="", help="表名")
     parser.add_argument("--sql", required=True, help="SQL语句")
     parser.add_argument("--page-size", type=int, default=10, help="返回条数")
-    parser.add_argument("--sprint-name", default="", help="当前迭代版本名")
+    parser.add_argument("--sprint-name", default="", help="[已废弃] 当前迭代版本名，仅旧模式使用")
     parser.add_argument("--all", dest="user_wants_all", action="store_true", help="查全量（不追加LIMIT）")
     parser.add_argument("--confirm-dangerous", action="store_true", help="确认执行危险操作")
+    parser.add_argument("--resolve-only", action="store_true",
+                        help="仅解析参数不执行。输出 JSON 供主会话传给 Skill(testmind:sql-execute)")
     args = parser.parse_args()
 
     params = {
@@ -373,4 +492,11 @@ if __name__ == "__main__":
         "user_wants_all": args.user_wants_all,
         "confirm_dangerous": args.confirm_dangerous,
     }
-    print(run(params))
+
+    if args.resolve_only:
+        # 新架构：仅解析，主会话拿到结果后调用 Skill(testmind:sql-execute)
+        result = resolve(params)
+        print(json.dumps(result, ensure_ascii=False))
+    else:
+        # 旧模式（已废弃，向后兼容）
+        print(run(params))

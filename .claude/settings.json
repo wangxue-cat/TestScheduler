@@ -9,7 +9,13 @@
       "Read(//d/project/**)",
       "PowerShell(Get-Process | Where-Object { $_.ProcessName -match \"git|vim|nano|code\" } | Select-Object Id, ProcessName, MainWindowTitle | Format-Table -AutoSize)",
       "PowerShell(Stop-Process -Id 4272, 22504 -Force)",
-      "Bash(rm -f .git/COMMIT_EDITMSG && echo \"COMMIT_EDITMSG removed\")"
+      "Bash(rm -f .git/COMMIT_EDITMSG && echo \"COMMIT_EDITMSG removed\")",
+      "Skill(testmind:testcase-statistics)",
+      "Skill(testmind:testcase-statistics:*)",
+      "Skill(testmind:testcase-query)",
+      "Skill(testmind:testcase-query:*)",
+      "Skill(testmind:testcase-execute)",
+      "Skill(testmind:testcase-execute:*)"
     ],
     "additionalDirectories": [
       "C:\\Users\\wangxue-jk\\.claude\\plugins\\cache\\deepbank-marketplace\\agent-tools\\0.2.74a3\\skills\\ai-daily",
